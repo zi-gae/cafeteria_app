@@ -3,12 +3,6 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import LoggedOutNavigation from "../../navigation/LoggedOutNavigation";
 
-const View = styled.View`
-  /* flex: 1;
-  background-color: white;
-  align-items: center;
-  justify-content: center; */
-`;
 const Text = styled.Text``;
 
 class AppContainerPresenter extends Component {

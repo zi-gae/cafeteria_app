@@ -1,9 +1,9 @@
 import { createAppContainer, createStackNavigator } from "react-navigation";
-import LoginScreen from "../screens/LoginScreen";
+import Transition from "../screens/Transition";
 
 const LoggedOutNavigation = createStackNavigator({
   LogIn: {
-    screen: LoginScreen,
+    screen: Transition,
     navigationOptions: {
       header: null
     }

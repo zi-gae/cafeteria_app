@@ -80,7 +80,15 @@ const SignUpText = styled.Text`
   color: ${LIGTH_GREEN};
 `;
 
-const LoginScreenPresenter = ({ handleAccountAction }) => {
+const SignUpPresenter = ({
+  handleInputChage,
+  stdntnum,
+  username,
+  password1,
+  password2,
+  nickname,
+  handleAccountAction
+}) => {
   return (
     <Container>
       <StatusBar barStyle={"light-content"} />
@@ -90,15 +98,45 @@ const LoginScreenPresenter = ({ handleAccountAction }) => {
       <Content>
         <TextInput
           placeholder="아이디"
-          autoCompleteType="username"
           autoCapitalize="none"
           autoCorrect={false}
+          onChange={e => handleInputChage(e)}
+          name={"username"}
+          id={"ad"}
+          value={username}
         />
         <TextInput
           placeholder="비밀번호"
           secureTextEntry={true}
-          autoCompleteType="password"
           autoCorrect={false}
+          onChange={e => handleInputChage(e)}
+          name="password2"
+          value={password1}
+        />
+        <TextInput
+          placeholder="비밀번호"
+          secureTextEntry={true}
+          autoCorrect={false}
+          onChange={e => handleInputChage(e)}
+          name="password1"
+          value={password2}
+        />
+        <TextInput
+          placeholder="닉네임"
+          keyboardType="default"
+          autoCorrect={false}
+          onChange={e => handleInputChage(e)}
+          name="nickname"
+          value={nickname}
+        />
+        <TextInput
+          placeholder="학번"
+          secureTextEntry={true}
+          keyboardType="number-pad"
+          autoCorrect={false}
+          onChange={e => handleInputChage(e)}
+          name="stdntnum"
+          value={stdntnum}
         />
         <Button>
           <BtnContainer>
@@ -126,8 +164,14 @@ const LoginScreenPresenter = ({ handleAccountAction }) => {
   );
 };
 
-LoginScreenPresenter.propTypes = {
+SignUpPresenter.propTypes = {
+  stdntnum: PropTypes.string.isRequired,
+  username: PropTypes.string.isRequired,
+  password1: PropTypes.string.isRequired,
+  password2: PropTypes.string.isRequired,
+  nickname: PropTypes.string.isRequired,
+  handleInputChage: PropTypes.func.isRequired,
   handleAccountAction: PropTypes.func.isRequired
 };
 
-export default LoginScreenPresenter;
+export default SignUpPresenter;
