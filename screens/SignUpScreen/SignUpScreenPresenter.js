@@ -48,6 +48,7 @@ const Button = styled.TouchableOpacity`
   border-radius: 3px;
   background-color: ${LIGTH_GREEN};
   width: ${Layout.width / 1.6};
+  height: 30px;
 `;
 const BtnContainer = styled.View`
   padding: 7px 20px 7px 20px;
@@ -81,13 +82,18 @@ const SignUpText = styled.Text`
 `;
 
 const SignUpPresenter = ({
-  handleInputChage,
   stdntnum,
   username,
   password1,
   password2,
   nickname,
-  handleAccountAction
+  handleAccountAction,
+  changeUsername,
+  changePasswordOne,
+  changePasswordTwo,
+  changeNickname,
+  changeStdntNumber,
+  handleSubmit
 }) => {
   return (
     <Container>
@@ -100,45 +106,53 @@ const SignUpPresenter = ({
           placeholder="아이디"
           autoCapitalize="none"
           autoCorrect={false}
-          onChange={e => handleInputChage(e)}
-          name={"username"}
-          id={"ad"}
+          returnKeyType="next"
           value={username}
+          onChangeText={changeUsername}
+          onSubmitEditing={() => this.passwordRefOne.focus()}
         />
+
         <TextInput
+          ref={passwordRefOne => (this.passwordRefOne = passwordRefOne)}
           placeholder="비밀번호"
           secureTextEntry={true}
           autoCorrect={false}
-          onChange={e => handleInputChage(e)}
-          name="password2"
+          returnKeyType="next"
           value={password1}
+          onChangeText={changePasswordOne}
+          onSubmitEditing={() => this.passwordRefTwo.focus()}
         />
         <TextInput
+          ref={passwordRefTwo => (this.passwordRefTwo = passwordRefTwo)}
           placeholder="비밀번호"
           secureTextEntry={true}
           autoCorrect={false}
-          onChange={e => handleInputChage(e)}
-          name="password1"
+          returnKeyType="next"
           value={password2}
+          onChangeText={changePasswordTwo}
+          onSubmitEditing={() => this.nicknameRef.focus()}
         />
         <TextInput
+          ref={nicknameRef => (this.nicknameRef = nicknameRef)}
           placeholder="닉네임"
           keyboardType="default"
           autoCorrect={false}
-          onChange={e => handleInputChage(e)}
-          name="nickname"
+          returnKeyType="next"
           value={nickname}
+          onChangeText={changeNickname}
+          onSubmitEditing={() => this.stdntnumRef.focus()}
         />
         <TextInput
+          ref={stdntnumRef => (this.stdntnumRef = stdntnumRef)}
           placeholder="학번"
-          secureTextEntry={true}
           keyboardType="number-pad"
           autoCorrect={false}
-          onChange={e => handleInputChage(e)}
-          name="stdntnum"
+          returnKeyType="done"
           value={stdntnum}
+          onChangeText={changeStdntNumber}
+          onSubmitEditing={handleSubmit}
         />
-        <Button>
+        <Button onPress={handleSubmit}>
           <BtnContainer>
             <BtnText>로그인</BtnText>
           </BtnContainer>
@@ -170,8 +184,13 @@ SignUpPresenter.propTypes = {
   password1: PropTypes.string.isRequired,
   password2: PropTypes.string.isRequired,
   nickname: PropTypes.string.isRequired,
-  handleInputChage: PropTypes.func.isRequired,
-  handleAccountAction: PropTypes.func.isRequired
+  handleAccountAction: PropTypes.func.isRequired,
+  changeUsername: PropTypes.func.isRequired,
+  changePasswordOne: PropTypes.func.isRequired,
+  changePasswordTwo: PropTypes.func.isRequired,
+  changeNickname: PropTypes.func.isRequired,
+  changeStdntNumber: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired
 };
 
 export default SignUpPresenter;

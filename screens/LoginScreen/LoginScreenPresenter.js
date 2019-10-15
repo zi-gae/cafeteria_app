@@ -48,6 +48,7 @@ const Button = styled.TouchableOpacity`
   border-radius: 3px;
   background-color: ${LIGTH_GREEN};
   width: ${Layout.width / 1.6};
+  height: 30px;
 `;
 const BtnContainer = styled.View`
   padding: 7px 20px 7px 20px;
@@ -59,6 +60,7 @@ const BtnText = styled.Text`
   font-size: 14px;
 `;
 const StatusBar = styled.StatusBar``;
+const ActivityIndicator = styled.ActivityIndicator``;
 const Image = styled.Image``;
 const Footer = styled.View`
   flex: 1;
@@ -80,7 +82,15 @@ const SignUpText = styled.Text`
   color: ${LIGTH_GREEN};
 `;
 
-const LoginScreenPresenter = ({ handleAccountAction }) => {
+const LoginScreenPresenter = ({
+  handleAccountAction,
+  username,
+  password,
+  isSubmitting,
+  changeUsername,
+  changePassword,
+  handleSubmit
+}) => {
   return (
     <Container>
       <StatusBar barStyle={"light-content"} />
@@ -93,17 +103,31 @@ const LoginScreenPresenter = ({ handleAccountAction }) => {
           autoCompleteType="username"
           autoCapitalize="none"
           autoCorrect={false}
+          keyboardType="ascii-capable"
+          value={username}
+          onChangeText={changeUsername}
+          returnKeyType="next"
+          onSubmitEditing={() => this.passwordRef.focus()}
         />
         <TextInput
+          ref={passwordRef => (this.passwordRef = passwordRef)}
           placeholder="비밀번호"
           secureTextEntry={true}
           autoCompleteType="password"
           autoCorrect={false}
+          value={password}
+          onChangeText={changePassword}
+          returnKeyType="done"
+          onSubmitEditing={handleSubmit}
         />
-        <Button>
-          <BtnContainer>
-            <BtnText>로그인</BtnText>
-          </BtnContainer>
+        <Button onPress={handleSubmit}>
+          {isSubmitting ? (
+            <ActivityIndicator></ActivityIndicator>
+          ) : (
+            <BtnContainer>
+              <BtnText>로그인</BtnText>
+            </BtnContainer>
+          )}
         </Button>
         <KaKaoContainer>
           <KaKaoView>
@@ -127,7 +151,13 @@ const LoginScreenPresenter = ({ handleAccountAction }) => {
 };
 
 LoginScreenPresenter.propTypes = {
-  handleAccountAction: PropTypes.func.isRequired
+  handleAccountAction: PropTypes.func.isRequired,
+  username: PropTypes.string.isRequired,
+  password: PropTypes.string.isRequired,
+  isSubmitting: PropTypes.bool.isRequired,
+  changeUsername: PropTypes.func.isRequired,
+  changePassword: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired
 };
 
 export default LoginScreenPresenter;
