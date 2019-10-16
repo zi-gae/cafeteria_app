@@ -3,10 +3,7 @@ import Transition from "../screens/Transition";
 
 const LoggedOutNavigation = createStackNavigator({
   LogIn: {
-    screen: Transition,
-    navigationOptions: {
-      header: null
-    }
+    screen: Transition
   }
 });
 

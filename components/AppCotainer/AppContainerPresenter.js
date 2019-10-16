@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import LoggedOutNavigation from "../../navigation/LoggedOutNavigation";
-
-const Text = styled.Text``;
+import RootNavigation from "../../navigation/RootNavigation";
 
 class AppContainerPresenter extends Component {
   static propTypes = {
@@ -12,9 +11,7 @@ class AppContainerPresenter extends Component {
 
   render() {
     const { isLoggedIn } = this.props;
-    return (
-      <>{isLoggedIn ? <Text>로그인 상태</Text> : <LoggedOutNavigation />}</>
-    );
+    return <>{isLoggedIn ? <RootNavigation /> : <LoggedOutNavigation />}</>;
   }
 }
 
