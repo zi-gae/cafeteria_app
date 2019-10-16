@@ -1,16 +1,19 @@
 import React from "react";
-import SignUpScreen from "../SignUpScreen";
-import LoginScreen from "../LoginScreen";
+import SignUp from "../SignUp";
+import Login from "../Login";
 import PropTypes from "prop-types";
 
 const TransitionPresenter = ({ account, handleAccountAction }) => {
   return account ? (
-    <SignUpScreen account={account} handleAccountAction={handleAccountAction} />
+    <SignUp account={account} handleAccountAction={handleAccountAction} />
   ) : (
-    <LoginScreen account={account} handleAccountAction={handleAccountAction} />
+    <Login account={account} handleAccountAction={handleAccountAction} />
   );
 };
 
-//proptypes
+TransitionPresenter.propTypes = {
+  account: PropTypes.bool.isRequired,
+  handleAccountAction: PropTypes.func.isRequired
+};
 
 export default TransitionPresenter;

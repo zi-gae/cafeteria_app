@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import SignUpPresenter from "./SignUpScreenPresenter";
+import SignUpPresenter from "./SignUpPresenter";
 import { Alert } from "react-native";
-class SignUpScreenContainer extends Component {
+
+class SignUpContainer extends Component {
   constructor() {
     super();
     this.state = {
@@ -95,4 +96,4 @@ class SignUpScreenContainer extends Component {
   }
 }
 
-export default SignUpScreenContainer;
+export default SignUpContainer;

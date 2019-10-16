@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-import LoginScreenPresenter from "./LoginScreenPresenter";
+import LoginPresenter from "./LoginPresenter";
 import { Alert } from "react-native";
-class LoginScreenContainer extends Component {
+import PropTypes from "prop-types";
+
+class LoginContainer extends Component {
   constructor() {
     super();
     this.state = {
@@ -10,7 +12,9 @@ class LoginScreenContainer extends Component {
       isSubmitting: false
     };
   }
-
+  static propTypes = {
+    login: PropTypes.func.isRequired
+  };
   changeUsername = text => {
     this.setState({
       username: text
@@ -23,14 +27,22 @@ class LoginScreenContainer extends Component {
     });
   };
 
-  handleSubmit = () => {
+  handleSubmit = async () => {
     const { username, password, isSubmitting } = this.state;
+    const { login } = this.props;
+
     if (!isSubmitting) {
       if (username && password) {
         this.setState({
           isSubmitting: true
         });
-        // reducer action
+        const loginResult = await login(username, password);
+        if (!loginResult) {
+          Alert.alert("아이디 또는 비밀번호가 틀렸습니다. 다시 시도 해주세요!");
+          this.setState({
+            isSubmitting: false
+          });
+        }
       } else {
         if (!username) {
           Alert.alert("아이디를 입력하세요!");
@@ -45,8 +57,9 @@ class LoginScreenContainer extends Component {
     const { handleAccountAction } = this.props;
     const { username, password, isSubmitting } = this.state;
     const { changeUsername, changePassword, handleSubmit } = this;
+
     return (
-      <LoginScreenPresenter
+      <LoginPresenter
         handleAccountAction={handleAccountAction}
         username={username}
         password={password}
@@ -59,4 +72,4 @@ class LoginScreenContainer extends Component {
   }
 }
 
-export default LoginScreenContainer;
+export default LoginContainer;

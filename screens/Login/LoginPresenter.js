@@ -45,6 +45,8 @@ const TextInput = styled.TextInput`
   padding-right: 15px;
 `;
 const Button = styled.TouchableOpacity`
+  justify-content: center;
+  align-items: center;
   border-radius: 3px;
   background-color: ${LIGTH_GREEN};
   width: ${Layout.width / 1.6};
@@ -60,6 +62,7 @@ const BtnText = styled.Text`
   font-size: 14px;
 `;
 const StatusBar = styled.StatusBar``;
+const ActivityIndicator = styled.ActivityIndicator``;
 const Image = styled.Image``;
 const Footer = styled.View`
   flex: 1;
@@ -81,18 +84,13 @@ const SignUpText = styled.Text`
   color: ${LIGTH_GREEN};
 `;
 
-const SignUpPresenter = ({
-  stdntnum,
-  username,
-  password1,
-  password2,
-  nickname,
+const LoginPresenter = ({
   handleAccountAction,
+  username,
+  password,
+  isSubmitting,
   changeUsername,
-  changePasswordOne,
-  changePasswordTwo,
-  changeNickname,
-  changeStdntNumber,
+  changePassword,
   handleSubmit
 }) => {
   return (
@@ -104,58 +102,34 @@ const SignUpPresenter = ({
       <Content>
         <TextInput
           placeholder="아이디"
+          autoCompleteType="username"
           autoCapitalize="none"
           autoCorrect={false}
-          returnKeyType="next"
+          keyboardType="ascii-capable"
           value={username}
           onChangeText={changeUsername}
-          onSubmitEditing={() => this.passwordRefOne.focus()}
+          returnKeyType="next"
+          onSubmitEditing={() => this.passwordRef.focus()}
         />
-
         <TextInput
-          ref={passwordRefOne => (this.passwordRefOne = passwordRefOne)}
+          ref={passwordRef => (this.passwordRef = passwordRef)}
           placeholder="비밀번호"
           secureTextEntry={true}
+          autoCompleteType="password"
           autoCorrect={false}
-          returnKeyType="next"
-          value={password1}
-          onChangeText={changePasswordOne}
-          onSubmitEditing={() => this.passwordRefTwo.focus()}
-        />
-        <TextInput
-          ref={passwordRefTwo => (this.passwordRefTwo = passwordRefTwo)}
-          placeholder="비밀번호"
-          secureTextEntry={true}
-          autoCorrect={false}
-          returnKeyType="next"
-          value={password2}
-          onChangeText={changePasswordTwo}
-          onSubmitEditing={() => this.nicknameRef.focus()}
-        />
-        <TextInput
-          ref={nicknameRef => (this.nicknameRef = nicknameRef)}
-          placeholder="닉네임"
-          keyboardType="default"
-          autoCorrect={false}
-          returnKeyType="next"
-          value={nickname}
-          onChangeText={changeNickname}
-          onSubmitEditing={() => this.stdntnumRef.focus()}
-        />
-        <TextInput
-          ref={stdntnumRef => (this.stdntnumRef = stdntnumRef)}
-          placeholder="학번"
-          keyboardType="number-pad"
-          autoCorrect={false}
+          value={password}
+          onChangeText={changePassword}
           returnKeyType="done"
-          value={stdntnum}
-          onChangeText={changeStdntNumber}
           onSubmitEditing={handleSubmit}
         />
         <Button onPress={handleSubmit}>
-          <BtnContainer>
-            <BtnText>로그인</BtnText>
-          </BtnContainer>
+          {isSubmitting ? (
+            <ActivityIndicator color="white" />
+          ) : (
+            <BtnContainer>
+              <BtnText>로그인</BtnText>
+            </BtnContainer>
+          )}
         </Button>
         <KaKaoContainer>
           <KaKaoView>
@@ -178,19 +152,14 @@ const SignUpPresenter = ({
   );
 };
 
-SignUpPresenter.propTypes = {
-  stdntnum: PropTypes.string.isRequired,
-  username: PropTypes.string.isRequired,
-  password1: PropTypes.string.isRequired,
-  password2: PropTypes.string.isRequired,
-  nickname: PropTypes.string.isRequired,
+LoginPresenter.propTypes = {
   handleAccountAction: PropTypes.func.isRequired,
+  username: PropTypes.string.isRequired,
+  password: PropTypes.string.isRequired,
+  isSubmitting: PropTypes.bool.isRequired,
   changeUsername: PropTypes.func.isRequired,
-  changePasswordOne: PropTypes.func.isRequired,
-  changePasswordTwo: PropTypes.func.isRequired,
-  changeNickname: PropTypes.func.isRequired,
-  changeStdntNumber: PropTypes.func.isRequired,
+  changePassword: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired
 };
 
-export default SignUpPresenter;
+export default LoginPresenter;

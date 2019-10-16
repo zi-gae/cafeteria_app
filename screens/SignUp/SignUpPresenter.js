@@ -60,7 +60,6 @@ const BtnText = styled.Text`
   font-size: 14px;
 `;
 const StatusBar = styled.StatusBar``;
-const ActivityIndicator = styled.ActivityIndicator``;
 const Image = styled.Image``;
 const Footer = styled.View`
   flex: 1;
@@ -82,13 +81,18 @@ const SignUpText = styled.Text`
   color: ${LIGTH_GREEN};
 `;
 
-const LoginScreenPresenter = ({
-  handleAccountAction,
+const SignUpPresenter = ({
+  stdntnum,
   username,
-  password,
-  isSubmitting,
+  password1,
+  password2,
+  nickname,
+  handleAccountAction,
   changeUsername,
-  changePassword,
+  changePasswordOne,
+  changePasswordTwo,
+  changeNickname,
+  changeStdntNumber,
   handleSubmit
 }) => {
   return (
@@ -100,34 +104,58 @@ const LoginScreenPresenter = ({
       <Content>
         <TextInput
           placeholder="아이디"
-          autoCompleteType="username"
           autoCapitalize="none"
           autoCorrect={false}
-          keyboardType="ascii-capable"
+          returnKeyType="next"
           value={username}
           onChangeText={changeUsername}
-          returnKeyType="next"
-          onSubmitEditing={() => this.passwordRef.focus()}
+          onSubmitEditing={() => this.passwordRefOne.focus()}
         />
+
         <TextInput
-          ref={passwordRef => (this.passwordRef = passwordRef)}
+          ref={passwordRefOne => (this.passwordRefOne = passwordRefOne)}
           placeholder="비밀번호"
           secureTextEntry={true}
-          autoCompleteType="password"
           autoCorrect={false}
-          value={password}
-          onChangeText={changePassword}
+          returnKeyType="next"
+          value={password1}
+          onChangeText={changePasswordOne}
+          onSubmitEditing={() => this.passwordRefTwo.focus()}
+        />
+        <TextInput
+          ref={passwordRefTwo => (this.passwordRefTwo = passwordRefTwo)}
+          placeholder="비밀번호 확인"
+          secureTextEntry={true}
+          autoCorrect={false}
+          returnKeyType="next"
+          value={password2}
+          onChangeText={changePasswordTwo}
+          onSubmitEditing={() => this.nicknameRef.focus()}
+        />
+        <TextInput
+          ref={nicknameRef => (this.nicknameRef = nicknameRef)}
+          placeholder="닉네임"
+          keyboardType="default"
+          autoCorrect={false}
+          returnKeyType="next"
+          value={nickname}
+          onChangeText={changeNickname}
+          onSubmitEditing={() => this.stdntnumRef.focus()}
+        />
+        <TextInput
+          ref={stdntnumRef => (this.stdntnumRef = stdntnumRef)}
+          placeholder="학번"
+          keyboardType="number-pad"
+          autoCorrect={false}
           returnKeyType="done"
+          value={stdntnum}
+          onChangeText={changeStdntNumber}
           onSubmitEditing={handleSubmit}
         />
         <Button onPress={handleSubmit}>
-          {isSubmitting ? (
-            <ActivityIndicator></ActivityIndicator>
-          ) : (
-            <BtnContainer>
-              <BtnText>로그인</BtnText>
-            </BtnContainer>
-          )}
+          <BtnContainer>
+            <BtnText>로그인</BtnText>
+          </BtnContainer>
         </Button>
         <KaKaoContainer>
           <KaKaoView>
@@ -150,14 +178,19 @@ const LoginScreenPresenter = ({
   );
 };
 
-LoginScreenPresenter.propTypes = {
-  handleAccountAction: PropTypes.func.isRequired,
+SignUpPresenter.propTypes = {
+  stdntnum: PropTypes.string.isRequired,
   username: PropTypes.string.isRequired,
-  password: PropTypes.string.isRequired,
-  isSubmitting: PropTypes.bool.isRequired,
+  password1: PropTypes.string.isRequired,
+  password2: PropTypes.string.isRequired,
+  nickname: PropTypes.string.isRequired,
+  handleAccountAction: PropTypes.func.isRequired,
   changeUsername: PropTypes.func.isRequired,
-  changePassword: PropTypes.func.isRequired,
+  changePasswordOne: PropTypes.func.isRequired,
+  changePasswordTwo: PropTypes.func.isRequired,
+  changeNickname: PropTypes.func.isRequired,
+  changeStdntNumber: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired
 };
 
-export default LoginScreenPresenter;
+export default SignUpPresenter;
