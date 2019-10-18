@@ -9,7 +9,7 @@ const DormitoryOutRoute = createStackNavigator(
     },
     ...sharedRoutes
   },
-  { ...sharedRoutes }
+  { ...sharedOptions }
 );
 
 export default createAppContainer(DormitoryOutRoute);

@@ -1,15 +1,15 @@
 import { createStackNavigator, createAppContainer } from "react-navigation";
-import Notification from "../screens/Notification";
+import Posts from "../screens/Posts";
 import sharedRoutes, { sharedOptions } from "./sharedRoutes";
 
-const NotificationRoute = createStackNavigator(
+const PostRoute = createStackNavigator(
   {
-    Notification: {
-      screen: Notification
+    Posts: {
+      screen: Posts
     },
     ...sharedRoutes
   },
   { ...sharedOptions }
 );
 
-export default createAppContainer(NotificationRoute);
+export default createAppContainer(PostRoute);

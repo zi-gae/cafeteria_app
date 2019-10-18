@@ -5,11 +5,14 @@ import sharedRoutes, { sharedOptions } from "./sharedRoutes";
 const HomeRoute = createStackNavigator(
   {
     Home: {
-      screen: Home
+      screen: Home,
+      navigationOptions: {
+        title: "동명대학식이"
+      }
     },
     ...sharedRoutes
-  },
-  { ...sharedRoutes }
+  }
+  // { ...sharedOptions }
 );
 
 export default createAppContainer(HomeRoute);

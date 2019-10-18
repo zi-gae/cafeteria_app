@@ -9,7 +9,7 @@ const ProfileRoute = createStackNavigator(
     },
     ...sharedRoutes
   },
-  { ...sharedRoutes }
+  { ...sharedOptions }
 );
 
 export default createAppContainer(ProfileRoute);

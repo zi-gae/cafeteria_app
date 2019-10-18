@@ -9,7 +9,7 @@ const SearchRoute = createStackNavigator(
     },
     ...sharedRoutes
   },
-  { ...sharedRoutes }
+  { ...sharedOptions }
 );
 
 export default createAppContainer(SearchRoute);

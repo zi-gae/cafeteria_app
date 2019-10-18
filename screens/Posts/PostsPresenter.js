@@ -1,10 +1,10 @@
 import React from "react";
 import { Text, View } from "react-native";
 
-const Likes = props => (
+const PostsPresenter = () => (
   <View>
-    <Text>Likes</Text>
+    <Text>PostsPresenter</Text>
   </View>
 );
 
-export default Likes;
+export default PostsPresenter;

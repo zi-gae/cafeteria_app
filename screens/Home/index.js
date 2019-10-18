@@ -1,10 +1,4 @@
-import React from "react";
-import { Text, View } from "react-native";
+import { connect } from "react-redux";
+import HomeContainer from "./HomeContainer";
 
-const Home = () => (
-  <View>
-    <Text>Home</Text>
-  </View>
-);
-
-export default Home;
+export default HomeContainer;

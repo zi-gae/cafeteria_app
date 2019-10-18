@@ -1,4 +1,4 @@
-import { createBottomTabNavigator, createAppContainer } from "react-navigation";
+import { createBottomTabNavigator } from "react-navigation";
 import React from "react";
 import { Ionicons, SimpleLineIcons } from "@expo/vector-icons";
 import HomeRoute from "../routes/HomeRoute";
