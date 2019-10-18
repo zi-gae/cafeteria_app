@@ -132,10 +132,12 @@ const applySetUser = (state, action) => {
 // exports
 
 const actionCreators = {
-  login
+  login,
+  logOut
 };
 
 export { actionCreators };
+
 // default reducer export
 
 export default reducer;

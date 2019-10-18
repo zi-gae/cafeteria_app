@@ -3,6 +3,7 @@ import { persistStore, persistCombineReducers } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import thunk from "redux-thunk";
 import user from "./modules/user";
+import posts from "./modules/posts";
 
 const middlewares = [thunk];
 
@@ -12,7 +13,8 @@ const persistConfig = {
 };
 
 const reducer = persistCombineReducers(persistConfig, {
-  user
+  user,
+  posts
 });
 
 const configureStore = () => {
