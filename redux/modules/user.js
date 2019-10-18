@@ -50,7 +50,7 @@ const login = (username, password) => {
       .then(json => {
         if (json.token && json.user) {
           dispatch(setLogIn(json.token));
-          dispatch(setUser());
+          dispatch(setUser(json.user));
           return true;
         } else {
           return false;
