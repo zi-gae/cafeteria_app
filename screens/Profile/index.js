@@ -1,10 +1,3 @@
-import React from "react";
-import { Text, View } from "react-native";
+import ProfileContainer from "./ProfileContainer";
 
-const Profile = () => (
-  <View>
-    <Text>Profile</Text>
-  </View>
-);
-
-export default Profile;
+export default ProfileContainer;
