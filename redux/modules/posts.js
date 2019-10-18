@@ -6,12 +6,19 @@ import { actionCreators as userActions } from "./user";
 //action
 
 const SET_POST = "SET_POST";
-
+const SET_SEARCH = "SET_SEARCH";
 //action creator
 
 const reqSetPost = post => {
   return {
     type: SET_POST,
+    post
+  };
+};
+
+const reqSetSearch = post => {
+  return {
+    type: SET_SEARCH,
     post
   };
 };
@@ -26,7 +33,7 @@ const getPost = () => {
     fetch(`${URL}/posts/`, {
       method: "get",
       headers: {
-        Authorizations: `JWT ${token}`
+        Authorization: `JWT ${token}`
       }
     })
       .then(res => {
@@ -40,6 +47,28 @@ const getPost = () => {
   };
 };
 
+const getSearch = () => {
+  return (dispatch, getState) => {
+    const {
+      user: { token }
+    } = getState();
+    fetch(`${URL}/posts/search/`, {
+      method: "get",
+      headers: {
+        Authorization: `JWT ${token}`
+      }
+    })
+      .then(res => {
+        if (res.status === 401) {
+          dispatch(userActions.logOut());
+        } else {
+          return res.json();
+        }
+      })
+      .then(json => dispatch(reqSetSearch(json)));
+  };
+};
+
 //inital state
 
 const initalState = {};
@@ -50,7 +79,8 @@ const reducer = (state = { initalState }, action) => {
   switch (action.type) {
     case SET_POST:
       return applySetPost(state, action);
-
+    case SET_SEARCH:
+      return applySetSearch(state, action);
     default:
       return state;
   }
@@ -66,10 +96,19 @@ const applySetPost = (state, action) => {
   };
 };
 
+const applySetSearch = (state, action) => {
+  const { search } = action;
+  return {
+    ...state,
+    search
+  };
+};
+
 // export
 
 const actionCreators = {
-  getPost
+  getPost,
+  getSearch
 };
 
 export { actionCreators };
