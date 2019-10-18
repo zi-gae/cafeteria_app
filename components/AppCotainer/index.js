@@ -18,9 +18,12 @@ mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(postActions.getPost());
       dispatch(postActions.getSearch());
       dispatch(userActions.getNotification());
-      //profile
+      dispatch(userActions.getOwnProfile());
     }
   };
 };
 
-export default connect(mapStateToProps)(AppContainerPresenter);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AppContainerPresenter);

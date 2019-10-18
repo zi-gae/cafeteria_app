@@ -39,7 +39,6 @@ const reqSetNotification = notification => {
     notification
   };
 };
-
 // api actions
 
 const login = (username, password) => {
@@ -67,30 +66,8 @@ const login = (username, password) => {
   };
 };
 
-const getNotification = () => {
-  return (dispatch, getState) => {
-    const {
-      user: { token }
-    } = getState();
-    fetch(`${URL}/notification/`, {
-      method: "get",
-      headers: {
-        Authorization: `JWT ${token}`
-      }
-    })
-      .then(res => {
-        if (res.status === 401) {
-          dispatch(logOut());
-        } else {
-          return res.json();
-        }
-      })
-      .then(json => dispatch(reqSetNotification(json)));
-  };
-};
-
 const createAccount = (username, password, nickname, stdntnum) => {
-  return disaptch => {
+  return dispatch => {
     return fetch(`${URL}/rest-auth/registration/`, {
       method: "post",
       headers: {
@@ -107,8 +84,56 @@ const createAccount = (username, password, nickname, stdntnum) => {
       .then(res => res.json())
       .then(json => {
         if (json.token) {
+          dispatch(setLogIn(json.token));
         }
       });
+  };
+};
+
+const getNotification = () => {
+  return (dispatch, getState) => {
+    const {
+      user: { token }
+    } = getState();
+    fetch(`${URL}/notifications/`, {
+      method: "get",
+      headers: {
+        Authorization: `JWT ${token}`
+      }
+    })
+      .then(res => {
+        if (res.status === 401) {
+          dispatch(logOut());
+        } else {
+          return res.json();
+        }
+      })
+      .then(json => dispatch(reqSetNotification(json)));
+  };
+};
+
+const getOwnProfile = () => {
+  return (dispatch, getState) => {
+    const {
+      user: {
+        token,
+        profile: { username }
+      }
+    } = getState();
+    fetch(`${URL}/users/${username}/`, {
+      method: "get",
+      headers: {
+        Authorization: `JWT ${token}`
+      }
+    })
+      .then(res => {
+        if (res.status === 401) {
+          dispatch(logOut());
+        } else {
+          return res.json();
+        }
+      })
+      .then(json => dispatch(setUser(json)));
   };
 };
 
@@ -167,7 +192,8 @@ const applySetNotification = (state, action) => {
   const { notification } = action;
   return {
     ...state,
-    notification
+    notification,
+    createAccount
   };
 };
 
@@ -175,7 +201,9 @@ const applySetNotification = (state, action) => {
 
 const actionCreators = {
   login,
-  logOut
+  logOut,
+  getNotification,
+  getOwnProfile
 };
 
 export { actionCreators };

@@ -52,7 +52,7 @@ const getSearch = () => {
     const {
       user: { token }
     } = getState();
-    fetch(`${URL}/posts/search/`, {
+    fetch(`${URL}/posts/total_search/`, {
       method: "get",
       headers: {
         Authorization: `JWT ${token}`
