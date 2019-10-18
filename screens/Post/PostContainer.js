@@ -1,11 +1,20 @@
 import React, { Component } from "react";
-import HomePresenter from "./HomePresenter";
+import PostPresenter from "./PostPresenter";
 import styled from "styled-components";
 import { LIGTH_GREEN } from "../../constants/Color";
 import NavButton from "../../components/NavButton";
 import PropTypes from "prop-types";
 
-class HomeContainer extends Component {
+const Image = styled.Image`
+  height: 70px;
+  width: 70px;
+`;
+const Title = styled.Text`
+  font-weight: bold;
+  font-size: 18px;
+  color: ${LIGTH_GREEN};
+`;
+class PostContainer extends Component {
   static navigationOptions = ({ navigation }) => ({
     headerLeft: (
       <>
@@ -62,7 +71,7 @@ class HomeContainer extends Component {
     } = this.props;
     const { isFetching } = this.state;
     return (
-      <HomePresenter
+      <PostPresenter
         navigate={navigate}
         getPost={getPost}
         post={post}
@@ -73,4 +82,4 @@ class HomeContainer extends Component {
   }
 }
 
-export default HomeContainer;
+export default PostContainer;

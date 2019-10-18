@@ -11,7 +11,7 @@ const RefreshControl = styled.RefreshControl``;
 
 const PostContainer = styled.View``;
 
-const HomePresenter = ({ isFetching, refresh }) => (
+const PostPresenter = ({ isFetching, refresh }) => (
   <Container
     refreshControl={
       <RefreshControl
@@ -25,11 +25,11 @@ const HomePresenter = ({ isFetching, refresh }) => (
   </Container>
 );
 
-HomePresenter.propTypes = {
+PostPresenter.propTypes = {
   navigate: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
   refresh: PropTypes.func.isRequired,
   post: PropTypes.array.isRequired
 };
 
-export default HomePresenter;
+export default PostPresenter;

@@ -1,11 +1,11 @@
 import { createStackNavigator, createAppContainer } from "react-navigation";
-import Posts from "../screens/Posts";
+import Post from "../screens/Post";
 import sharedRoutes, { sharedOptions } from "./sharedRoutes";
 
 const PostRoute = createStackNavigator(
   {
     Posts: {
-      screen: Posts
+      screen: Post
     },
     ...sharedRoutes
   },

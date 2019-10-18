@@ -3,8 +3,8 @@ import React from "react";
 import { Ionicons, SimpleLineIcons } from "@expo/vector-icons";
 import HomeRoute from "../routes/HomeRoute";
 import NotificationRoute from "../routes/NotificationRoute";
-import SearchRoute from "../routes/SearchRoute";
 import DormitoryOutRoute from "../routes/DormitoryOutRoute";
+import PostRoute from "../routes/PostRoute";
 import ProfileRoute from "../routes/ProfileRoute";
 import { BG_COLOR_WHITE, LIGTH_GREEN, LIGHT_GREY } from "../constants/Color";
 
@@ -24,13 +24,13 @@ const TabNavigation = createBottomTabNavigator(
         }
       }
     },
-    SearchRoute: {
-      screen: SearchRoute,
+    PostRoute: {
+      screen: PostRoute,
       navigationOptions: {
         tabBarIcon: ({ focused }) => {
           return (
             <Ionicons
-              name="ios-search"
+              name="md-text"
               size={30}
               color={focused ? LIGTH_GREEN : LIGHT_GREY}
             />

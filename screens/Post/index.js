@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import HomeContainer from "./HomeContainer";
+import PostContainer from "./PostContainer";
 import { actionCreators as postActions } from "../../redux/modules/posts";
 
 const mapStateToProps = (state, ownProps) => {
@@ -23,4 +23,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(HomeContainer);
+)(PostContainer);
