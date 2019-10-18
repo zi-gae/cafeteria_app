@@ -1,6 +1,7 @@
 import { connect } from "react-redux";
 import AppContainerPresenter from "./AppContainerPresenter";
 import { actionCreators as postActions } from "../../redux/modules/posts";
+import { actionCreators as userActions } from "../../redux/modules/user";
 
 const mapStateToProps = (state, ownProps) => {
   const { user } = state;
@@ -16,7 +17,7 @@ mapDispatchToProps = (dispatch, ownProps) => {
     initApp: () => {
       dispatch(postActions.getPost());
       dispatch(postActions.getSearch());
-      //notifi
+      dispatch(userActions.getNotification());
       //profile
     }
   };

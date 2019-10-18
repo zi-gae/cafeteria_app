@@ -9,6 +9,7 @@ const LOG_IN = "LOG_IN";
 const LOG_OUT = "LOG_OUT";
 const SET_USER = "SET_USER";
 const SIGN_UP = "SIGN_UP";
+const SET_NOTIFICATION = "SET_NOTIFICATION";
 
 // action creators
 
@@ -29,6 +30,13 @@ const setUser = user => {
   return {
     type: SET_USER,
     user
+  };
+};
+
+const reqSetNotification = notification => {
+  return {
+    type: SET_NOTIFICATION,
+    notification
   };
 };
 
@@ -56,6 +64,28 @@ const login = (username, password) => {
           return false;
         }
       });
+  };
+};
+
+const getNotification = () => {
+  return (dispatch, getState) => {
+    const {
+      user: { token }
+    } = getState();
+    fetch(`${URL}/notification/`, {
+      method: "get",
+      headers: {
+        Authorization: `JWT ${token}`
+      }
+    })
+      .then(res => {
+        if (res.status === 401) {
+          dispatch(logOut());
+        } else {
+          return res.json();
+        }
+      })
+      .then(json => dispatch(reqSetNotification(json)));
   };
 };
 
@@ -98,6 +128,8 @@ const reducer = (state = initialState, action) => {
       return applyLogOut(state, action);
     case SET_USER:
       return applySetUser(state, action);
+    case SET_NOTIFICATION:
+      return applySetNotification(state, action);
     default:
       return state;
   }
@@ -113,6 +145,7 @@ const applyLogIn = (state, action) => {
     token
   };
 };
+
 const applyLogOut = (state, action) => {
   AsyncStorage.clear();
   return {
@@ -121,11 +154,20 @@ const applyLogOut = (state, action) => {
     token: ""
   };
 };
+
 const applySetUser = (state, action) => {
   const { user } = action;
   return {
     ...state,
     profile: user
+  };
+};
+
+const applySetNotification = (state, action) => {
+  const { notification } = action;
+  return {
+    ...state,
+    notification
   };
 };
 
