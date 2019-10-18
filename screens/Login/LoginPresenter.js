@@ -57,7 +57,7 @@ const BtnContainer = styled.View`
 `;
 const BtnText = styled.Text`
   color: white;
-  font-weight: 600px;
+  font-weight: bold;
   text-align: center;
   font-size: 14px;
 `;
