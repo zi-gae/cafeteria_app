@@ -69,6 +69,50 @@ const getSearch = () => {
   };
 };
 
+const likePost = postId => {
+  return (dispatch, getState) => {
+    const {
+      user: { token }
+    } = getState();
+    return fetch(`${URL}/posts/${postId}/like/`, {
+      method: "post",
+      headers: {
+        Authorization: `JWT ${token}`
+      }
+    }).then(res => {
+      if (res.status === 401) {
+        dispatch(userActions.logOut());
+      } else if (res.status === 201) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+  };
+};
+
+const unLikePost = postId => {
+  return (dispatch, getState) => {
+    const {
+      user: { token }
+    } = getState();
+    return fetch(`${URL}/posts/${postId}/unlike/`, {
+      method: "delete",
+      headers: {
+        Authorization: `JWT ${token}`
+      }
+    }).then(res => {
+      if (res.status === 401) {
+        dispatch(userActions.logOut());
+      } else if (res.status === 201) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+  };
+};
+
 //inital state
 
 const initalState = {};
@@ -108,7 +152,9 @@ const applySetSearch = (state, action) => {
 
 const actionCreators = {
   getPost,
-  getSearch
+  getSearch,
+  likePost,
+  unLikePost
 };
 
 export { actionCreators };

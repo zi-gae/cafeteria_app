@@ -1,15 +1,19 @@
 import React, { Component } from "react";
 import { View, Text } from "react-native";
 import PostDetailPresenter from "./PostDetailPresenter";
+import PropTypes from "prop-types";
 
 class PostDetailContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
+  static propTypes = {
+    dispatchLike: PropTypes.func.isRequired
+  };
 
   render() {
-    const { navigation } = this.props;
+    const { navigation, dispatchLike } = this.props;
     const {
       anonymous,
       comment_count,
@@ -35,6 +39,7 @@ class PostDetailContainer extends Component {
         natural_time={natural_time}
         title={title}
         is_liked={is_liked}
+        dispatchLike={dispatchLike}
       />
     );
   }

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { View, Text } from "react-native";
 import TakePostPresenter from "./TakePostPresenter";
+import PropTypes from "prop-types";
 
 class TakePostContainer extends Component {
   constructor(props) {
@@ -26,23 +26,21 @@ class TakePostContainer extends Component {
     } = this.props;
 
     return (
-      <View>
-        <TakePostPresenter
-          id={id}
-          anonymous={anonymous}
-          comment_count={comment_count}
-          comments={comments}
-          content={content}
-          creator={creator}
-          file={file}
-          kinds={kinds}
-          like_count={like_count}
-          natural_time={natural_time}
-          title={title}
-          is_liked={is_liked}
-          navigation={navigation}
-        />
-      </View>
+      <TakePostPresenter
+        id={id}
+        anonymous={anonymous}
+        comment_count={comment_count}
+        comments={comments}
+        content={content}
+        creator={creator}
+        file={file}
+        kinds={kinds}
+        like_count={like_count}
+        natural_time={natural_time}
+        title={title}
+        is_liked={is_liked}
+        navigation={navigation}
+      />
     );
   }
 }

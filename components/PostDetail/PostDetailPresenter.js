@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import TimeStamp from "../TimeStamp";
 import PostActions from "../PostActions";
-import { BODER_COLOR, LIGHT_GREY, LIGTH_GREEN } from "../../constants/Color";
+import { BODER_COLOR, LIGTH_GREEN } from "../../constants/Color";
 import Layout from "../../constants/Layout";
 import PropTypes from "prop-types";
 
@@ -90,7 +90,8 @@ const PostDetailPresenter = ({
   like_count,
   natural_time,
   title,
-  is_liked
+  is_liked,
+  dispatchLike
 }) => (
   <Container>
     <PostContainer>
@@ -111,6 +112,7 @@ const PostDetailPresenter = ({
       <Content>{content}</Content>
       <ActionBox>
         <PostActions
+          dispatchLike={dispatchLike}
           isLiked={is_liked}
           size={20}
           likeCount={like_count}
@@ -134,7 +136,6 @@ const PostDetailPresenter = ({
 );
 
 const Comment = ({ comment, comments, creator }) => {
-  console.log(comment.creator);
   return (
     <CommentContianer>
       <CommentBox onComment={false}>
@@ -219,7 +220,8 @@ PostDetailPresenter.propTypes = {
     })
   ),
   natural_time: PropTypes.string.isRequired,
-  is_liked: PropTypes.bool
+  is_liked: PropTypes.bool,
+  dispatchLike: PropTypes.func.isRequired
 };
 
 export default PostDetailPresenter;

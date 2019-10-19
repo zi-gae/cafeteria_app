@@ -1,3 +1,4 @@
 import TakePostContainer from "./TakePostContainer";
+import { connect } from "react-redux";
 
-export default TakePostContainer;
+export default connect()(TakePostContainer);

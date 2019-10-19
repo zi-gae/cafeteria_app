@@ -1,5 +1,5 @@
 import React from "react";
-import { View, TouchableOpacity } from "react-native";
+import { TouchableOpacity } from "react-native";
 import PropTypes from "prop-types";
 import { Ionicons, EvilIcons } from "@expo/vector-icons";
 import { LIGTH_GREEN, DARK_BLUE } from "../../constants/Color";
@@ -21,9 +21,15 @@ const Count = styled.Text`
   color: ${props => (props.like ? LIGTH_GREEN : DARK_BLUE)};
 `;
 
-const PostActionsPresenter = ({ isLiked, size, likeCount, commentCount }) => (
+const PostActionsPresenter = ({
+  isLiked,
+  size,
+  likeCount,
+  commentCount,
+  dispatchLike
+}) => (
   <Container>
-    <TouchableOpacity>
+    <TouchableOpacity onPressOut={dispatchLike}>
       <Action>
         {isLiked ? (
           <Ionicons name={"ios-heart"} size={size} color={LIGTH_GREEN} />
@@ -46,7 +52,8 @@ PostActionsPresenter.propTypes = {
   isLiked: PropTypes.bool.isRequired,
   size: PropTypes.number.isRequired,
   likeCount: PropTypes.number.isRequired,
-  commentCount: PropTypes.number.isRequired
+  commentCount: PropTypes.number.isRequired,
+  dispatchLike: PropTypes.func
 };
 
 export default withNavigation(PostActionsPresenter);

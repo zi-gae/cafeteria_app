@@ -5,6 +5,7 @@ import FadeIn from "react-native-fade-in-image";
 import Layout from "../../constants/Layout";
 import TimeStamp from "../../components/TimeStamp";
 import { withNavigation } from "react-navigation";
+import PostActions from "../../components/PostActions";
 import { Ionicons, EvilIcons } from "@expo/vector-icons";
 import {
   LIGTH_GREEN,
@@ -65,7 +66,7 @@ const CreatorContainer = styled.View`
   margin-top: 3px;
 `;
 
-const PostAction = styled.View`
+const ActionContainer = styled.View`
   flex-direction: row;
 `;
 const ActionCount = styled.Text`
@@ -131,16 +132,14 @@ const TakePostPresenter = ({
             <Author>{anonymous ? "익명" : creator.name}</Author>
           </AuthorBox>
         </CreatorContainer>
-        <PostAction>
-          <ActionCount like={true}>
-            <Ionicons name={"ios-heart"} size={15} color={LIGTH_GREEN} />{" "}
-            {like_count}
-          </ActionCount>
-          <ActionCount like={false}>
-            <EvilIcons name={"comment"} size={16} color={DARK_BLUE} />{" "}
-            {comment_count}
-          </ActionCount>
-        </PostAction>
+        <ActionContainer>
+          <PostActions
+            isLiked={is_liked}
+            size={16}
+            likeCount={like_count}
+            commentCount={comment_count}
+          />
+        </ActionContainer>
       </PostInfo>
     </InnerContainer>
 
