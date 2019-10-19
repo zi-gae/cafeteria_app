@@ -11,10 +11,10 @@ const TimeStampContainer = ({ time }) => {
   time = time.replace("an", "한");
   time = time.replace("seconds", "초");
   time = time.replace("a seconds", "1초");
-  time = time.replace("a day", "1일");
   time = time.replace("days", "일");
-  time = time.replace("a week", "1주");
+  time = time.replace("day", "일");
   time = time.replace("weeks", "주");
+  time = time.replace("week", "주");
   time = time.replace("month", "달");
 
   return <TimeStampPresenter time={time} />;
