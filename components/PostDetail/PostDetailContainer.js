@@ -1,19 +1,53 @@
 import React, { Component } from "react";
-import { View, Text } from "react-native";
 import PostDetailPresenter from "./PostDetailPresenter";
 import PropTypes from "prop-types";
 
 class PostDetailContainer extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isLiked: props.navigation.state.params.isLiked,
+      likeCount: props.navigation.state.params.likeCount
+    };
   }
   static propTypes = {
     dispatchLike: PropTypes.func.isRequired
   };
 
+  handlePress = async () => {
+    const {
+      dispatchLike,
+      navigation: {
+        state: {
+          params: { handleTakePress }
+        }
+      }
+    } = this.props;
+    const { isLiked } = this.state;
+    const result = dispatchLike(isLiked);
+    handleTakePress(result);
+    if (result) {
+      if (isLiked) {
+        this.setState(prevState => {
+          return {
+            isLiked: false,
+            likeCount: prevState.likeCount - 1
+          };
+        });
+      } else {
+        this.setState(prevState => {
+          return {
+            isLiked: true,
+            likeCount: prevState.likeCount + 1
+          };
+        });
+      }
+    } else {
+    }
+  };
   render() {
     const { navigation, dispatchLike } = this.props;
+    const { isLiked, likeCount } = this.state;
     const {
       anonymous,
       comment_count,
@@ -40,6 +74,9 @@ class PostDetailContainer extends Component {
         title={title}
         is_liked={is_liked}
         dispatchLike={dispatchLike}
+        isLiked={isLiked}
+        likeCount={likeCount}
+        handlePress={this.handlePress}
       />
     );
   }

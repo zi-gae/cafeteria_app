@@ -45,7 +45,13 @@ const Content = styled.Text`
   font-weight: 200;
   margin-bottom: 10px;
 `;
-const ActionBox = styled.View``;
+const ContentImg = styled.Image`
+  height: ${Layout.height / 3};
+  width: 100%;
+  border-radius: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+`;
 const CommentContianer = styled.View`
   border-bottom-color: ${BODER_COLOR};
   border-bottom-width: 1px;
@@ -87,11 +93,11 @@ const PostDetailPresenter = ({
   content,
   creator,
   file,
-  like_count,
   natural_time,
   title,
-  is_liked,
-  dispatchLike
+  isLiked,
+  likeCount,
+  handlePress
 }) => (
   <Container>
     <PostContainer>
@@ -110,15 +116,14 @@ const PostDetailPresenter = ({
       </CreatorContainer>
       <Title>{title}</Title>
       <Content>{content}</Content>
-      <ActionBox>
-        <PostActions
-          dispatchLike={dispatchLike}
-          isLiked={is_liked}
-          size={20}
-          likeCount={like_count}
-          commentCount={comment_count}
-        />
-      </ActionBox>
+      {file ? <ContentImg resizeMode="contain" source={{ uri: file }} /> : null}
+      <PostActions
+        dispatchLike={handlePress}
+        isLiked={isLiked}
+        size={20}
+        likeCount={likeCount}
+        commentCount={comment_count}
+      />
     </PostContainer>
     {comments
       ? comments
@@ -206,7 +211,6 @@ PostDetailPresenter.propTypes = {
   title: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   file: PropTypes.string,
-  like_count: PropTypes.number.isRequired,
   comment_count: PropTypes.number.isRequired,
   comments: PropTypes.arrayOf(
     PropTypes.shape({
@@ -221,7 +225,8 @@ PostDetailPresenter.propTypes = {
   ),
   natural_time: PropTypes.string.isRequired,
   is_liked: PropTypes.bool,
-  dispatchLike: PropTypes.func.isRequired
+  dispatchLike: PropTypes.func.isRequired,
+  handlePress: PropTypes.func.isRequired
 };
 
 export default PostDetailPresenter;

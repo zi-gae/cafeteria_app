@@ -69,11 +69,6 @@ const CreatorContainer = styled.View`
 const ActionContainer = styled.View`
   flex-direction: row;
 `;
-const ActionCount = styled.Text`
-  justify-content: space-between;
-  margin: 3px;
-  color: ${props => (props.like ? LIGTH_GREEN : DARK_BLUE)};
-`;
 
 const TakePostPresenter = ({
   id,
@@ -88,7 +83,10 @@ const TakePostPresenter = ({
   natural_time,
   title,
   is_liked,
-  navigation
+  navigation,
+  handleTakePress,
+  isLiked,
+  likeCount
 }) => (
   <Container>
     <InnerContainer
@@ -102,10 +100,11 @@ const TakePostPresenter = ({
           creator,
           file,
           kinds,
-          like_count,
+          likeCount,
           natural_time,
           title,
-          is_liked
+          isLiked,
+          handleTakePress
         })
       }
     >
@@ -134,9 +133,9 @@ const TakePostPresenter = ({
         </CreatorContainer>
         <ActionContainer>
           <PostActions
-            isLiked={is_liked}
+            isLiked={isLiked}
             size={16}
-            likeCount={like_count}
+            likeCount={likeCount}
             commentCount={comment_count}
           />
         </ActionContainer>
@@ -176,7 +175,10 @@ TakePostPresenter.propTypes = {
   ),
   natural_time: PropTypes.string.isRequired,
   kinds: PropTypes.string.isRequired,
-  is_liked: PropTypes.bool
+  is_liked: PropTypes.bool,
+  isLiked: PropTypes.bool.isRequired,
+  likeCount: PropTypes.number.isRequired,
+  handleTakePress: PropTypes.func.isRequired
 };
 
 export default withNavigation(TakePostPresenter);

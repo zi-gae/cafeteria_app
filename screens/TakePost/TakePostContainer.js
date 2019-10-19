@@ -1,13 +1,30 @@
 import React, { Component } from "react";
 import TakePostPresenter from "./TakePostPresenter";
-import PropTypes from "prop-types";
 
 class TakePostContainer extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isLiked: props.is_liked,
+      likeCount: props.like_count
+    };
   }
-
+  handleTakePress = result => {
+    const { isLiked, likeCount } = this.state;
+    if (result) {
+      if (isLiked) {
+        this.setState({
+          isLiked: false,
+          likeCount: likeCount - 1
+        });
+      } else {
+        this.setState({
+          isLiked: true,
+          likeCount: likeCount + 1
+        });
+      }
+    }
+  };
   render() {
     const {
       id,
@@ -24,6 +41,7 @@ class TakePostContainer extends Component {
       is_liked,
       navigation
     } = this.props;
+    const { isLiked, likeCount } = this.state;
 
     return (
       <TakePostPresenter
@@ -40,6 +58,9 @@ class TakePostContainer extends Component {
         title={title}
         is_liked={is_liked}
         navigation={navigation}
+        handleTakePress={this.handleTakePress}
+        isLiked={isLiked}
+        likeCount={likeCount}
       />
     );
   }

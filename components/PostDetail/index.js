@@ -6,13 +6,13 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   const {
     navigation: {
       state: {
-        params: { id, is_liked }
+        params: { id }
       }
     }
   } = ownProps;
   return {
     dispatchLike: isLiked => {
-      if (is_liked) {
+      if (isLiked) {
         return dispatch(postActions.unLikePost(id));
       } else {
         return dispatch(postActions.likePost(id));
