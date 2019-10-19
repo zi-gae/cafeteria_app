@@ -3,40 +3,75 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import FadeIn from "react-native-fade-in-image";
 import Layout from "../../constants/Layout";
+import TimeStamp from "../../components/TimeStamp";
+import { withNavigation } from "react-navigation";
+import { Ionicons, EvilIcons } from "@expo/vector-icons";
+import {
+  LIGTH_GREEN,
+  DARK_BLUE,
+  LIGHT_GREY,
+  BODER_COLOR
+} from "../../constants/Color";
 
-const Author = styled.Text``;
-const Time = styled.Text``;
 const Container = styled.View`
   flex-direction: row;
   justify-content: space-between;
+  border-bottom-color: ${BODER_COLOR};
+  border-bottom-width: 1px;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  margin-left: ${Layout.width / 20};
+  margin-right: ${Layout.width / 20};
 `;
-const InnerContainer = styled.View``;
+const InnerContainer = styled.TouchableOpacity`
+  flex: 1;
+`;
 
-const Title = styled.Text``;
+const Title = styled.Text`
+  font-weight: 400;
+  font-size: 20px;
+  margin-bottom: 5px;
+`;
 
 const ContentContainer = styled.View``;
-const Content = styled.Text``;
+const AuthorBox = styled.View`
+  border-left-color: #dedede;
+  border-left-width: 1px;
+  margin-left: 9px;
+`;
+const Author = styled.Text`
+  color: ${LIGHT_GREY};
+  padding-left: 4.5px;
+`;
+const Content = styled.Text`
+  color: #696969;
+  font-size: 15px;
+`;
 const ContentImg = styled.Image`
-  height: 50px;
-  width: 50px;
+  height: 70px;
+  width: 100px;
+  border-radius: 5px;
 `;
 
 const PostInfo = styled.View`
-  width: ${Layout.width / 1.2};
+  width: auto;
   flex-direction: row;
-  background-color: yellow;
   justify-content: space-between;
 `;
 
 const CreatorContainer = styled.View`
   flex-direction: row;
+  align-items: center;
+  margin-top: 3px;
 `;
 
 const PostAction = styled.View`
   flex-direction: row;
 `;
 const ActionCount = styled.Text`
-  margin: 5px;
+  justify-content: space-between;
+  margin: 3px;
+  color: ${props => (props.like ? LIGTH_GREEN : DARK_BLUE)};
 `;
 
 const TakePostPresenter = ({
@@ -52,22 +87,59 @@ const TakePostPresenter = ({
   natural_time,
   title,
   is_liked,
-  is_vertical
+  navigation
 }) => (
   <Container>
-    <InnerContainer>
+    <InnerContainer
+      onPressOut={() =>
+        navigation.navigate("PostDetail", {
+          id,
+          anonymous,
+          comment_count,
+          comments,
+          content,
+          creator,
+          file,
+          kinds,
+          like_count,
+          natural_time,
+          title,
+          is_liked
+        })
+      }
+    >
       <ContentContainer>
-        <Title>{title}</Title>
-        <Content>{content} </Content>
+        <Title>
+          {title.length > 20
+            ? file
+              ? `${title.substring(0, 18)}...`
+              : `${title.substring(0, 20)}...`
+            : title}
+        </Title>
+        <Content>
+          {content.length > 25
+            ? file
+              ? `${content.substring(0, 25)}...`
+              : `${content.substring(0, 45)}...`
+            : content}
+        </Content>
       </ContentContainer>
       <PostInfo>
         <CreatorContainer>
-          <Time>{natural_time}</Time>
-          <Author>{anonymous ? "익명" : creator.name}</Author>
+          <TimeStamp time={natural_time} />
+          <AuthorBox>
+            <Author>{anonymous ? "익명" : creator.name}</Author>
+          </AuthorBox>
         </CreatorContainer>
         <PostAction>
-          <ActionCount>{like_count} like</ActionCount>
-          <ActionCount>{comment_count} comments</ActionCount>
+          <ActionCount like={true}>
+            <Ionicons name={"ios-heart"} size={15} color={LIGTH_GREEN} />{" "}
+            {like_count}
+          </ActionCount>
+          <ActionCount like={false}>
+            <EvilIcons name={"comment"} size={16} color={DARK_BLUE} />{" "}
+            {comment_count}
+          </ActionCount>
         </PostAction>
       </PostInfo>
     </InnerContainer>
@@ -105,8 +177,7 @@ TakePostPresenter.propTypes = {
   ),
   natural_time: PropTypes.string.isRequired,
   kinds: PropTypes.string.isRequired,
-  is_liked: PropTypes.bool,
-  is_vertical: PropTypes.string.isRequired
+  is_liked: PropTypes.bool
 };
 
-export default TakePostPresenter;
+export default withNavigation(TakePostPresenter);

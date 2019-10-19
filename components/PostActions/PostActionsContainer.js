@@ -8,8 +8,15 @@ class PostActionsContainer extends PureComponent {
   }
 
   render() {
-    const { size, isLiked } = this.props;
-    return <PostActionsPresenter size={size} isLiked={isLiked} />;
+    const { size, isLiked, likeCount, commentCount } = this.props;
+    return (
+      <PostActionsPresenter
+        size={size}
+        isLiked={isLiked}
+        likeCount={likeCount}
+        commentCount={commentCount}
+      />
+    );
   }
 }
 

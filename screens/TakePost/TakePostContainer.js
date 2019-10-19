@@ -9,8 +9,6 @@ class TakePostContainer extends Component {
   }
 
   render() {
-    console.log(this.props);
-
     const {
       id,
       anonymous,
@@ -24,8 +22,9 @@ class TakePostContainer extends Component {
       natural_time,
       title,
       is_liked,
-      is_vertical
+      navigation
     } = this.props;
+
     return (
       <View>
         <TakePostPresenter
@@ -41,7 +40,7 @@ class TakePostContainer extends Component {
           natural_time={natural_time}
           title={title}
           is_liked={is_liked}
-          is_vertical={is_vertical}
+          navigation={navigation}
         />
       </View>
     );

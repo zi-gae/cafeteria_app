@@ -22,7 +22,7 @@ class PostContainer extends Component {
           source={require("../../assets/images/logo.png")}
           resizeMode={"contain"}
         />
-        <Title>학식이</Title>
+        <Title>자유게시판</Title>
       </>
     ),
     headerRight: (
@@ -40,6 +40,7 @@ class PostContainer extends Component {
     post: PropTypes.array.isRequired,
     getPost: PropTypes.func.isRequired
   };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -69,6 +70,7 @@ class PostContainer extends Component {
       getPost,
       post
     } = this.props;
+
     const { isFetching } = this.state;
     return (
       <PostPresenter

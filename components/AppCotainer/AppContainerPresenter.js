@@ -1,17 +1,37 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import styled from "styled-components";
 import LoggedOutNavigation from "../../navigation/LoggedOutNavigation";
 import RootNavigation from "../../navigation/RootNavigation";
 
 class AppContainerPresenter extends Component {
+  constructor() {
+    super();
+  }
+
   static propTypes = {
-    isLoggedIn: PropTypes.bool.isRequired
+    isLoggedIn: PropTypes.bool.isRequired,
+    initApp: PropTypes.func.isRequired
   };
 
+  componentDidMount() {
+    const { isLoggedIn, initApp } = this.props;
+    if (isLoggedIn) {
+      initApp();
+    }
+  }
+
   render() {
-    const { isLoggedIn } = this.props;
-    return <>{isLoggedIn ? <RootNavigation /> : <LoggedOutNavigation />}</>;
+    const { isLoggedIn, profile } = this.props;
+
+    return (
+      <>
+        {isLoggedIn && profile ? (
+          <RootNavigation screenProps={{ username: profile.username }} />
+        ) : (
+          <LoggedOutNavigation />
+        )}
+      </>
+    );
   }
 }
 

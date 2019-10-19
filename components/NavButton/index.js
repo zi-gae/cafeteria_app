@@ -8,15 +8,12 @@ const Container = styled.View`
   padding-left: 10px;
   padding-right: 10px;
 `;
-const Text = styled.Text``;
 
-const NavButton = ({ iconName, onPress }) => {
-  console.log(onPress);
-
+const NavButton = ({ iconName, onPress, color }) => {
   return (
     <TouchableWithoutFeedback onPressOut={onPress}>
       <Container>
-        <Ionicons name={iconName} color={"black"} size={30} />
+        <Ionicons name={iconName} color={color} size={30} />
       </Container>
     </TouchableWithoutFeedback>
   );

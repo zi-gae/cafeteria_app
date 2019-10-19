@@ -1,12 +1,12 @@
 import React from "react";
 import Likes from "../screens/Likes";
-import Posts from "../screens/Posts";
 import { BG_COLOR_WHITE } from "../constants/Color";
 import NavButton from "../components/NavButton";
+import PostDetail from "../components/PostDetail";
 
 const sharedRoutes = {
-  Posts: {
-    screen: Posts
+  PostDetail: {
+    screen: PostDetail
   },
   Likes: {
     screen: Likes
@@ -14,10 +14,10 @@ const sharedRoutes = {
 };
 const sharedOptions = {
   defaultNavigationOptions: {
-    headerLeft: props => <NavButton {...props} iconName={"ios-arrow-back"} />
-  },
-  headerStyle: {
-    backgroundColor: BG_COLOR_WHITE
+    headerLeft: props => <NavButton {...props} iconName={"ios-arrow-back"} />,
+    headerStyle: {
+      backgroundColor: BG_COLOR_WHITE
+    }
   }
 };
 
