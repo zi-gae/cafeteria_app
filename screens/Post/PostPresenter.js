@@ -1,9 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { BG_COLOR_WHITE, MINT } from "../../constants/Color";
 import TakePost from "../TakePost";
-import Layout from "../../constants/Layout";
 
 const ScrollContainer = styled.ScrollView`
   margin-top: 10px;
@@ -29,7 +27,6 @@ const PostPresenter = ({ isFetching, refresh, post }) => (
 );
 
 PostPresenter.propTypes = {
-  navigate: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
   refresh: PropTypes.func.isRequired,
   post: PropTypes.array.isRequired

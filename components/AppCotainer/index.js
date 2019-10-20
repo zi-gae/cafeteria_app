@@ -16,7 +16,7 @@ mapDispatchToProps = (dispatch, ownProps) => {
   return {
     initApp: () => {
       dispatch(postActions.getPost());
-      dispatch(postActions.getSearch());
+      dispatch(postActions.emptySearch());
       dispatch(userActions.getNotification());
       dispatch(userActions.getOwnProfile());
     }

@@ -12,7 +12,6 @@ const Container = styled.ScrollView`
   margin-right: ${Layout.width / 20};
   margin-top: 10px;
 `;
-
 const PostContainer = styled.View`
   border-bottom-color: ${BODER_COLOR};
   border-bottom-width: 1px;
@@ -101,7 +100,7 @@ const PostDetailPresenter = ({
   likeCount,
   handlePress
 }) => (
-  <Container>
+  <Container showsVerticalScrollIndicator={false}>
     <PostContainer>
       <CreatorContainer>
         <ProfileImg

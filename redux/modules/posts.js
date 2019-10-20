@@ -16,10 +16,10 @@ const reqSetPost = post => {
   };
 };
 
-const reqSetSearch = post => {
+const reqSetSearch = search => {
   return {
     type: SET_SEARCH,
-    post
+    search
   };
 };
 
@@ -47,12 +47,12 @@ const getPost = () => {
   };
 };
 
-const getSearch = () => {
+const getSearch = term => {
   return (dispatch, getState) => {
     const {
       user: { token }
     } = getState();
-    fetch(`${URL}/posts/total_search/?total=15`, {
+    fetch(`${URL}/posts/total_search/?total=${term}`, {
       method: "get",
       headers: {
         Authorization: `JWT ${token}`
@@ -66,6 +66,27 @@ const getSearch = () => {
         }
       })
       .then(json => dispatch(reqSetSearch(json)));
+  };
+};
+
+const emptySearch = term => {
+  return (dispatch, getState) => {
+    const {
+      user: { token }
+    } = getState();
+    fetch(`${URL}/posts/total_search/`, {
+      method: "get",
+      headers: {
+        Authorization: `JWT ${token}`
+      }
+    }).then(res => {
+      if (res.status === 401) {
+        dispatch(userActions.logOut());
+      } else {
+        const empty = [];
+        return dispatch(reqSetSearch(empty));
+      }
+    });
   };
 };
 
@@ -154,7 +175,8 @@ const actionCreators = {
   getPost,
   getSearch,
   likePost,
-  unLikePost
+  unLikePost,
+  emptySearch
 };
 
 export { actionCreators };

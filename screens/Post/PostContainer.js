@@ -14,25 +14,24 @@ const Title = styled.Text`
   font-size: 18px;
   color: ${LIGTH_GREEN};
 `;
+
 class PostContainer extends Component {
   static navigationOptions = ({ navigation }) => ({
+    headerTitle: <Title>자유게시판</Title>,
     headerLeft: (
       <>
         <Image
           source={require("../../assets/images/logo.png")}
           resizeMode={"contain"}
         />
-        <Title>자유게시판</Title>
       </>
     ),
     headerRight: (
-      <>
-        <NavButton
-          iconName={"ios-search"}
-          color={LIGTH_GREEN}
-          onPress={() => navigation.navigate("Search")}
-        />
-      </>
+      <NavButton
+        iconName={"ios-search"}
+        color={LIGTH_GREEN}
+        onPress={() => navigation.navigate("Search")}
+      />
     )
   });
 
@@ -65,16 +64,11 @@ class PostContainer extends Component {
   };
 
   render() {
-    const {
-      navigation: { navigate },
-      getPost,
-      post
-    } = this.props;
+    const { getPost, post } = this.props;
 
     const { isFetching } = this.state;
     return (
       <PostPresenter
-        navigate={navigate}
         getPost={getPost}
         post={post}
         refresh={this.refresh}

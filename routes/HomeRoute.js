@@ -5,10 +5,7 @@ import sharedRoutes, { sharedOptions } from "./sharedRoutes";
 const HomeRoute = createStackNavigator(
   {
     Home: {
-      screen: Home,
-      navigationOptions: {
-        title: "동명대학식이"
-      }
+      screen: Home
     },
     ...sharedRoutes
   }

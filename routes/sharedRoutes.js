@@ -1,6 +1,6 @@
 import React from "react";
-import Likes from "../screens/Likes";
-import { BG_COLOR_WHITE } from "../constants/Color";
+import Search from "../screens/Search";
+import { BG_COLOR_WHITE, LIGTH_GREEN } from "../constants/Color";
 import NavButton from "../components/NavButton";
 import PostDetail from "../components/PostDetail";
 
@@ -8,15 +8,20 @@ const sharedRoutes = {
   PostDetail: {
     screen: PostDetail
   },
-  Likes: {
-    screen: Likes
+  Search: {
+    screen: Search
   }
 };
 const sharedOptions = {
   defaultNavigationOptions: {
-    headerLeft: props => <NavButton {...props} iconName={"ios-arrow-back"} />,
+    headerLeft: props => (
+      <NavButton {...props} iconName={"ios-arrow-back"} color={LIGTH_GREEN} />
+    ),
     headerStyle: {
-      backgroundColor: BG_COLOR_WHITE
+      backgroundColor: BG_COLOR_WHITE,
+      levation: 0,
+      shadowOpacity: 0,
+      borderBottomWidth: 0
     }
   }
 };

@@ -21,7 +21,8 @@ const NavButton = ({ iconName, onPress, color }) => {
 
 NavButton.propTypes = {
   iconName: PropTypes.string.isRequired,
-  onPress: PropTypes.func.isRequired
+  onPress: PropTypes.func.isRequired,
+  color: PropTypes.string.isRequired
 };
 
 export default NavButton;

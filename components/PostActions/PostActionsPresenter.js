@@ -6,19 +6,22 @@ import { LIGTH_GREEN, DARK_BLUE } from "../../constants/Color";
 import { withNavigation } from "react-navigation";
 import styled from "styled-components";
 import { RFValue } from "react-native-responsive-fontsize";
+
 const Container = styled.View`
   flex-direction: row;
 `;
-
 const Action = styled.View`
   flex-direction: row;
   align-items: center;
+  justify-content: center;
   margin-left: 5px;
 `;
 const Count = styled.Text`
   justify-content: space-between;
   color: ${props => (props.like ? LIGTH_GREEN : DARK_BLUE)};
-  /* font-size: ${RFValue(11) * 1}; */
+  margin-left: ${props => (props.like ? "2px" : "0px")};
+  margin-right: ${props => (props.like ? "5px" : "0px")};
+  font-size: ${props => (props.post ? `${RFValue(15)}` : `${RFValue(11)}`)};
 `;
 
 const PostActionsPresenter = ({
@@ -32,17 +35,31 @@ const PostActionsPresenter = ({
     <TouchableOpacity onPressOut={dispatchLike}>
       <Action>
         {isLiked ? (
-          <Ionicons name={"ios-heart"} size={size} color={LIGTH_GREEN} />
+          <Ionicons
+            style={{ marginTop: 1 }}
+            name={"ios-heart"}
+            size={size}
+            color={LIGTH_GREEN}
+          />
         ) : (
           <Ionicons name={"ios-heart-empty"} size={size} color={LIGTH_GREEN} />
         )}
-        <Count like={true}>{likeCount}</Count>
+        <Count post={dispatchLike} like={true}>
+          {likeCount}
+        </Count>
       </Action>
     </TouchableOpacity>
     <TouchableOpacity>
       <Action>
-        <EvilIcons name={"comment"} size={size} color={DARK_BLUE} />
-        <Count like={false}>{commentCount}</Count>
+        <EvilIcons
+          style={{ marginTop: 2 }}
+          name={"comment"}
+          size={size + 2}
+          color={DARK_BLUE}
+        />
+        <Count post={dispatchLike} like={false}>
+          {commentCount}
+        </Count>
       </Action>
     </TouchableOpacity>
   </Container>
