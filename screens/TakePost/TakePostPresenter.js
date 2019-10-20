@@ -131,7 +131,7 @@ const TakePostPresenter = ({
         <ActionContainer>
           <PostActions
             isLiked={isLiked}
-            size={RFValue(10)}
+            size={RFValue(11)}
             likeCount={likeCount}
             commentCount={comment_count}
           />
