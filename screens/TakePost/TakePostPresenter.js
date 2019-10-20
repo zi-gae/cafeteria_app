@@ -6,23 +6,18 @@ import Layout from "../../constants/Layout";
 import TimeStamp from "../../components/TimeStamp";
 import { withNavigation } from "react-navigation";
 import PostActions from "../../components/PostActions";
-import { Ionicons, EvilIcons } from "@expo/vector-icons";
-import {
-  LIGTH_GREEN,
-  DARK_BLUE,
-  LIGHT_GREY,
-  BODER_COLOR
-} from "../../constants/Color";
+import { RFValue } from "react-native-responsive-fontsize";
+import { LIGHT_GREY, BODER_COLOR } from "../../constants/Color";
 
 const Container = styled.View`
   flex-direction: row;
   justify-content: space-between;
   border-bottom-color: ${BODER_COLOR};
   border-bottom-width: 1px;
-  padding-bottom: 10px;
-  margin-bottom: 10px;
   margin-left: ${Layout.width / 20};
   margin-right: ${Layout.width / 20};
+  margin-bottom: ${RFValue(11)};
+  padding-bottom: ${RFValue(5.5)};
 `;
 const InnerContainer = styled.TouchableOpacity`
   flex: 1;
@@ -30,8 +25,8 @@ const InnerContainer = styled.TouchableOpacity`
 
 const Title = styled.Text`
   font-weight: 400;
-  font-size: 20px;
-  margin-bottom: 5px;
+  font-size: ${RFValue(16)};
+  margin-bottom: ${RFValue(4)};
 `;
 
 const ContentContainer = styled.View``;
@@ -41,16 +36,17 @@ const AuthorBox = styled.View`
   margin-left: 9px;
 `;
 const Author = styled.Text`
+  font-size: ${RFValue(11)};
   color: ${LIGHT_GREY};
   padding-left: 4.5px;
 `;
 const Content = styled.Text`
   color: #696969;
-  font-size: 15px;
+  font-size: ${RFValue(13)};
 `;
 const ContentImg = styled.Image`
-  height: 70px;
-  width: 100px;
+  height: ${RFValue(56)};
+  width: ${RFValue(80)};
   border-radius: 5px;
 `;
 
@@ -68,6 +64,7 @@ const CreatorContainer = styled.View`
 
 const ActionContainer = styled.View`
   flex-direction: row;
+  margin-right: 5px;
 `;
 
 const TakePostPresenter = ({
@@ -113,20 +110,20 @@ const TakePostPresenter = ({
           {title.length > 20
             ? file
               ? `${title.substring(0, 18)}...`
-              : `${title.substring(0, 20)}...`
+              : `${title.substring(0, 18)}...`
             : title}
         </Title>
         <Content>
           {content.length > 25
             ? file
-              ? `${content.substring(0, 25)}...`
-              : `${content.substring(0, 45)}...`
+              ? `${content.substring(0, 20)}...`
+              : `${content.substring(0, 20)}...`
             : content}
         </Content>
       </ContentContainer>
       <PostInfo>
         <CreatorContainer>
-          <TimeStamp time={natural_time} />
+          <TimeStamp list={true} time={natural_time} />
           <AuthorBox>
             <Author>{anonymous ? "익명" : creator.name}</Author>
           </AuthorBox>
@@ -134,7 +131,7 @@ const TakePostPresenter = ({
         <ActionContainer>
           <PostActions
             isLiked={isLiked}
-            size={16}
+            size={RFValue(10)}
             likeCount={likeCount}
             commentCount={comment_count}
           />

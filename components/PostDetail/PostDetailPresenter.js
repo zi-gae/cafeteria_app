@@ -5,6 +5,7 @@ import PostActions from "../PostActions";
 import { BODER_COLOR, LIGTH_GREEN } from "../../constants/Color";
 import Layout from "../../constants/Layout";
 import PropTypes from "prop-types";
+import { RFValue } from "react-native-responsive-fontsize";
 
 const Container = styled.ScrollView`
   margin-left: ${Layout.width / 20};
@@ -26,22 +27,23 @@ const CreatorBox = styled.View`
   justify-content: flex-start;
 `;
 const Creator = styled.Text`
-  font-weight: 500;
-  font-size: 20px;
+  font-weight: bold;
+  font-size: ${RFValue(15)};
+  margin-bottom: ${RFValue(2)};
 `;
 const ProfileImg = styled.Image`
-  width: 50px;
-  height: 50px;
-  border-radius: 25px;
+  width: ${RFValue(45)};
+  height: ${RFValue(45)};
+  border-radius: 22px;
 `;
 const Title = styled.Text`
-  font-size: 24px;
+  font-size: ${RFValue(18)};
   font-weight: 500;
   margin-top: 10px;
   margin-bottom: 10px;
 `;
 const Content = styled.Text`
-  font-size: 18px;
+  font-size: ${RFValue(15)};
   font-weight: 200;
   margin-bottom: 10px;
 `;
@@ -68,8 +70,8 @@ const CommentCreatorBox = styled.View`
   align-items: center;
 `;
 const CommentCreator = styled.Text`
-  font-size: 18px;
-  font-weight: 500;
+  font-size: ${RFValue(13)};
+  font-weight: bold;
   color: ${props => (props.isCreator ? `${LIGTH_GREEN}` : "black")};
 `;
 const CommentProfileImg = styled.Image`
@@ -78,7 +80,7 @@ const CommentProfileImg = styled.Image`
   border-radius: 17.5px;
 `;
 const CommentMessage = styled.Text`
-  font-size: 18px;
+  font-size: ${RFValue(13)};
   font-weight: 200;
   margin-top: 5px;
   margin-bottom: 5px;

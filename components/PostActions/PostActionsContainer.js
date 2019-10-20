@@ -23,7 +23,6 @@ class PostActionsContainer extends Component {
 }
 
 PostActionsContainer.propTypes = {
-  size: PropTypes.number.isRequired,
   isLiked: PropTypes.bool.isRequired,
   likeCount: PropTypes.number.isRequired,
   commentCount: PropTypes.number.isRequired,
