@@ -11,6 +11,7 @@ const Container = styled.View`
   align-items: center;
   background-color: #f2f2f2;
   border-radius: 10px;
+  margin-left: 10px;
 `;
 const Search = styled.TextInput`
   flex: 1;
