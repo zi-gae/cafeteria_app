@@ -1,12 +1,103 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { BG_COLOR_WHITE } from "../../constants/Color";
+import { BODER_COLOR, LIGHT_BLUE } from "../../constants/Color";
+import Layout from "../../constants/Layout";
+import { RFValue } from "react-native-responsive-fontsize";
+import IconBox from "../../components/IconBox";
+import RicePost from "../../components/RicePost";
 
-const Container = styled.ScrollView``;
-const Text = styled.Text``;
+const Container = styled.ScrollView`
+  margin-top: 10px;
+  margin-left: ${Layout.width / 20};
+  margin-right: ${Layout.width / 20};
+`;
+const SquareBox = styled.View``;
+const SquareContainer = styled.View`
+  border-radius: 15px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: ${BODER_COLOR};
+  margin-bottom: ${RFValue(20)};
+  padding-bottom: ${RFValue(7)};
+`;
+const View = styled.View``;
 const RefreshControl = styled.RefreshControl``;
+const Title = styled.Text`
+  padding-top: ${RFValue(15)};
+  padding-bottom: ${RFValue(15)};
+  padding-left: ${RFValue(15)};
+  padding-right: ${RFValue(15)};
+  font-size: ${RFValue(17)};
+  font-weight: bold;
+`;
 
-const HomePresenter = ({}) => <Text>Home</Text>;
+const IconContainer = styled.View`
+  flex-direction: row;
+  justify-content: space-around;
+`;
+
+const HomePresenter = ({}) => (
+  <Container>
+    <SquareBox>
+      <SquareContainer>
+        <RicePost type="student" title="학생 식당" />
+      </SquareContainer>
+      <SquareContainer>
+        <RicePost type="dormitory" title="기숙사 식당" />
+      </SquareContainer>
+      <SquareContainer>
+        <RicePost type="professor" title="교직원 식당" />
+      </SquareContainer>
+
+      <SquareContainer>
+        <Title>현재 인기글</Title>
+      </SquareContainer>
+    </SquareBox>
+    <IconContainer>
+      <IconBox
+        name={"home"}
+        size={25}
+        color={LIGHT_BLUE}
+        type="Fa"
+        kind="TU 홈"
+        url="http://www.m.tu.ac.kr/tu/index.jsp"
+      />
+      <IconBox
+        name={"ios-calendar"}
+        size={25}
+        color={LIGHT_BLUE}
+        type="Ii"
+        kind="학사 일정"
+        url="http://m.tu.ac.kr/tu/html/04_life/life_02.jsp"
+      />
+      <IconBox
+        name={"ios-book"}
+        size={25}
+        color={LIGHT_BLUE}
+        type="Ii"
+        kind="열람실"
+        url="http://libebook.tu.ac.kr:8081/EZ5500/SEAT/RoomStatus.aspx"
+      />
+      <IconBox
+        name={"stack-overflow"}
+        size={25}
+        color={LIGHT_BLUE}
+        type="Fa"
+        kind="마일리지"
+        url="https://up.tu.ac.kr"
+      />
+      <IconBox
+        name={"book"}
+        size={25}
+        color={LIGHT_BLUE}
+        type="Fa"
+        kind="도서관"
+        url="http://lib.tu.ac.kr"
+      />
+    </IconContainer>
+  </Container>
+);
+// Home 디자인
 
 export default HomePresenter;
