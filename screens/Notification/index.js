@@ -1,3 +1,4 @@
+import { connect } from "react-redux";
 import NotificationContainer from "./NotificationContainer";
 
-export default NotificationContainer;
+export default connect()(NotificationContainer);

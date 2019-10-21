@@ -10,12 +10,10 @@ class NotificationContainer extends PureComponent {
   static navigationOptions = props => ({
     headerTitle: "Notification"
   });
+  static propTypes = {};
   render() {
-    return (
-      <View>
-        <NotificationPresenter />
-      </View>
-    );
+    console.log(this.props);
+    return <NotificationPresenter {...this.props} />;
   }
 }
 

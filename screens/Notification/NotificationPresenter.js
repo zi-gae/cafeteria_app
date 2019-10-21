@@ -1,10 +1,9 @@
 import React from "react";
-import { Text, View } from "react-native";
+import PropTypes from "prop-types";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 
-const NotificationPresenter = ({ params }) => (
-  <View>
-    <Text>NotificationPresenter</Text>
-  </View>
-);
+const NotificationPresenter = props => <View />;
+
+NotificationPresenter.propTypes = {};
 
 export default NotificationPresenter;
