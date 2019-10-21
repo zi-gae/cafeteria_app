@@ -4,6 +4,7 @@ import storage from "redux-persist/lib/storage";
 import thunk from "redux-thunk";
 import user from "./modules/user";
 import posts from "./modules/posts";
+import crawlers from "./modules/crawlers";
 
 const middlewares = [thunk];
 
@@ -14,7 +15,8 @@ const persistConfig = {
 
 const reducer = persistCombineReducers(persistConfig, {
   user,
-  posts
+  posts,
+  crawlers
 });
 
 const configureStore = () => {
