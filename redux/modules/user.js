@@ -192,8 +192,7 @@ const applySetNotification = (state, action) => {
   const { notification } = action;
   return {
     ...state,
-    notification,
-    createAccount
+    notification
   };
 };
 
