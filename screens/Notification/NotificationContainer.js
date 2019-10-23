@@ -13,7 +13,8 @@ class NotificationContainer extends PureComponent {
     headerTitle: "알림",
     headerTitleStyle: {
       fontSize: RFValue(20)
-    }
+    },
+    headerLeft: null
   });
   static propTypes = {
     notifications: PropTypes.array,

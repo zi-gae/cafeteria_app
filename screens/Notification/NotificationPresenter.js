@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { LIGHT_GREY } from "../../constants/Color";
 import { RFValue } from "react-native-responsive-fontsize";
 import Layout from "../../constants/Layout";
-import { Ionicons } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
 import Notification from "../../components/Notification";
 
 const ScrollContainer = styled.ScrollView`
@@ -27,6 +27,7 @@ const GuideBox = styled.View`
   justify-content: center;
 `;
 const GuideText = styled.Text`
+  margin-top: ${RFValue(10)};
   color: ${LIGHT_GREY};
   font-size: ${RFValue(17)};
   font-weight: 500;
@@ -49,12 +50,12 @@ const NotificationPresenter = ({ notification, isFetching, OnRefresh }) => {
           <NotFount>알림이 없습니다.</NotFount>
         ) : notification.length === 0 ? (
           <GuideBox>
-            <Ionicons
-              name={"ios-search"}
+            <FontAwesome
+              name={"bell-o"}
               size={RFValue(50)}
               color={LIGHT_GREY}
-            ></Ionicons>
-            <GuideText>게시판의 글을 검색해보세요</GuideText>
+            />
+            <GuideText>알림이 없네요..</GuideText>
           </GuideBox>
         ) : (
           notification.map((notification, i) => (
