@@ -9,12 +9,6 @@ const Image = styled.Image`
   width: 70px;
 `;
 
-const Title = styled.Text`
-  font-weight: bold;
-  font-size: 18px;
-  color: ${LIGTH_GREEN};
-`;
-
 class HomeContainer extends Component {
   static navigationOptions = ({ navigation }) => ({
     headerLeft: (

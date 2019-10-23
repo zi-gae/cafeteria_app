@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { BODER_COLOR, LIGHT_BLUE, LIGTH_GREEN } from "../../constants/Color";
+import { BODER_COLOR, LIGHT_BLUE } from "../../constants/Color";
 import Layout from "../../constants/Layout";
 import { RFValue } from "react-native-responsive-fontsize";
 import HomeIconBox from "../../components/HomeIconBox";
@@ -36,8 +36,8 @@ const IconContainer = styled.View`
   justify-content: space-around;
 `;
 
-const HomePresenter = ({}) => (
-  <Container keyboardShouldPersistTaps="handled">
+const HomePresenter = () => (
+  <Container showsVerticalScrollIndicator={false}>
     <SquareBox>
       <SquareContainer>
         <RicePost type="student" title="학생 식당" />
