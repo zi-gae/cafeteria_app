@@ -30,9 +30,8 @@ const postDormitoryOut = (
     const {
       user: { token }
     } = getState();
-
     const res = await axios({
-      url: "/crawler/dormitory/",
+      url: `${URL}/crawler/dormitory/`,
       method: "post",
       headers: {
         Authorization: `JWT ${token}`,
