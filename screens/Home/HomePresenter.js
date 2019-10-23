@@ -1,16 +1,16 @@
 import React from "react";
-import PropTypes from "prop-types";
 import styled from "styled-components";
-import { BODER_COLOR, LIGHT_BLUE } from "../../constants/Color";
+import { BODER_COLOR, LIGHT_BLUE, LIGTH_GREEN } from "../../constants/Color";
 import Layout from "../../constants/Layout";
 import { RFValue } from "react-native-responsive-fontsize";
-import IconBox from "../../components/IconBox";
+import HomeIconBox from "../../components/HomeIconBox";
 import RicePost from "../../components/RicePost";
 
 const Container = styled.ScrollView`
   margin-top: 10px;
   margin-left: ${Layout.width / 20};
   margin-right: ${Layout.width / 20};
+  flex-grow: 1;
 `;
 const SquareBox = styled.View``;
 const SquareContainer = styled.View`
@@ -21,8 +21,7 @@ const SquareContainer = styled.View`
   margin-bottom: ${RFValue(20)};
   padding-bottom: ${RFValue(7)};
 `;
-const View = styled.View``;
-const RefreshControl = styled.RefreshControl``;
+
 const Title = styled.Text`
   padding-top: ${RFValue(15)};
   padding-bottom: ${RFValue(15)};
@@ -38,8 +37,11 @@ const IconContainer = styled.View`
 `;
 
 const HomePresenter = ({}) => (
-  <Container>
+  <Container keyboardShouldPersistTaps="handled">
     <SquareBox>
+      <SquareContainer>
+        <RicePost type="student" title="학생 식당" />
+      </SquareContainer>
       <SquareContainer>
         <RicePost type="student" title="학생 식당" />
       </SquareContainer>
@@ -55,7 +57,7 @@ const HomePresenter = ({}) => (
       </SquareContainer>
     </SquareBox>
     <IconContainer>
-      <IconBox
+      <HomeIconBox
         name={"home"}
         size={25}
         color={LIGHT_BLUE}
@@ -63,7 +65,7 @@ const HomePresenter = ({}) => (
         kind="TU 홈"
         url="http://www.m.tu.ac.kr/tu/index.jsp"
       />
-      <IconBox
+      <HomeIconBox
         name={"ios-calendar"}
         size={25}
         color={LIGHT_BLUE}
@@ -71,7 +73,7 @@ const HomePresenter = ({}) => (
         kind="학사 일정"
         url="http://m.tu.ac.kr/tu/html/04_life/life_02.jsp"
       />
-      <IconBox
+      <HomeIconBox
         name={"ios-book"}
         size={25}
         color={LIGHT_BLUE}
@@ -79,7 +81,7 @@ const HomePresenter = ({}) => (
         kind="열람실"
         url="http://libebook.tu.ac.kr:8081/EZ5500/SEAT/RoomStatus.aspx"
       />
-      <IconBox
+      <HomeIconBox
         name={"stack-overflow"}
         size={25}
         color={LIGHT_BLUE}
@@ -87,7 +89,7 @@ const HomePresenter = ({}) => (
         kind="마일리지"
         url="https://up.tu.ac.kr"
       />
-      <IconBox
+      <HomeIconBox
         name={"book"}
         size={25}
         color={LIGHT_BLUE}
