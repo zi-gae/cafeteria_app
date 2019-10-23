@@ -32,7 +32,9 @@ const GuideText = styled.Text`
   font-weight: 500;
 `;
 const RefreshControl = styled.RefreshControl``;
-
+const View = styled.View``;
+const TextInput = styled.TextInput``;
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scrollview";
 const SearchPresenter = ({ post, isFetching, searchingBy, onRefresh }) => {
   return (
     <ScrollContainer
