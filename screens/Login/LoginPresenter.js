@@ -8,8 +8,9 @@ import {
   LIGHT_GREY
 } from "../../constants/Color";
 import PropTypes from "prop-types";
+import { RFValue } from "react-native-responsive-fontsize";
 
-const Container = styled.View`
+const Container = styled.ScrollView`
   flex: 1;
 `;
 const Header = styled.View`
@@ -26,13 +27,6 @@ const Content = styled.View`
   padding: 10px;
   align-items: center;
   justify-content: center;
-`;
-const KaKaoContainer = styled.TouchableOpacity`
-  margin-top: 30px;
-`;
-const KaKaoView = styled.View`
-  flex-direction: row;
-  align-items: center;
 `;
 const TextInput = styled.TextInput`
   height: 50px;
@@ -63,11 +57,12 @@ const BtnText = styled.Text`
 `;
 const StatusBar = styled.StatusBar``;
 const ActivityIndicator = styled.ActivityIndicator``;
-const Image = styled.Image``;
+
 const Footer = styled.View`
   flex: 1;
   align-items: center;
   justify-content: flex-end;
+  margin-bottom: ${RFValue(15)};
 `;
 const FooterBox = styled.View`
   flex-direction: row;
@@ -94,7 +89,10 @@ const LoginPresenter = ({
   handleSubmit
 }) => {
   return (
-    <Container>
+    <Container
+      contentContainerStyle={{ flexGrow: 1 }}
+      keyboardShouldPersistTaps="handled"
+    >
       <StatusBar barStyle={"light-content"} />
       <Header>
         <Logo source={require("../../assets/images/logo.png")} />
@@ -131,14 +129,6 @@ const LoginPresenter = ({
             </BtnContainer>
           )}
         </Button>
-        <KaKaoContainer>
-          <KaKaoView>
-            <Image
-              source={require("../../assets/images/kakao_account.png")}
-              resizeMode="stretch"
-            />
-          </KaKaoView>
-        </KaKaoContainer>
       </Content>
       <Footer>
         <FooterBox>
