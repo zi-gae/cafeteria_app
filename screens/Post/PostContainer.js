@@ -19,12 +19,10 @@ class PostContainer extends Component {
   static navigationOptions = ({ navigation }) => ({
     headerTitle: <Title>자유게시판</Title>,
     headerLeft: (
-      <>
-        <Image
-          source={require("../../assets/images/logo.png")}
-          resizeMode={"contain"}
-        />
-      </>
+      <Image
+        source={require("../../assets/images/logo.png")}
+        resizeMode={"contain"}
+      />
     ),
     headerRight: (
       <NavButton

@@ -60,7 +60,6 @@ class PostDetailContainer extends Component {
       title,
       is_liked
     } = navigation.state.params;
-
     return (
       <PostDetailPresenter
         anonymous={anonymous}

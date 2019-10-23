@@ -62,6 +62,7 @@ const NotificationPresenter = ({
       <Touch
         onPress={() =>
           navigation.navigate("PostDetail", {
+            id,
             handleTakePress,
             anonymous,
             comment_count,
