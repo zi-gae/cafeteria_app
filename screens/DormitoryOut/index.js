@@ -1,10 +1,3 @@
-import React from "react";
-import { Text, View } from "react-native";
+import DormitoryOutContainer from "./DormitoryOutContainer";
 
-const DormitoryOut = () => (
-  <View>
-    <Text>DormitoryOut</Text>
-  </View>
-);
-
-export default DormitoryOut;
+export default DormitoryOutContainer;
