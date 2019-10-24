@@ -48,25 +48,27 @@ const RicePresenter = ({ rices, title, today }) => {
         <Title>{title}</Title>
         <Today>{today}</Today>
       </Header>
-      {rices.map((rice, i) => {
-        return (
-          <MenuBox key={i}>
-            {rice.map((menu, index) => {
-              if (index === 0 && title !== "교직원 식당") {
-                return <MenuTitle key={index}>{menu}</MenuTitle>;
-              } else {
-                return <Menu key={index}>{menu} </Menu>;
-              }
-            })}
-          </MenuBox>
-        );
-      })}
+      {rices
+        ? rices.map((rice, i) => {
+            return (
+              <MenuBox key={i}>
+                {rice.map((menu, index) => {
+                  if (index === 0 && title !== "교직원 식당") {
+                    return <MenuTitle key={index}>{menu}</MenuTitle>;
+                  } else {
+                    return <Menu key={index}>{menu} </Menu>;
+                  }
+                })}
+              </MenuBox>
+            );
+          })
+        : null}
     </View>
   );
 };
 
 RicePresenter.propTypes = {
-  rices: PropTypes.array.isRequired,
+  rices: PropTypes.array,
   title: PropTypes.string.isRequired
 };
 
