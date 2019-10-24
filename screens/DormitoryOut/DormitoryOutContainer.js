@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import DormitoryOutPresenter from "./DormitoryOutPresenter";
-import { Alert } from "react-native";
 import PropTypes from "prop-types";
+import { Alert } from "react-native";
 
 class DormitoryOutContainer extends Component {
   constructor() {
@@ -13,6 +13,9 @@ class DormitoryOutContainer extends Component {
       dormitoryOutEndDay: "",
       dormitoryOutReason: "귀가",
       isSubmitting: false,
+      startDay: false,
+      endDay: false,
+      TextInputDisable: true,
       minDate: "",
       maxDate: ""
     };
@@ -36,15 +39,19 @@ class DormitoryOutContainer extends Component {
     });
   };
 
-  changeDormitoryOutStartDay = text => {
+  changeDormitoryOutStartDay = date => {
+    const { dateString } = date;
     this.setState({
-      dormitoryOutStartDay: text
+      dormitoryOutStartDay: dateString,
+      startDay: false
     });
   };
 
-  changeDormitoryOutEndDay = text => {
+  changeDormitoryOutEndDay = date => {
+    const { dateString } = date;
     this.setState({
-      dormitoryOutEndDay: text
+      dormitoryOutEndDay: dateString,
+      endDay: false
     });
   };
 
@@ -54,23 +61,32 @@ class DormitoryOutContainer extends Component {
     });
   };
 
-  handleErrorAlert = logedMsg => {
+  chageSelectDay = day => {
     this.setState({
-      isSubmitting: false
+      selectedDate: day.dateString
     });
-    if (logedMsg === "pwdwrong") {
-      alert("아이디 또는 비밀번호가 틀렸습니다.");
-    } else if (logedMsg === "idlock") {
-      alert("비밀번호 5회로 계정이 잠겼습니다.");
-    } else if (logedMsg === "overlap") {
-      alert("이미 신청 되어 있습니다.");
-    } else if (logedMsg === "notaccess") {
-      alert("기숙사생이 아닙니다.");
-    } else if (logedMsg === "success") {
-      alert("신청 되었습니다.");
-      this.props.history.push("/");
+  };
+
+  handleStartDay = () => {
+    this.setState({
+      startDay: true
+    });
+  };
+
+  handleEndDay = () => {
+    if (this.state.dormitoryOutStartDay.length > 1) {
+      this.setState({
+        endDay: true
+      });
+    } else {
+      alert("외박 시작일을 선택 해주세요");
     }
   };
+
+  componentWillReceiveProps(nextProps) {
+    this.handleErrorAlert(nextProps.dormitoryOutState);
+  }
+
   componentDidMount() {
     let today = new Date();
     const dd = String(today.getDate()).padStart(2, "0");
@@ -83,7 +99,49 @@ class DormitoryOutContainer extends Component {
       maxDate
     });
   }
-  handleSubmit = async () => {
+
+  resetState = () => {
+    this.setState({
+      isSubmitting: false,
+      collegeStudentId: "",
+      collegeStudentPwd: "",
+      dormitoryOutStartDay: "",
+      dormitoryOutEndDay: "",
+      dormitoryOutReason: "",
+      TextInputDisable: true
+    });
+  };
+
+  handleErrorAlert = logedMsg => {
+    if (logedMsg === "pwdwrong") {
+      Alert.alert("알림💡", "아이디 또는 비밀번호가 틀려요!", [
+        { text: "OK", onPress: () => {} }
+      ]);
+      this.resetState();
+    } else if (logedMsg === "idlock") {
+      alert("비밀번호 5회를 틀려 계정이 잠겼어요!");
+      Alert.alert("알림💡", "비밀번호 5회 오류로 계정이 잠겼어요!", [
+        { text: "OK", onPress: () => {} }
+      ]);
+      this.resetState();
+    } else if (logedMsg === "overlap") {
+      Alert.alert("알림💡", "이미 신청 되어 있어요!", [
+        { text: "OK", onPress: () => {} }
+      ]);
+      this.resetState();
+    } else if (logedMsg === "notaccess") {
+      Alert.alert("알림💡", "기숙사생이 아닌것만 같은데...", [
+        { text: "OK", onPress: () => {} }
+      ]);
+      this.resetState();
+    } else if (logedMsg === "success") {
+      Alert.alert("알림💡", "외박신청 완료!", [
+        { text: "OK", onPress: () => {} }
+      ]);
+    }
+  };
+
+  handleSubmit = () => {
     const {
       collegeStudentId,
       collegeStudentPwd,
@@ -102,25 +160,21 @@ class DormitoryOutContainer extends Component {
         dormitoryOutEndDay &&
         dormitoryOutReason
       ) {
-        let result;
-        this.setState(
-          {
-            isSubmitting: true
-          },
-          async () => {
-            result = await dormitoryOut(
-              collegeStudentId,
-              collegeStudentPwd,
-              dormitoryOutStartDay.substring(dormitoryOutStartDay.length - 2),
-              dormitoryOutEndDay.substring(dormitoryOutEndDay.length - 2),
-              dormitoryOutReason
-            );
-          }
+        this.setState({
+          isSubmitting: true,
+          TextInputDisable: false
+        });
+        dormitoryOut(
+          collegeStudentId,
+          collegeStudentPwd,
+          dormitoryOutStartDay.substring(dormitoryOutStartDay.length - 2),
+          dormitoryOutEndDay.substring(dormitoryOutEndDay.length - 2),
+          dormitoryOutReason
         );
-        console.log(result);
-        this.handleErrorAlert(result);
       } else {
-        Alert.alert("모두 입력 해주세요!");
+        Alert.alert("알림💡", "모두 입력해주세요!", [
+          { text: "OK", onPress: () => {} }
+        ]);
       }
     }
   };
@@ -134,7 +188,10 @@ class DormitoryOutContainer extends Component {
       dormitoryOutReason,
       isSubmitting,
       minDate,
-      maxDate
+      maxDate,
+      startDay,
+      endDay,
+      TextInputDisable
     } = this.state;
 
     const {
@@ -143,7 +200,9 @@ class DormitoryOutContainer extends Component {
       changeDormitoryOutStartDay,
       changeDormitoryOutEndDay,
       changeDormitoryOutReason,
-      handleSubmit
+      handleSubmit,
+      handleStartDay,
+      handleEndDay
     } = this;
 
     return (
@@ -162,6 +221,11 @@ class DormitoryOutContainer extends Component {
         isSubmitting={isSubmitting}
         minDate={minDate}
         maxDate={maxDate}
+        startDay={startDay}
+        endDay={endDay}
+        handleStartDay={handleStartDay}
+        handleEndDay={handleEndDay}
+        TextInputDisable={TextInputDisable}
       />
     );
   }

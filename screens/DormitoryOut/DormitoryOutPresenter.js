@@ -9,14 +9,27 @@ import {
 } from "../../constants/Color";
 import PropTypes from "prop-types";
 import { RFValue } from "react-native-responsive-fontsize";
-import DatePicker from "react-native-datepicker";
+import { Calendar } from "react-native-calendars";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-const Container = styled.ScrollView`
+const KeyboardAware = styled(KeyboardAwareScrollView)``;
+const Container = styled.View`
   margin-top: ${RFValue(20)};
+  flex: 1;
 `;
 const Header = styled.View`
   align-items: center;
-  justify-content: flex-end;
+`;
+const HeaderText = styled.Text`
+  color: ${LIGHT_GREY};
+  margin-bottom: ${RFValue(5)};
+  font-weight: 500;
+`;
+const LogoText = styled.Text`
+  font-size: ${RFValue(20)};
+  color: ${LIGTH_GREEN};
+  font-weight: bold;
+  margin-bottom: ${RFValue(25)};
 `;
 const Logo = styled.Image`
   width: 180px;
@@ -45,7 +58,7 @@ const Button = styled.TouchableOpacity`
   border-radius: 3px;
   background-color: ${LIGTH_GREEN};
   width: ${Layout.width / 1.6};
-  height: 30px;
+  height: ${RFValue(28)};
 `;
 const BtnContainer = styled.View`
   padding: 7px 20px 7px 20px;
@@ -58,13 +71,19 @@ const BtnText = styled.Text`
 `;
 const StatusBar = styled.StatusBar``;
 const ActivityIndicator = styled.ActivityIndicator``;
-const DateBox = styled.View`
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: ${RFValue(1)};
-  margin-bottom: ${RFValue(7)};
-  margin-right: ${RFValue(30)};
+const DateChoice = styled.TouchableOpacity`
+  height: ${RFValue(33)};
+  width: ${Layout.width / 1.6};
+  justify-content: center;
+  padding-left: ${RFValue(10)};
+  border-style: solid;
+  border-width: 1px;
+  border-color: ${BODER_COLOR};
+  border-radius: 3px;
+  margin-bottom: 5px;
+`;
+const DateText = styled.Text`
+  color: ${props => (props.date ? "black" : `${LIGHT_GREY}`)};
 `;
 
 const DormitoryOutPresenter = ({
@@ -81,124 +100,126 @@ const DormitoryOutPresenter = ({
   handleSubmit,
   isSubmitting,
   minDate,
-  maxDate
-}) => (
-  <Container keyboardShouldPersistTaps="handled">
-    <StatusBar barStyle={"light-content"} />
-    <Header>
-      <Logo source={require("../../assets/images/logo.png")} />
-    </Header>
-    <Content>
-      <TextInput
-        placeholder="학번"
-        keyboardType="number-pad"
-        autoCompleteType="username"
-        autoCorrect={false}
-        returnKeyType="next"
-        value={collegeStudentId}
-        onChangeText={changeCollegeStudentId}
-        onSubmitEditing={() => this.passwordRefOne.focus()}
-      />
+  maxDate,
+  startDay,
+  endDay,
+  handleStartDay,
+  handleEndDay,
+  TextInputDisable
+}) => {
+  return (
+    <Container>
+      <KeyboardAware>
+        <StatusBar barStyle={"light-content"} />
+        <Header>
+          <Logo source={require("../../assets/images/logo.png")} />
+          <HeaderText>외박 신청을 더 편하고 빠르게</HeaderText>
+          <HeaderText>기숙사생 취향저격</HeaderText>
+          <LogoText>동명대학식이</LogoText>
+        </Header>
 
-      <TextInput
-        ref={passwordRefOne => (this.passwordRefOne = passwordRefOne)}
-        placeholder="비밀번호"
-        secureTextEntry={true}
-        autoCompleteType="password"
-        autoCorrect={false}
-        returnKeyType="next"
-        value={collegeStudentPwd}
-        onChangeText={changeCollegeStudentPwd}
-        onSubmitEditing={() => this.dormitoryOutStartDayRef.onPressDate()}
-      />
-      <DateBox>
-        <DatePicker
-          ref={dormitoryOutStartDayRef =>
-            (this.dormitoryOutStartDayRef = dormitoryOutStartDayRef)
-          }
-          locale={"ko"}
-          style={{ width: RFValue(148), marginRight: RFValue(10) }}
-          date={dormitoryOutStartDay}
-          mode="date"
-          placeholder="외박 시작일"
-          format="YYYY-MM-DD"
-          minDate={minDate}
-          maxDate={maxDate}
-          confirmBtnText="확인"
-          cancelBtnText="Cancel"
-          customStyles={{
-            dateIcon: {
-              position: "absolute",
-              left: 0,
-              top: 4,
-              marginLeft: 0
-            },
-            dateInput: {
-              marginLeft: RFValue(35),
-              height: RFValue(35),
-              borderRadius: 3,
-              borderColor: LIGHT_GREY,
-              borderWidth: 0.5
+        <Content>
+          <TextInput
+            editable={TextInputDisable}
+            placeholder="학번"
+            keyboardType="number-pad"
+            autoCompleteType="username"
+            autoCorrect={false}
+            returnKeyType="next"
+            value={collegeStudentId}
+            onChangeText={changeCollegeStudentId}
+            onSubmitEditing={() => this.passwordRefOne.focus()}
+          />
+
+          <TextInput
+            editable={TextInputDisable}
+            ref={passwordRefOne => (this.passwordRefOne = passwordRefOne)}
+            placeholder="비밀번호"
+            secureTextEntry={true}
+            autoCompleteType="password"
+            autoCorrect={false}
+            returnKeyType="next"
+            value={collegeStudentPwd}
+            onChangeText={changeCollegeStudentPwd}
+            onSubmitEditing={() => this.dormitoryOutStartDayRef.onPressDate()}
+          />
+
+          {startDay ? (
+            <Calendar
+              onDayPress={day => {
+                changeDormitoryOutStartDay(day);
+              }}
+              minDate={minDate}
+              maxDate={maxDate}
+              markedDates={{
+                [dormitoryOutStartDay]: {
+                  selected: true,
+                  selectedColor: "blue"
+                }
+              }}
+            />
+          ) : (
+            <DateChoice onPress={TextInputDisable ? handleStartDay : null}>
+              {dormitoryOutStartDay ? (
+                <DateText date={true}>{dormitoryOutStartDay}</DateText>
+              ) : (
+                <DateText date={false}>외박 시작일</DateText>
+              )}
+            </DateChoice>
+          )}
+
+          {endDay ? (
+            <Calendar
+              onDayPress={day => {
+                changeDormitoryOutEndDay(day);
+              }}
+              current={dormitoryOutStartDay}
+              minDate={dormitoryOutStartDay}
+              maxDate={maxDate}
+              markedDates={{
+                [dormitoryOutEndDay]: {
+                  selected: true,
+                  selectedColor: "blue"
+                }
+              }}
+            />
+          ) : (
+            <DateChoice onPress={TextInputDisable ? handleEndDay : null}>
+              {dormitoryOutEndDay ? (
+                <DateText date={true}>{dormitoryOutEndDay}</DateText>
+              ) : (
+                <DateText date={false}>기숙사 복귀일</DateText>
+              )}
+            </DateChoice>
+          )}
+
+          <TextInput
+            editable={TextInputDisable}
+            ref={dormitoryOutReasonRef =>
+              (this.dormitoryOutReasonRef = dormitoryOutReasonRef)
             }
-          }}
-          onDateChange={changeDormitoryOutStartDay}
-        />
-        <DatePicker
-          ref={dormitoryOutEndDayRef =>
-            (this.dormitoryOutEndDayRef = dormitoryOutEndDayRef)
-          }
-          locale={"ko"}
-          style={{ width: RFValue(113) }}
-          date={dormitoryOutEndDay}
-          mode="date"
-          placeholder="긱사 복귀일"
-          format="YYYY-MM-DD"
-          minDate={minDate}
-          maxDate={maxDate}
-          confirmBtnText="확인"
-          cancelBtnText="Cancel"
-          customStyles={{
-            dateIcon: {
-              position: "absolute",
-              right: 0,
-              top: 4,
-              marginLeft: 0,
-              opacity: 0
-            },
-            dateInput: {
-              height: RFValue(35),
-              borderRadius: 3,
-              borderColor: LIGHT_GREY,
-              borderWidth: 0.5
-            }
-          }}
-          onDateChange={changeDormitoryOutEndDay}
-        />
-      </DateBox>
-      <TextInput
-        ref={dormitoryOutReasonRef =>
-          (this.dormitoryOutReasonRef = dormitoryOutReasonRef)
-        }
-        placeholder="외박 사유"
-        keyboardType="default"
-        returnKeyType="done"
-        value={dormitoryOutReason}
-        autoCorrect={false}
-        onChangeText={changeDormitoryOutReason}
-        onSubmitEditing={handleSubmit}
-      />
-      <Button onPress={handleSubmit}>
-        {isSubmitting ? (
-          <ActivityIndicator color="white" />
-        ) : (
-          <BtnContainer>
-            <BtnText>외박신청</BtnText>
-          </BtnContainer>
-        )}
-      </Button>
-    </Content>
-  </Container>
-);
+            placeholder="외박 사유"
+            keyboardType="default"
+            returnKeyType="done"
+            value={dormitoryOutReason}
+            autoCorrect={false}
+            onChangeText={changeDormitoryOutReason}
+            onSubmitEditing={handleSubmit}
+          />
+          <Button onPress={handleSubmit}>
+            {isSubmitting ? (
+              <ActivityIndicator color="white" />
+            ) : (
+              <BtnContainer>
+                <BtnText>외박신청</BtnText>
+              </BtnContainer>
+            )}
+          </Button>
+        </Content>
+      </KeyboardAware>
+    </Container>
+  );
+};
 
 DormitoryOutPresenter.propTypes = {
   changeCollegeStudentId: PropTypes.func.isRequired,
@@ -214,7 +235,12 @@ DormitoryOutPresenter.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   isSubmitting: PropTypes.bool.isRequired,
   minDate: PropTypes.string.isRequired,
-  maxDate: PropTypes.string.isRequired
+  maxDate: PropTypes.string.isRequired,
+  startDay: PropTypes.bool.isRequired,
+  endDay: PropTypes.bool.isRequired,
+  handleStartDay: PropTypes.func.isRequired,
+  handleEndDay: PropTypes.func.isRequired,
+  TextInputDisable: PropTypes.bool.isRequired
 };
 
 export default DormitoryOutPresenter;
