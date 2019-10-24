@@ -1,6 +1,6 @@
-import axios from "axios";
 import { actionCreators as userActions } from "./user";
 import { URL } from "../../constants";
+import { Alert } from "react-native";
 
 const OUT_DORMITORY = "OUT_DORMITORY";
 const GET_RICE = "GET_RICE";
@@ -30,36 +30,46 @@ const postDormitoryOut = (
     const {
       user: { token }
     } = getState();
-    const res = await axios({
-      url: `${URL}/crawler/dormitory/`,
+
+    await fetch(`${URL}/crawler/dormitory/`, {
       method: "post",
       headers: {
         Authorization: `JWT ${token}`,
         "Content-type": "application/json"
       },
-      data: {
+      body: JSON.stringify({
         tu_id: collegeStudentId,
         tu_password: collegeStudentPwd,
         first_day: dormitoryOutStartDay,
         second_day: dormitoryOutEndtDay,
         apply_text: dormitoryOutReason
-      }
-    });
-    const {
-      data: { message }
-    } = res;
-    if (message.includes("비밀번호 입력")) {
-      dispatch(dormitoryOut("pwdwrong"));
-      return "pwdwrong";
-    } else if (message.includes("비밀번호 5회")) {
-      dispatch(dormitoryOut("idlock"));
-    } else if (message.includes("같은 기간에")) {
-      dispatch(dormitoryOut("overlap"));
-    } else if (message.includes("생활관생만")) {
-      dispatch(dormitoryOut("notaccess"));
-    } else {
-      dispatch(dormitoryOut("success"));
-    }
+      })
+    })
+      .then(res => {
+        if (res.status === 401) {
+          Alert.alert("알림💡", "권힌이 없어요! 로그인 후 실행해 주세요ㅠ", [
+            { text: "OK", onPress: () => {} }
+          ]);
+        } else if (res.status === 500) {
+          dispatch(dormitoryOut("error"));
+        } else {
+          return res.json();
+        }
+      })
+      .then(json => {
+        const { message } = json;
+        if (message.includes("비밀번호 입력")) {
+          dispatch(dormitoryOut("pwdwrong"));
+        } else if (message.includes("비밀번호 5회")) {
+          dispatch(dormitoryOut("idlock"));
+        } else if (message.includes("같은 기간에")) {
+          dispatch(dormitoryOut("overlap"));
+        } else if (message.includes("생활관생만")) {
+          dispatch(dormitoryOut("notaccess"));
+        } else {
+          dispatch(dormitoryOut("success"));
+        }
+      });
   };
 };
 
@@ -68,18 +78,22 @@ const getRice = () => {
     const {
       user: { token }
     } = getState();
-    const res = await axios({
-      url: `${URL}/crawler/rice/`,
+    fetch(`${URL}/crawler/rice/`, {
       method: "get",
       headers: {
         Authorization: `JWT ${token}`
       }
-    });
-    if (res.status === 200) {
-      dispatch(reqeustGetRice(res.data));
-    } else {
-      dispatch(userActions.logout());
-    }
+    })
+      .then(res => {
+        if (res.status === 200) {
+          return res.json();
+        } else {
+          dispatch(userActions.logout());
+        }
+      })
+      .then(json => {
+        return dispatch(reqeustGetRice(json));
+      });
   };
 };
 
