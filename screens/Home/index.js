@@ -6,7 +6,6 @@ const mapStateToProps = (state, ownProps) => {
     posts: { post },
     crawlers
   } = state;
-
   return {
     post,
     crawlers

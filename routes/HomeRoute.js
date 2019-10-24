@@ -8,8 +8,8 @@ const HomeRoute = createStackNavigator(
       screen: Home
     },
     ...sharedRoutes
-  }
-  // { ...sharedOptions }
+  },
+  { ...sharedOptions }
 );
 
 export default createAppContainer(HomeRoute);

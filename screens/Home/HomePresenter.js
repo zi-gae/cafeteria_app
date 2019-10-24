@@ -51,7 +51,6 @@ const HomePresenter = () => (
       <SquareContainer>
         <RicePost type="professor" title="교직원 식당" />
       </SquareContainer>
-
       <SquareContainer>
         <Title>현재 인기글</Title>
       </SquareContainer>
