@@ -85,14 +85,22 @@ const NotificationPresenter = ({
           <NotifiPreview>
             <PreviewTitle>자유게시판</PreviewTitle>
             {notification_type === "comment" && (
-              <PreviewContent>새로운 댓글이 달렸어요: {comment}</PreviewContent>
+              <PreviewContent>
+                새로운 댓글이 달렸어요:{" "}
+                {comment.length > 7
+                  ? `${comment.substring(0, 7)}...`
+                  : { comment }}
+              </PreviewContent>
             )}
             {notification_type === "like" && (
               <PreviewContent>게시글이 좋아요를 받았어요</PreviewContent>
             )}
             {notification_type === "on_comment" && (
               <PreviewContent>
-                새로운 대댓글이 달렸어요: {comment}
+                새로운 대댓글이 달렸어요:{" "}
+                {comment.length > 7
+                  ? `${comment.substring(0, 7)}...`
+                  : { comment }}
               </PreviewContent>
             )}
             <TimeStamp time={time} />
