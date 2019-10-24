@@ -34,27 +34,24 @@ const Title = styled.Text`
 const IconContainer = styled.View`
   flex-direction: row;
   justify-content: space-around;
+  margin-bottom: ${RFValue(20)};
 `;
 
 const HomePresenter = () => (
   <Container showsVerticalScrollIndicator={false}>
-    <SquareBox>
-      <SquareContainer>
-        <RicePost type="student" title="학생 식당" />
-      </SquareContainer>
-      <SquareContainer>
-        <RicePost type="student" title="학생 식당" />
-      </SquareContainer>
-      <SquareContainer>
-        <RicePost type="dormitory" title="기숙사 식당" />
-      </SquareContainer>
-      <SquareContainer>
-        <RicePost type="professor" title="교직원 식당" />
-      </SquareContainer>
-      <SquareContainer>
-        <Title>현재 인기글</Title>
-      </SquareContainer>
-    </SquareBox>
+    <SquareContainer>
+      <RicePost type="student" title="학생 식당" />
+    </SquareContainer>
+    <SquareContainer>
+      <RicePost type="student" title="학생 식당" />
+    </SquareContainer>
+    <SquareContainer>
+      <RicePost type="dormitory" title="기숙사 식당" />
+    </SquareContainer>
+    <SquareContainer>
+      <RicePost type="professor" title="교직원 식당" />
+    </SquareContainer>
+
     <IconContainer>
       <HomeIconBox
         name={"home"}
@@ -97,6 +94,9 @@ const HomePresenter = () => (
         url="http://lib.tu.ac.kr"
       />
     </IconContainer>
+    <SquareContainer>
+      <Title>현재 인기글</Title>
+    </SquareContainer>
   </Container>
 );
 // Home 디자인
