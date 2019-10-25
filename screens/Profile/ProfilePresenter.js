@@ -2,7 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import Layout from "../../constants/Layout";
 import { RFValue } from "react-native-responsive-fontsize";
-import { BODER_COLOR, DARK_GREEN, LIGHT_GREY } from "../../constants/Color";
+import {
+  BODER_COLOR,
+  LIGHT_GREY,
+  DARK_GREEN,
+  LIGTH_GREEN
+} from "../../constants/Color";
 
 const Container = styled.ScrollView`
   margin-top: 10px;
@@ -47,8 +52,51 @@ const Text = styled.Text`
 `;
 const Touch = styled.TouchableOpacity``;
 
+const NicknameBox = styled.View`
+  width: ${Layout.width / 2};
+  flex-direction: row;
+`;
+
+const NicknameInput = styled.TextInput`
+  background-color: ${BODER_COLOR};
+  padding-top: ${RFValue(5)};
+  padding-left: ${RFValue(10)};
+  padding-right: ${RFValue(50)};
+  padding-bottom: ${RFValue(5)};
+  border-radius: 5px;
+  width: ${Layout.width / 2};
+  margin-bottom: ${RFValue(20)};
+`;
+const Button = styled.TouchableOpacity`
+  position: absolute;
+  right: 0;
+  justify-content: center;
+  align-items: center;
+`;
+const ButtonBox = styled.View`
+  flex: 1;
+  background-color: ${LIGTH_GREEN};
+  justify-content: center;
+  padding-left: ${RFValue(10)};
+  padding-right: ${RFValue(10)};
+  padding-top: ${RFValue(7)};
+  padding-bottom: ${RFValue(7)};
+  border-radius: 5px;
+`;
+const ButtonText = styled.Text`
+  font-size: ${RFValue(10)};
+  color: white;
+`;
 // Profile 디자인
-const ProfilePresenter = () => (
+const ProfilePresenter = ({
+  changeProfile,
+  handleNicknameInput,
+  openNicknameInput,
+  changeNickname,
+  nickname,
+  submitLogout,
+  user
+}) => (
   <Container>
     <BorderBox>
       <ProfileBox>
@@ -57,9 +105,9 @@ const ProfilePresenter = () => (
           source={require("../../assets/images/noProfile.png")}
         />
         <ProfileTextBox>
-          <ProfileText nickname={true}>tu학식이</ProfileText>
-          <ProfileText nickname={false}>admin</ProfileText>
-          <ProfileText nickname={false}>14110088</ProfileText>
+          <ProfileText nickname={true}>{user.profile.name}</ProfileText>
+          <ProfileText nickname={false}>{user.profile.username}</ProfileText>
+          <ProfileText nickname={false}>{user.profile.stdntnum}</ProfileText>
         </ProfileTextBox>
       </ProfileBox>
     </BorderBox>
@@ -71,10 +119,30 @@ const ProfilePresenter = () => (
       <Touch>
         <Text header={false}>프로필 변경</Text>
       </Touch>
-      <Touch>
-        <Text header={false}>닉네임 변경</Text>
+      <Touch onPress={handleNicknameInput}>
+        {openNicknameInput ? (
+          <NicknameBox>
+            <NicknameInput
+              returnKeyType="done"
+              autoCapitalize="none"
+              autoCompleteType="off"
+              autoCorrect={false}
+              autoFocus={true}
+              value={nickname}
+              onChangeText={changeNickname}
+              onSubmitEditing={changeProfile}
+            />
+            <Button onPress={changeProfile}>
+              <ButtonBox>
+                <ButtonText>변경</ButtonText>
+              </ButtonBox>
+            </Button>
+          </NicknameBox>
+        ) : (
+          <Text header={false}>닉네임 변경</Text>
+        )}
       </Touch>
-      <Touch>
+      <Touch onPress={submitLogout}>
         <Text header={false}>로그아웃</Text>
       </Touch>
     </BorderBox>
