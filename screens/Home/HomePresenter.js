@@ -12,7 +12,6 @@ const Container = styled.ScrollView`
   margin-right: ${Layout.width / 20};
   flex-grow: 1;
 `;
-const SquareBox = styled.View``;
 const SquareContainer = styled.View`
   border-radius: 15px;
   border-style: solid;

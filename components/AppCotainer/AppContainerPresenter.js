@@ -23,7 +23,7 @@ class AppContainerPresenter extends Component {
       initApp();
     }
   }
-  componentWillReceiveProps(nextProps, nextState) {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.crawlers !== this.props.crawlers) {
       this.setState({
         view: true

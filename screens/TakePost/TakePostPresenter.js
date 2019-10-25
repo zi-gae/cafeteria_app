@@ -136,7 +136,6 @@ const TakePostPresenter = ({
         </ActionContainer>
       </PostInfo>
     </InnerContainer>
-
     {file ? (
       <FadeIn>
         <ContentImg source={{ uri: file }} />
