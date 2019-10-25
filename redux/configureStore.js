@@ -10,6 +10,7 @@ const middlewares = [thunk];
 
 const persistConfig = {
   key: "root",
+  blacklist: ["crawlers"],
   storage
 };
 
