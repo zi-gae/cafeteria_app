@@ -2,6 +2,7 @@
 
 import { URL } from "../../constants";
 import { AsyncStorage } from "react-native";
+import axios from "axios";
 
 //actions
 
@@ -10,6 +11,7 @@ const LOG_OUT = "LOG_OUT";
 const SET_USER = "SET_USER";
 const SIGN_UP = "SIGN_UP";
 const SET_NOTIFICATION = "SET_NOTIFICATION";
+const MODIFY_NICKNAME = "MODIFY_NICKNAME";
 
 // action creators
 
@@ -37,6 +39,13 @@ const reqSetNotification = notification => {
   return {
     type: SET_NOTIFICATION,
     notification
+  };
+};
+
+const reqModifyNickname = profile => {
+  return {
+    type: MODIFY_NICKNAME,
+    profile
   };
 };
 // api actions
@@ -137,6 +146,32 @@ const getOwnProfile = () => {
   };
 };
 
+const postNickname = nickname => {
+  return (dispatch, getState) => {
+    const {
+      user: {
+        token,
+        profile: { username }
+      }
+    } = getState();
+    let formData = new FormData();
+    formData.append("name", nickname);
+    axios(`${URL}/users/${username}/`, {
+      method: "post",
+      headers: {
+        Authorization: `JWT ${token}`
+      },
+      data: formData
+    }).then(res => {
+      if (res.status === 401) {
+        return dispatch(logOut());
+      } else {
+        return dispatch(reqModifyNickname(res.data));
+      }
+    });
+  };
+};
+
 // instial state
 
 const initialState = {
@@ -155,6 +190,8 @@ const reducer = (state = initialState, action) => {
       return applySetUser(state, action);
     case SET_NOTIFICATION:
       return applySetNotification(state, action);
+    case MODIFY_NICKNAME:
+      return applyModifyNickname(state, action);
     default:
       return state;
   }
@@ -196,13 +233,22 @@ const applySetNotification = (state, action) => {
   };
 };
 
+const applyModifyNickname = (state, action) => {
+  const { profile } = action;
+  return {
+    ...state,
+    profile
+  };
+};
+
 // exports
 
 const actionCreators = {
   login,
   logOut,
   getNotification,
-  getOwnProfile
+  getOwnProfile,
+  postNickname
 };
 
 export { actionCreators };
