@@ -62,7 +62,7 @@ class PostContainer extends Component {
   };
 
   render() {
-    const { getPost, post } = this.props;
+    const { getPost, post, navigation } = this.props;
 
     const { isFetching } = this.state;
     return (
@@ -71,6 +71,7 @@ class PostContainer extends Component {
         post={post}
         refresh={this.refresh}
         isFetching={isFetching}
+        navigation={navigation}
       />
     );
   }

@@ -40,7 +40,7 @@ const WriteText = styled.Text`
   margin-left: ${RFValue(6)};
 `;
 
-const PostPresenter = ({ isFetching, refresh, post }) => (
+const PostPresenter = ({ isFetching, refresh, post, navigation }) => (
   <Container>
     <ScrollContainer
       refreshControl={
@@ -56,7 +56,7 @@ const PostPresenter = ({ isFetching, refresh, post }) => (
           post.map(getPost => <TakePost {...getPost} key={getPost.id} />)}
       </PostContainer>
     </ScrollContainer>
-    <Touch>
+    <Touch onPress={() => navigation.navigate("WritePost")}>
       <WriteButton>
         <EvilIcons name="pencil" color={LIGTH_GREEN} size={RFValue(25)} />
         <WriteText>글 쓰기</WriteText>

@@ -3,6 +3,7 @@ import Search from "../screens/Search";
 import { BG_COLOR_WHITE, LIGTH_GREEN } from "../constants/Color";
 import NavButton from "../components/NavButton";
 import PostDetail from "../components/PostDetail";
+import WritePost from "../components/WritePost";
 
 const sharedRoutes = {
   PostDetail: {
@@ -10,8 +11,12 @@ const sharedRoutes = {
   },
   Search: {
     screen: Search
+  },
+  WritePost: {
+    screen: WritePost
   }
 };
+
 const sharedOptions = {
   defaultNavigationOptions: {
     headerLeft: props => (

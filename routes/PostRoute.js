@@ -9,7 +9,10 @@ const PostRoute = createStackNavigator(
     },
     ...sharedRoutes
   },
-  { ...sharedOptions }
+  {
+    mode: "modal",
+    ...sharedOptions
+  }
 );
 
 export default createAppContainer(PostRoute);
