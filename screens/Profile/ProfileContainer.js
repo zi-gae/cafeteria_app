@@ -1,5 +1,4 @@
 import React, { PureComponent } from "react";
-import { View, Text } from "react-native";
 import ProfilePresenter from "./ProfilePresenter";
 
 class ProfileContainer extends PureComponent {
@@ -12,11 +11,7 @@ class ProfileContainer extends PureComponent {
   });
 
   render() {
-    return (
-      <View>
-        <ProfilePresenter />
-      </View>
-    );
+    return <ProfilePresenter />;
   }
 }
 
