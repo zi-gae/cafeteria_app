@@ -84,6 +84,7 @@ const DateChoice = styled.TouchableOpacity`
 `;
 const DateText = styled.Text`
   color: ${props => (props.date ? "black" : `${LIGHT_GREY}`)};
+  font-size: ${RFValue(12)};
 `;
 
 const DormitoryOutPresenter = ({

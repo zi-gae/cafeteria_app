@@ -16,7 +16,6 @@ const PostContainer = styled.View`
   border-bottom-color: ${BODER_COLOR};
   border-bottom-width: 1px;
   padding-bottom: 10px;
-  margin-bottom: 10px;
 `;
 const CreatorContainer = styled.View`
   flex-direction: row;
@@ -56,6 +55,7 @@ const ContentImg = styled.Image`
 const CommentContianer = styled.View`
   border-bottom-color: ${BODER_COLOR};
   border-bottom-width: 1px;
+  margin-top: ${RFValue(10)};
 `;
 const CommentBox = styled.View`
   background-color: ${props => (props.onComment ? "#f9f8f9" : "white")};

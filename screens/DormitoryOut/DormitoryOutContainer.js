@@ -138,6 +138,7 @@ class DormitoryOutContainer extends Component {
       Alert.alert("알림💡", "외박신청 완료!", [
         { text: "OK", onPress: () => {} }
       ]);
+      this.resetState();
     }
   };
 

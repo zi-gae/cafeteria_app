@@ -85,7 +85,7 @@ const TakePostPresenter = ({
 }) => (
   <Container>
     <InnerContainer
-      onPressOut={() =>
+      onPress={() =>
         navigation.navigate("PostDetail", {
           id,
           anonymous,

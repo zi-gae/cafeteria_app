@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Layout from "../../constants/Layout";
-import { RFValue } from "react-native-responsive-fontsize";
+import { RFValue, RFPercentage } from "react-native-responsive-fontsize";
 import {
   BODER_COLOR,
   LIGHT_GREY,
@@ -59,7 +59,7 @@ const NicknameBox = styled.View`
 
 const NicknameInput = styled.TextInput`
   background-color: ${BODER_COLOR};
-  padding-top: ${RFValue(5)};
+  padding-top: ${RFValue(4)};
   padding-left: ${RFValue(10)};
   padding-right: ${RFValue(50)};
   padding-bottom: ${RFValue(5)};
@@ -72,9 +72,9 @@ const Button = styled.TouchableOpacity`
   right: 0;
   justify-content: center;
   align-items: center;
+  flex: 1;
 `;
 const ButtonBox = styled.View`
-  flex: 1;
   background-color: ${LIGTH_GREEN};
   justify-content: center;
   padding-left: ${RFValue(10)};

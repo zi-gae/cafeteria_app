@@ -31,15 +31,20 @@ class NotificationContainer extends PureComponent {
 
   refresh = () => {
     const { getNotifications } = this.props;
-    this.setState({
-      isFetching: true
-    });
-    getNotifications();
+    this.setState(
+      {
+        isFetching: true
+      },
+      () => {
+        getNotifications();
+      }
+    );
   };
 
   render() {
     const { notification } = this.props;
     const { isFetching } = this.state;
+
     return (
       <NotificationPresenter
         isFetching={isFetching}
