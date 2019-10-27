@@ -89,11 +89,13 @@ const NotificationPresenter = ({
                 새로운 댓글이 달렸어요:{" "}
                 {comment.length > 7
                   ? `${comment.substring(0, 7)}...`
-                  : { comment }}
+                  : `${comment}`}
               </PreviewContent>
             )}
             {notification_type === "like" && (
-              <PreviewContent>게시글이 좋아요를 받았어요</PreviewContent>
+              <PreviewContent>
+                내가 작성한 게시글이 좋아요를 받았어요
+              </PreviewContent>
             )}
             {notification_type === "on_comment" && (
               <PreviewContent>
