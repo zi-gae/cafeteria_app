@@ -11,9 +11,6 @@ const sharedRoutes = {
   },
   Search: {
     screen: Search
-  },
-  WritePost: {
-    screen: WritePost
   }
 };
 

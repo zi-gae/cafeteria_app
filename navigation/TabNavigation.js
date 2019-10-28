@@ -7,6 +7,7 @@ import DormitoryOutRoute from "../routes/DormitoryOutRoute";
 import PostRoute from "../routes/PostRoute";
 import ProfileRoute from "../routes/ProfileRoute";
 import { BG_COLOR_WHITE, LIGTH_GREEN, LIGHT_GREY } from "../constants/Color";
+import { View } from "react-native";
 
 const TabNavigation = createBottomTabNavigator(
   {
@@ -26,17 +27,18 @@ const TabNavigation = createBottomTabNavigator(
     },
     PostRoute: {
       screen: PostRoute,
-      navigationOptions: {
-        tabBarIcon: ({ focused }) => {
-          return (
-            <Ionicons
-              name="md-text"
-              size={30}
-              color={focused ? LIGTH_GREEN : LIGHT_GREY}
-            />
-          );
-        }
-      }
+      navigationOptions: () => ({
+        tabBarIcon: ({ focused }) => (
+          <Ionicons
+            name="md-text"
+            size={30}
+            color={focused ? LIGTH_GREEN : LIGHT_GREY}
+          />
+        )
+        // tabBarOnPress: ({ navigation }) => {
+        //   console.log(navigation.navigate("Post"));
+        // }
+      })
     },
     DormitoryOut: {
       screen: DormitoryOutRoute,
@@ -81,7 +83,20 @@ const TabNavigation = createBottomTabNavigator(
       }
     }
   },
+
   {
+    // tabBarComponent:({jumpToIndex, ...props, navigation}) =>(
+    //   <TabBarBottom
+    //   {...props}
+    //   jumpToIndex = {index => {
+    //     if(index === 2){
+    //       navigation.navigate("TakePhoto")
+    //     }else{
+    //       jumpToIndex(index)
+    //     }
+    //   }}
+    //   />
+    // ),
     tabBarPosition: "bottom",
     tabBarOptions: {
       showLabel: false,

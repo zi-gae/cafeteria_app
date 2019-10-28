@@ -1,25 +1,20 @@
 import { createAppContainer, createStackNavigator } from "react-navigation";
-import TakePost from "../screens/TakePost";
+
 import TabNavigation from "./TabNavigation";
+import WritePostRouter from "../routes/WritePostRouter";
 
 const RootNavigation = createStackNavigator(
   {
-    Tabs: {
-      screen: TabNavigation,
-      navigationOptions: {
-        header: null
-      }
-    }
+    Tabs: TabNavigation,
+    WritePost: WritePostRouter
   },
   {
-    TakePost: {
-      screen: TakePost,
-      navigationOptions: {
-        header: null
-      }
+    initialRouteName: "Tabs",
+    headerMode: "none",
+    navigationOptions: {
+      headerVisible: false
     }
-  },
-  { mode: "modal" }
+  }
 );
 
 export default createAppContainer(RootNavigation);
