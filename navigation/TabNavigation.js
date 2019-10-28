@@ -7,7 +7,6 @@ import DormitoryOutRoute from "../routes/DormitoryOutRoute";
 import PostRoute from "../routes/PostRoute";
 import ProfileRoute from "../routes/ProfileRoute";
 import { BG_COLOR_WHITE, LIGTH_GREEN, LIGHT_GREY } from "../constants/Color";
-import { View } from "react-native";
 
 const TabNavigation = createBottomTabNavigator(
   {

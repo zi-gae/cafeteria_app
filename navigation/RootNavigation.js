@@ -2,11 +2,13 @@ import { createAppContainer, createStackNavigator } from "react-navigation";
 
 import TabNavigation from "./TabNavigation";
 import WritePostRouter from "../routes/WritePostRouter";
+import PostDetailRouter from "../routes/PostDetailRoute";
 
 const RootNavigation = createStackNavigator(
   {
     Tabs: TabNavigation,
-    WritePost: WritePostRouter
+    WritePost: WritePostRouter,
+    PostDetail: PostDetailRouter
   },
   {
     initialRouteName: "Tabs",

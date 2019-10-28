@@ -1,6 +1,14 @@
 import React, { Component } from "react";
 import PostDetailPresenter from "./PostDetailPresenter";
 import PropTypes from "prop-types";
+import styled from "styled-components";
+import NavButton from "../NavButton";
+import { LIGTH_GREEN } from "../../constants/Color";
+
+const Title = styled.Text`
+  font-weight: bold;
+  font-size: 18px;
+`;
 
 class PostDetailContainer extends Component {
   constructor(props) {
@@ -10,9 +18,22 @@ class PostDetailContainer extends Component {
       likeCount: props.navigation.state.params.likeCount
     };
   }
+
   static propTypes = {
     dispatchLike: PropTypes.func.isRequired
   };
+
+  static navigationOptions = ({ navigation }) => ({
+    tabBarVisible: false,
+    headerTitle: <Title>자유게시판</Title>,
+    headerLeft: (
+      <NavButton
+        iconName="ios-close"
+        color={LIGTH_GREEN}
+        onPress={() => navigation.goBack(null)}
+      />
+    )
+  });
 
   handlePress = async () => {
     const {

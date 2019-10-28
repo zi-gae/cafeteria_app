@@ -6,17 +6,20 @@ import { BODER_COLOR, LIGTH_GREEN } from "../../constants/Color";
 import Layout from "../../constants/Layout";
 import PropTypes from "prop-types";
 import { RFValue } from "react-native-responsive-fontsize";
+import { KeyboardAccessoryView } from "react-native-keyboard-accessory";
 
-const Container = styled.ScrollView`
+const Container = styled.View`
   margin-left: ${Layout.width / 20};
   margin-right: ${Layout.width / 20};
   margin-top: 10px;
+  flex: 1;
 `;
 const PostContainer = styled.View`
   border-bottom-color: ${BODER_COLOR};
   border-bottom-width: 1px;
   padding-bottom: 10px;
 `;
+const ScrollView = styled.ScrollView``;
 const CreatorContainer = styled.View`
   flex-direction: row;
   align-items: center;
@@ -86,7 +89,14 @@ const CommentMessage = styled.Text`
   margin-left: 5px;
   padding: 5px;
 `;
-
+const InputBox = styled.View`
+  height: ${RFValue(40)};
+  background-color: white;
+`;
+const TextInput = styled.TextInput`
+  height: ${RFValue(40)};
+  background-color: white;
+`;
 const PostDetailPresenter = ({
   anonymous,
   comment_count,
@@ -100,44 +110,58 @@ const PostDetailPresenter = ({
   likeCount,
   handlePress
 }) => (
-  <Container showsVerticalScrollIndicator={false}>
-    <PostContainer>
-      <CreatorContainer>
-        <ProfileImg
-          source={
-            creator.profile_image && !anonymous
-              ? { uri: creator.profile_image }
-              : require("../../assets/images/noProfile.png")
-          }
+  <Container>
+    <ScrollView>
+      <PostContainer>
+        <CreatorContainer>
+          <ProfileImg
+            source={
+              creator.profile_image && !anonymous
+                ? { uri: creator.profile_image }
+                : require("../../assets/images/noProfile.png")
+            }
+          />
+          <CreatorBox>
+            <Creator>{anonymous ? "익명이" : creator.name}</Creator>
+            <TimeStamp time={natural_time} />
+          </CreatorBox>
+        </CreatorContainer>
+        <Title>{title}</Title>
+        <Content>{content}</Content>
+        {file ? (
+          <ContentImg resizeMode="contain" source={{ uri: file }} />
+        ) : null}
+        <PostActions
+          dispatchLike={handlePress}
+          isLiked={isLiked}
+          size={20}
+          likeCount={likeCount}
+          commentCount={comment_count}
         />
-        <CreatorBox>
-          <Creator>{anonymous ? "익명이" : creator.name}</Creator>
-          <TimeStamp time={natural_time} />
-        </CreatorBox>
-      </CreatorContainer>
-      <Title>{title}</Title>
-      <Content>{content}</Content>
-      {file ? <ContentImg resizeMode="contain" source={{ uri: file }} /> : null}
-      <PostActions
-        dispatchLike={handlePress}
-        isLiked={isLiked}
-        size={20}
-        likeCount={likeCount}
-        commentCount={comment_count}
-      />
-    </PostContainer>
-    {comments
-      ? comments
-          .filter(comment => comment.referComment === null)
-          .map((comment, i) => (
-            <Comment
-              key={i}
-              comment={comment}
-              comments={comments}
-              creator={creator.username}
-            />
-          ))
-      : null}
+      </PostContainer>
+      {comments
+        ? comments
+            .filter(comment => comment.referComment === null)
+            .map((comment, i) => (
+              <Comment
+                key={i}
+                comment={comment}
+                comments={comments}
+                creator={creator.username}
+              />
+            ))
+        : null}
+    </ScrollView>
+    <KeyboardAccessoryView alwaysVisible={true}>
+      <InputBox>
+        <TextInput
+          autoCapitalize="none"
+          autoCompleteType="off"
+          autoCorrect={false}
+          placeholder="댓글 입력"
+        />
+      </InputBox>
+    </KeyboardAccessoryView>
   </Container>
 );
 

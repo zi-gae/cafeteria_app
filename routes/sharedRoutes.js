@@ -6,9 +6,6 @@ import PostDetail from "../components/PostDetail";
 import WritePost from "../components/WritePost";
 
 const sharedRoutes = {
-  PostDetail: {
-    screen: PostDetail
-  },
   Search: {
     screen: Search
   }
