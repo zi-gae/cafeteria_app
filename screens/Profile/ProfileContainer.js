@@ -32,10 +32,9 @@ class ProfileContainer extends PureComponent {
       openNicknameInput: true
     });
   };
+
   submitLogout = () => {
     const { logout } = this.props;
-    console.log("lOGOUT");
-
     Alert.alert("알림💡", "정말 로그아웃 하시겠어요?!", [
       {
         text: "아니요",
@@ -45,21 +44,28 @@ class ProfileContainer extends PureComponent {
       { text: "네", onPress: () => logout() }
     ]);
   };
+
   changeProfile = () => {
     const { modifyNickname } = this.props;
     const { nickname } = this.state;
-    modifyNickname(nickname);
-    this.setState(
-      {
-        nickname: "",
-        openNicknameInput: true
-      },
-      () => {
-        Alert.alert("알림💡", "변경되었어요!", [
-          { text: "OK", onPress: () => {} }
-        ]);
-      }
-    );
+    if (nickname.length < 2) {
+      Alert.alert("알림💡", "두 글자 이상 입력해주세요!", [
+        { text: "OK", onPress: () => {} }
+      ]);
+    } else {
+      modifyNickname(nickname);
+      this.setState(
+        {
+          nickname: "",
+          openNicknameInput: true
+        },
+        () => {
+          Alert.alert("알림💡", "변경되었어요!", [
+            { text: "OK", onPress: () => {} }
+          ]);
+        }
+      );
+    }
   };
 
   render() {

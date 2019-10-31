@@ -1,13 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import Layout from "../../constants/Layout";
-import { RFValue, RFPercentage } from "react-native-responsive-fontsize";
-import {
-  BODER_COLOR,
-  LIGHT_GREY,
-  DARK_GREEN,
-  LIGTH_GREEN
-} from "../../constants/Color";
+import { RFValue } from "react-native-responsive-fontsize";
+import { BODER_COLOR, LIGHT_GREY, LIGTH_GREEN } from "../../constants/Color";
 
 const Container = styled.ScrollView`
   margin-top: 10px;
