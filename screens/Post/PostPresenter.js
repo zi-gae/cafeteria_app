@@ -40,7 +40,7 @@ const WriteText = styled.Text`
   margin-left: ${RFValue(6)};
 `;
 
-const PostPresenter = ({ isFetching, refresh, post, navigation }) => (
+const PostPresenter = ({ isFetching, refresh, posts, navigation }) => (
   <Container>
     <ScrollContainer
       refreshControl={
@@ -52,8 +52,7 @@ const PostPresenter = ({ isFetching, refresh, post, navigation }) => (
       }
     >
       <PostContainer>
-        {post &&
-          post.map(getPost => <TakePost {...getPost} key={getPost.id} />)}
+        {posts && posts.map(post => <TakePost {...post} key={post.id} />)}
       </PostContainer>
     </ScrollContainer>
     <Touch onPress={() => navigation.navigate("WritePost")}>
@@ -68,7 +67,7 @@ const PostPresenter = ({ isFetching, refresh, post, navigation }) => (
 PostPresenter.propTypes = {
   isFetching: PropTypes.bool.isRequired,
   refresh: PropTypes.func.isRequired,
-  post: PropTypes.array.isRequired
+  posts: PropTypes.array.isRequired
 };
 
 export default PostPresenter;
