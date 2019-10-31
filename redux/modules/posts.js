@@ -7,12 +7,13 @@ import { actionCreators as userActions } from "./user";
 
 const SET_POST = "SET_POST";
 const SET_SEARCH = "SET_SEARCH";
+const POST_COMMENT = "POST_COMMENT";
 //action creator
 
-const reqSetPost = post => {
+const reqSetPost = posts => {
   return {
     type: SET_POST,
-    post
+    posts
   };
 };
 
@@ -20,6 +21,14 @@ const reqSetSearch = search => {
   return {
     type: SET_SEARCH,
     search
+  };
+};
+
+const reqPostComment = (postId, comment) => {
+  return {
+    type: POST_COMMENT,
+    postId,
+    comment
   };
 };
 
@@ -134,18 +143,46 @@ const unLikePost = postId => {
   };
 };
 
+const commentPost = (postId, message) => {
+  return async (dispatch, getState) => {
+    const {
+      user: { token }
+    } = getState();
+    const res = await fetch(`${URL}/posts/${postId}/comments/`, {
+      method: "post",
+      headers: {
+        Authorization: `JWT ${token}`,
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        message
+      })
+    });
+    const comment = await res.json();
+    if (res.status === 401) {
+      await dispatch(userActions.logOut());
+    }
+    if (comment.message) {
+      await dispatch(reqPostComment(postId, comment));
+    }
+  };
+};
+
 //inital state
 
 const initalState = {};
 
 // reducer
 
-const reducer = (state = { initalState }, action) => {
+const reducer = (state = initalState, action) => {
   switch (action.type) {
     case SET_POST:
       return applySetPost(state, action);
     case SET_SEARCH:
       return applySetSearch(state, action);
+    case POST_COMMENT:
+      return applyPostComment(state, action);
     default:
       return state;
   }
@@ -154,10 +191,10 @@ const reducer = (state = { initalState }, action) => {
 // reducer action
 
 const applySetPost = (state, action) => {
-  const { post } = action;
+  const { posts } = action;
   return {
     ...state,
-    post
+    posts
   };
 };
 
@@ -168,6 +205,22 @@ const applySetSearch = (state, action) => {
     search
   };
 };
+const applyPostComment = (state, action) => {
+  const { postId, comment } = action;
+  const { posts } = state;
+
+  const updatePost = posts.map(post => {
+    if (post.id === postId) {
+      return {
+        ...post,
+        comments: [...post.comments, comment]
+      };
+    } else {
+      return post;
+    }
+  });
+  return { ...state, posts: updatePost };
+};
 
 // export
 
@@ -176,7 +229,8 @@ const actionCreators = {
   getSearch,
   likePost,
   unLikePost,
-  emptySearch
+  emptySearch,
+  commentPost
 };
 
 export { actionCreators };
