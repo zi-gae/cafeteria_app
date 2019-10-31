@@ -34,7 +34,7 @@ class PostContainer extends Component {
   });
 
   static propTyeps = {
-    post: PropTypes.array.isRequired,
+    posts: PropTypes.array.isRequired,
     getPost: PropTypes.func.isRequired
   };
 
@@ -46,7 +46,7 @@ class PostContainer extends Component {
   }
 
   componentWillReceiveProps = nextProps => {
-    if (nextProps.post) {
+    if (nextProps.posts) {
       this.setState({
         isFetching: false
       });
@@ -62,13 +62,13 @@ class PostContainer extends Component {
   };
 
   render() {
-    const { getPost, post, navigation } = this.props;
+    const { getPost, posts, navigation } = this.props;
 
     const { isFetching } = this.state;
     return (
       <PostPresenter
         getPost={getPost}
-        post={post}
+        posts={posts}
         refresh={this.refresh}
         isFetching={isFetching}
         navigation={navigation}
