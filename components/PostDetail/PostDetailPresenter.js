@@ -7,10 +7,11 @@ import Layout from "../../constants/Layout";
 import PropTypes from "prop-types";
 import { RFValue } from "react-native-responsive-fontsize";
 import { KeyboardAccessoryView } from "react-native-keyboard-accessory";
+import CheckBox from "react-native-check-box";
+import { Ionicons } from "@expo/vector-icons";
+import { getBottomSpace, isIphoneX } from "react-native-iphone-x-helper";
 
 const Container = styled.View`
-  margin-left: ${Layout.width / 20};
-  margin-right: ${Layout.width / 20};
   margin-top: 10px;
   flex: 1;
 `;
@@ -19,7 +20,10 @@ const PostContainer = styled.View`
   border-bottom-width: 1px;
   padding-bottom: 10px;
 `;
-const ScrollView = styled.ScrollView``;
+const ScrollView = styled.ScrollView`
+  margin-left: ${Layout.width / 20};
+  margin-right: ${Layout.width / 20};
+`;
 const CreatorContainer = styled.View`
   flex-direction: row;
   align-items: center;
@@ -89,14 +93,40 @@ const CommentMessage = styled.Text`
   margin-left: 5px;
   padding: 5px;
 `;
+
 const InputBox = styled.View`
   height: ${RFValue(40)};
-  background-color: white;
+  flex-direction: row;
+  margin-bottom: ${props => (props.isIphoneX ? getBottomSpace() : "0px")};
+`;
+
+const CommentAnonymous = styled.View`
+  flex: 1;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-right: ${RFValue(10)};
+  margin-left: ${RFValue(10)};
 `;
 const TextInput = styled.TextInput`
   height: ${RFValue(40)};
-  background-color: white;
+  flex: 5;
 `;
+const CommentAddButton = styled.View`
+  flex: 1;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Touch = styled.TouchableOpacity``;
+
+const Anonymous = styled.Text`
+  font-weight: 600;
+  font-size: ${RFValue(13)};
+  color: ${LIGTH_GREEN};
+`;
+
 const PostDetailPresenter = ({
   anonymous,
   comment_count,
@@ -108,62 +138,104 @@ const PostDetailPresenter = ({
   title,
   isLiked,
   likeCount,
-  handlePress
-}) => (
-  <Container>
-    <ScrollView>
-      <PostContainer>
-        <CreatorContainer>
-          <ProfileImg
-            source={
-              creator.profile_image && !anonymous
-                ? { uri: creator.profile_image }
-                : require("../../assets/images/noProfile.png")
-            }
+  handlePress,
+  isChecked,
+  handleCheckBox,
+  Keyboard,
+  keyboardView,
+  message,
+  onChangeComment,
+  submitComment
+}) => {
+  return (
+    <Container>
+      <ScrollView>
+        <PostContainer>
+          <CreatorContainer>
+            <ProfileImg
+              source={
+                creator.profile_image && !anonymous
+                  ? { uri: creator.profile_image }
+                  : require("../../assets/images/noProfile.png")
+              }
+            />
+            <CreatorBox>
+              <Creator>{anonymous ? "익명이" : creator.name}</Creator>
+              <TimeStamp time={natural_time} />
+            </CreatorBox>
+          </CreatorContainer>
+          <Title>{title}</Title>
+          <Content>{content}</Content>
+          {file ? (
+            <ContentImg resizeMode="contain" source={{ uri: file }} />
+          ) : null}
+          <PostActions
+            dispatchLike={handlePress}
+            isLiked={isLiked}
+            size={20}
+            likeCount={likeCount}
+            commentCount={comment_count}
           />
-          <CreatorBox>
-            <Creator>{anonymous ? "익명이" : creator.name}</Creator>
-            <TimeStamp time={natural_time} />
-          </CreatorBox>
-        </CreatorContainer>
-        <Title>{title}</Title>
-        <Content>{content}</Content>
-        {file ? (
-          <ContentImg resizeMode="contain" source={{ uri: file }} />
-        ) : null}
-        <PostActions
-          dispatchLike={handlePress}
-          isLiked={isLiked}
-          size={20}
-          likeCount={likeCount}
-          commentCount={comment_count}
-        />
-      </PostContainer>
-      {comments
-        ? comments
-            .filter(comment => comment.referComment === null)
-            .map((comment, i) => (
-              <Comment
-                key={i}
-                comment={comment}
-                comments={comments}
-                creator={creator.username}
-              />
-            ))
-        : null}
-    </ScrollView>
-    <KeyboardAccessoryView alwaysVisible={true}>
-      <InputBox>
-        <TextInput
-          autoCapitalize="none"
-          autoCompleteType="off"
-          autoCorrect={false}
-          placeholder="댓글 입력"
-        />
-      </InputBox>
-    </KeyboardAccessoryView>
-  </Container>
-);
+        </PostContainer>
+        {comments
+          ? comments
+              .filter(comment => comment.referComment === null)
+              .map((comment, i) => (
+                <Comment
+                  key={i}
+                  comment={comment}
+                  comments={comments}
+                  creator={creator.username}
+                />
+              ))
+          : null}
+      </ScrollView>
+      <KeyboardAccessoryView
+        alwaysVisible={true}
+        androidAdjustResize
+        hideBorder={true}
+        bumperHeight={15}
+        style={{
+          backgroundColor: "white"
+        }}
+      >
+        <InputBox isIphoneX={isIphoneX() && !keyboardView}>
+          <CommentAnonymous>
+            <CheckBox
+              isChecked={isChecked}
+              onClick={handleCheckBox}
+              checkBoxColor={LIGTH_GREEN}
+            />
+            <Anonymous>익명</Anonymous>
+          </CommentAnonymous>
+          <TextInput
+            autoCapitalize="none"
+            autoCompleteType="off"
+            autoCorrect={false}
+            placeholder="댓글 입력"
+            onSubmitEditing={() => {
+              Keyboard.dismiss;
+              submitComment();
+            }}
+            value={message}
+            onChangeText={onChangeComment}
+            returnKeyType="done"
+          />
+          <CommentAddButton>
+            <Touch
+              onPress={() => {
+                Keyboard.dismiss();
+                submitComment();
+              }}
+            >
+              <Ionicons name="md-paper-plane" size={25} color={LIGTH_GREEN} />
+            </Touch>
+          </CommentAddButton>
+        </InputBox>
+      </KeyboardAccessoryView>
+    </Container>
+  );
+};
 
 const Comment = ({ comment, comments, creator }) => {
   return (
@@ -251,7 +323,9 @@ PostDetailPresenter.propTypes = {
   natural_time: PropTypes.string.isRequired,
   is_liked: PropTypes.bool,
   dispatchLike: PropTypes.func.isRequired,
-  handlePress: PropTypes.func.isRequired
+  handlePress: PropTypes.func.isRequired,
+  isChecked: PropTypes.bool.isRequired,
+  handleCheckBox: PropTypes.func.isRequired
 };
 
 export default PostDetailPresenter;

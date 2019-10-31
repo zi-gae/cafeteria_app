@@ -4,6 +4,8 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import NavButton from "../NavButton";
 import { LIGTH_GREEN } from "../../constants/Color";
+import { Keyboard } from "react-native";
+import { Alert } from "react-native";
 
 const Title = styled.Text`
   font-weight: bold;
@@ -15,13 +17,13 @@ class PostDetailContainer extends Component {
     super(props);
     this.state = {
       isLiked: props.navigation.state.params.isLiked,
-      likeCount: props.navigation.state.params.likeCount
+      likeCount: props.navigation.state.params.likeCount,
+      isChecked: true,
+      keyboardView: false,
+      message: "",
+      postDetail: this.choicePost()
     };
   }
-
-  static propTypes = {
-    dispatchLike: PropTypes.func.isRequired
-  };
 
   static navigationOptions = ({ navigation }) => ({
     tabBarVisible: false,
@@ -34,6 +36,47 @@ class PostDetailContainer extends Component {
       />
     )
   });
+
+  static propTypes = {
+    dispatchLike: PropTypes.func.isRequired,
+    disaptchCommentPost: PropTypes.func.isRequired
+  };
+
+  componentWillMount() {
+    this.keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      (this._keyboardDidShow = this._keyboardDidShow.bind(this))
+    );
+    this.keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      (this._keyboardDidHide = this._keyboardDidHide.bind(this))
+    );
+  }
+
+  componentWillUnmount() {
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
+  }
+
+  _keyboardDidShow() {
+    this.setState({
+      keyboardView: true
+    });
+  }
+
+  _keyboardDidHide() {
+    this.setState({
+      keyboardView: false
+    });
+  }
+
+  onChangeComment = text => {
+    this.setState({
+      message: text
+    });
+  };
+
+  onSubmitComment = () => {};
 
   handlePress = async () => {
     const {
@@ -64,11 +107,63 @@ class PostDetailContainer extends Component {
         });
       }
     } else {
+      return false;
     }
   };
+
+  handleCheckBox = () => {
+    const { isChecked } = this.state;
+    isChecked
+      ? this.setState({
+          isChecked: false
+        })
+      : this.setState({
+          isChecked: true
+        });
+  };
+
+  componentWillReceiveProps() {}
+
+  submitComment = async () => {
+    const { disaptchCommentPost } = this.props;
+    const { message } = this.state;
+    if (message.length < 1) {
+      Alert.alert("알림💡", "댓글을 입력해주세요!", [
+        { text: "OK", onPress: () => {} }
+      ]);
+    } else {
+      await disaptchCommentPost(message);
+      this.setState({
+        postDetail: this.choicePost(),
+        message: ""
+      });
+    }
+  };
+
+  choicePost = () => {
+    let sample = this.props.posts.posts.filter(
+      info => info.id === this.props.navigation.state.params.id
+    );
+    sample = sample[0];
+    return sample;
+  };
+
   render() {
-    const { navigation, dispatchLike } = this.props;
-    const { isLiked, likeCount } = this.state;
+    const { dispatchLike } = this.props;
+    const {
+      isLiked,
+      likeCount,
+      isChecked,
+      keyboardView,
+      message,
+      postDetail
+    } = this.state;
+    const {
+      handlePress,
+      handleCheckBox,
+      onChangeComment,
+      submitComment
+    } = this;
     const {
       anonymous,
       comment_count,
@@ -80,7 +175,7 @@ class PostDetailContainer extends Component {
       natural_time,
       title,
       is_liked
-    } = navigation.state.params;
+    } = postDetail;
     return (
       <PostDetailPresenter
         anonymous={anonymous}
@@ -96,7 +191,14 @@ class PostDetailContainer extends Component {
         dispatchLike={dispatchLike}
         isLiked={isLiked}
         likeCount={likeCount}
-        handlePress={this.handlePress}
+        handlePress={handlePress}
+        isChecked={isChecked}
+        handleCheckBox={handleCheckBox}
+        Keyboard={Keyboard}
+        message={message}
+        keyboardView={keyboardView}
+        onChangeComment={onChangeComment}
+        submitComment={submitComment}
       />
     );
   }
