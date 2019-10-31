@@ -325,7 +325,11 @@ PostDetailPresenter.propTypes = {
   dispatchLike: PropTypes.func.isRequired,
   handlePress: PropTypes.func.isRequired,
   isChecked: PropTypes.bool.isRequired,
-  handleCheckBox: PropTypes.func.isRequired
+  handleCheckBox: PropTypes.func.isRequired,
+  keyboardView: PropTypes.bool.isRequired,
+  message: PropTypes.string.isRequired,
+  onChangeComment: PropTypes.func.isRequired,
+  submitComment: PropTypes.func.isRequired
 };
 
 export default PostDetailPresenter;
