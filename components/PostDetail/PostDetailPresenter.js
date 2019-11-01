@@ -2,13 +2,13 @@ import React from "react";
 import styled from "styled-components";
 import TimeStamp from "../TimeStamp";
 import PostActions from "../PostActions";
-import { BODER_COLOR, LIGTH_GREEN } from "../../constants/Color";
+import { BODER_COLOR, LIGTH_GREEN, LIGHT_GREY } from "../../constants/Color";
 import Layout from "../../constants/Layout";
 import PropTypes from "prop-types";
 import { RFValue } from "react-native-responsive-fontsize";
 import { KeyboardAccessoryView } from "react-native-keyboard-accessory";
 import CheckBox from "react-native-check-box";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, EvilIcons } from "@expo/vector-icons";
 import { getBottomSpace, isIphoneX } from "react-native-iphone-x-helper";
 
 const Container = styled.View`
@@ -93,13 +93,11 @@ const CommentMessage = styled.Text`
   margin-left: 5px;
   padding: 5px;
 `;
-
 const InputBox = styled.View`
   height: ${RFValue(40)};
   flex-direction: row;
   margin-bottom: ${props => (props.isIphoneX ? getBottomSpace() : "0px")};
 `;
-
 const CommentAnonymous = styled.View`
   flex: 1;
   flex-direction: row;
@@ -118,13 +116,41 @@ const CommentAddButton = styled.View`
   justify-content: center;
   align-items: center;
 `;
-
 const Touch = styled.TouchableOpacity``;
-
 const Anonymous = styled.Text`
   font-weight: 600;
   font-size: ${RFValue(13)};
   color: ${LIGTH_GREEN};
+`;
+const CommentActionsBox = styled.View`
+  flex-direction: row;
+  flex: 1;
+  justify-content: flex-end;
+
+  margin-bottom: ${RFValue(7)};
+`;
+const ActionBox = styled.View`
+  flex-direction: row;
+  align-items: center;
+  border-width: 1px;
+  border-style: solid;
+  border-color: ${BODER_COLOR};
+  padding-right: ${RFValue(8)};
+  padding-left: ${RFValue(5)};
+  border-radius: 5px;
+`;
+const OnCommentIcon = styled.TouchableOpacity`
+  margin-right: ${RFValue(8)};
+  border-right-width: 1px;
+  border-style: solid;
+  border-color: ${BODER_COLOR};
+  padding-right: ${RFValue(3)};
+  align-items: center;
+  justify-content: center;
+`;
+const CommentDeleteIcon = styled.TouchableOpacity`
+  align-items: center;
+  justify-content: center;
 `;
 
 const PostDetailPresenter = ({
@@ -259,9 +285,23 @@ const Comment = ({ comment, comments, creator }) => {
                 {comment.anonymous ? "익명이" : comment.creator.name}
               </CommentCreator>
             )}
-
             <TimeStamp time={comment.natural_time} />
           </CreatorBox>
+          <CommentActionsBox>
+            <ActionBox>
+              <OnCommentIcon>
+                <EvilIcons name="comment" size={18} color={LIGHT_GREY} />
+              </OnCommentIcon>
+              <CommentDeleteIcon>
+                <Ionicons
+                  name="ios-close"
+                  size={24}
+                  color={BODER_COLOR}
+                  style={{ marginTop: 2 }}
+                />
+              </CommentDeleteIcon>
+            </ActionBox>
+          </CommentActionsBox>
         </CommentCreatorBox>
         <CommentMessage>{comment.message}</CommentMessage>
         <CommentOnComment comments={comments} parentId={comment.id} />
