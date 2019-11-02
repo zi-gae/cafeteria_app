@@ -100,7 +100,7 @@ const InputBox = styled.View`
 `;
 
 const SafeAreaBottom = styled.View`
-  margin-bottom: ${props => (props.isIphoneX ? getBottomSpace() : "0px")};
+  margin-bottom: ${props => (props.isIphoneX ? getBottomSpace() : "10px")};
 `;
 const CommentAnonymous = styled.View`
   flex: 1;
@@ -285,7 +285,7 @@ const PostDetailPresenter = ({
               }}
             >
               {isSubmitting ? (
-                <ActivityIndicator color="white" />
+                <ActivityIndicator color="black" />
               ) : (
                 <Ionicons name="md-paper-plane" size={25} color={LIGTH_GREEN} />
               )}

@@ -139,12 +139,7 @@ class PostDetailContainer extends Component {
 
   removeComment = async commentId => {
     const { disaptchCommentDelete } = this.props;
-    this.setState({
-      isSubmitting: true
-    });
-    this.setState({
-      isSubmitting: false
-    });
+
     Alert.alert("삭제 확인", "삭제하시겠어요?", [
       {
         text: "취소",
@@ -153,9 +148,12 @@ class PostDetailContainer extends Component {
       {
         text: "확인",
         onPress: async () => {
+          this.setState({
+            isSubmitting: true
+          });
           await disaptchCommentDelete(commentId);
           this.setState({
-            isSubmitting: true,
+            isSubmitting: false,
             postDetail: this.choicePost()
           });
         }
