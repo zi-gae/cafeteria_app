@@ -23,7 +23,8 @@ class PostDetailContainer extends Component {
       message: "",
       postDetail: this.choicePost(),
       referComment: 0,
-      placeholder: "댓글 입력"
+      placeholder: "댓글 입력",
+      isSubmitting: false
     };
   }
 
@@ -41,7 +42,8 @@ class PostDetailContainer extends Component {
 
   static propTypes = {
     dispatchLike: PropTypes.func.isRequired,
-    disaptchCommentPost: PropTypes.func.isRequired
+    disaptchCommentPost: PropTypes.func.isRequired,
+    disaptchCommentDelete: PropTypes.func.isRequired
   };
 
   componentWillMount() {
@@ -135,12 +137,41 @@ class PostDetailContainer extends Component {
     });
   };
 
+  removeComment = async commentId => {
+    const { disaptchCommentDelete } = this.props;
+    this.setState({
+      isSubmitting: true
+    });
+    this.setState({
+      isSubmitting: false
+    });
+    Alert.alert("삭제 확인", "삭제하시겠어요?", [
+      {
+        text: "취소",
+        onPress: () => {}
+      },
+      {
+        text: "확인",
+        onPress: async () => {
+          await disaptchCommentDelete(commentId);
+          this.setState({
+            isSubmitting: true,
+            postDetail: this.choicePost()
+          });
+        }
+      }
+    ]);
+  };
+
   submitComment = async () => {
     const { disaptchCommentPost } = this.props;
     const { message, anonymousIsChecked, referComment } = this.state;
+    this.setState({
+      isSubmitting: true
+    });
     if (message.length < 1) {
       Alert.alert("알림💡", "댓글을 입력해주세요!", [
-        { text: "OK", onPress: () => {} }
+        { text: "확인", onPress: () => {} }
       ]);
     } else {
       if (referComment === 0) {
@@ -151,7 +182,8 @@ class PostDetailContainer extends Component {
       this.setState({
         postDetail: this.choicePost(),
         message: "",
-        referComment: 0
+        referComment: 0,
+        isSubmitting: false
       });
     }
   };
@@ -174,7 +206,8 @@ class PostDetailContainer extends Component {
       message,
       postDetail,
       referComment,
-      placeholder
+      placeholder,
+      isSubmitting
     } = this.state;
     const {
       handlePress,
@@ -182,7 +215,8 @@ class PostDetailContainer extends Component {
       onChangeComment,
       submitComment,
       handlePlaceholderChange,
-      setCommentId
+      setCommentId,
+      removeComment
     } = this;
     const {
       anonymous,
@@ -223,6 +257,8 @@ class PostDetailContainer extends Component {
         placeholder={placeholder}
         handlePlaceholderChange={handlePlaceholderChange}
         setCommentId={setCommentId}
+        removeComment={removeComment}
+        isSubmitting={isSubmitting}
       />
     );
   }

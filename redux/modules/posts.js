@@ -8,6 +8,7 @@ import { actionCreators as userActions } from "./user";
 const SET_POST = "SET_POST";
 const SET_SEARCH = "SET_SEARCH";
 const POST_COMMENT = "POST_COMMENT";
+const DELETE_COMMENT = "DELETE_COMMENT";
 //action creator
 
 const reqSetPost = posts => {
@@ -29,6 +30,14 @@ const reqPostComment = (postId, comment) => {
     type: POST_COMMENT,
     postId,
     comment
+  };
+};
+
+const reqDeleteComment = (postId, commentId) => {
+  return {
+    type: DELETE_COMMENT,
+    postId,
+    commentId
   };
 };
 
@@ -143,7 +152,7 @@ const unLikePost = postId => {
   };
 };
 
-const commentPost = (postId, message, anonymousIsChecked) => {
+const commentPost = (postId, message, anonymousIsChecked, referComment) => {
   return async (dispatch, getState) => {
     const {
       user: { token }
@@ -157,15 +166,36 @@ const commentPost = (postId, message, anonymousIsChecked) => {
       },
       body: JSON.stringify({
         message,
-        anonymous: anonymousIsChecked
+        anonymous: anonymousIsChecked,
+        referComment
       })
     });
-    const comment = await res.json();
     if (res.status === 401) {
       await dispatch(userActions.logOut());
     }
+    const comment = await res.json();
     if (comment.message) {
       await dispatch(reqPostComment(postId, comment));
+    }
+  };
+};
+
+const commentDelete = (postId, commentId) => {
+  return async (dispatch, getState) => {
+    const {
+      user: { token }
+    } = getState();
+    const res = await fetch(`${URL}/posts/comments/${commentId}/`, {
+      method: "delete",
+      headers: {
+        Authorization: `JWT ${token}`
+      }
+    });
+    if (res.status === 204) {
+      await dispatch(reqDeleteComment(postId, commentId));
+    } else if (res.status === 401) {
+      userActions.logOut();
+    } else {
     }
   };
 };
@@ -184,6 +214,8 @@ const reducer = (state = initalState, action) => {
       return applySetSearch(state, action);
     case POST_COMMENT:
       return applyPostComment(state, action);
+    case DELETE_COMMENT:
+      return applyDeleteComment(state, action);
     default:
       return state;
   }
@@ -222,6 +254,23 @@ const applyPostComment = (state, action) => {
   });
   return { ...state, posts: updatePost };
 };
+const applyDeleteComment = (state, action) => {
+  const { postId, commentId } = action;
+  const { posts } = state;
+
+  const updatePost = posts.map(post => {
+    if (post.id === postId) {
+      return {
+        ...post,
+        comments: post.comments.filter(comment => commentId !== comment.id)
+      };
+    } else {
+      return post;
+    }
+  });
+
+  return { ...state, posts: updatePost };
+};
 
 // export
 
@@ -231,7 +280,8 @@ const actionCreators = {
   likePost,
   unLikePost,
   emptySearch,
-  commentPost
+  commentPost,
+  commentDelete
 };
 
 export { actionCreators };

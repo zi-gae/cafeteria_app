@@ -3,6 +3,20 @@ import { connect } from "react-redux";
 import { actionCreators as postActions } from "../../redux/modules/posts";
 
 const mapStateToProps = (state, ownProps) => {
+  const {
+    navigation: {
+      state: {
+        params: { id }
+      }
+    }
+  } = ownProps;
+  let sample;
+  state.posts.posts.map(post => {
+    if (post.id === id) {
+      sample = post;
+    }
+  });
+
   return state;
 };
 
@@ -27,6 +41,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       return dispatch(
         postActions.commentPost(id, message, isChecked, referComment)
       );
+    },
+    disaptchCommentDelete: commentId => {
+      return dispatch(postActions.commentDelete(id, commentId));
     }
   };
 };

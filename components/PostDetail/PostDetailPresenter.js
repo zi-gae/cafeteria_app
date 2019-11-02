@@ -15,6 +15,7 @@ const Container = styled.View`
   margin-top: 10px;
   flex: 1;
 `;
+const ActivityIndicator = styled.ActivityIndicator``;
 const PostContainer = styled.View`
   border-bottom-color: ${BODER_COLOR};
   border-bottom-width: 1px;
@@ -153,20 +154,22 @@ const ActionBox = styled.View`
   border-width: 1px;
   border-style: solid;
   border-color: ${BODER_COLOR};
-  padding-right: ${RFValue(8)};
+  padding-right: ${RFValue(5)};
   padding-left: ${RFValue(5)};
   border-radius: 5px;
 `;
 const OnCommentIcon = styled.TouchableOpacity`
-  margin-right: ${RFValue(8)};
   border-right-width: 1px;
   border-style: solid;
   border-color: ${BODER_COLOR};
+  margin-right: ${RFValue(5)};
   padding-right: ${RFValue(3)};
   align-items: center;
   justify-content: center;
 `;
 const CommentDeleteIcon = styled.TouchableOpacity`
+  padding-left: ${RFValue(1)};
+  padding-right: ${RFValue(1)};
   align-items: center;
   justify-content: center;
 `;
@@ -192,7 +195,9 @@ const PostDetailPresenter = ({
   submitComment,
   placeholder,
   handlePlaceholderChange,
-  setCommentId
+  setCommentId,
+  removeComment,
+  isSubmitting
 }) => {
   return (
     <Container>
@@ -235,6 +240,7 @@ const PostDetailPresenter = ({
                   creator={creator.username}
                   handlePlaceholderChange={handlePlaceholderChange}
                   setCommentId={setCommentId}
+                  removeComment={removeComment}
                 />
               ))
           : null}
@@ -278,7 +284,11 @@ const PostDetailPresenter = ({
                 submitComment();
               }}
             >
-              <Ionicons name="md-paper-plane" size={25} color={LIGTH_GREEN} />
+              {isSubmitting ? (
+                <ActivityIndicator color="white" />
+              ) : (
+                <Ionicons name="md-paper-plane" size={25} color={LIGTH_GREEN} />
+              )}
             </Touch>
           </CommentAddButton>
         </InputBox>
@@ -293,7 +303,8 @@ const Comment = ({
   comments,
   creator,
   handlePlaceholderChange,
-  setCommentId
+  setCommentId,
+  removeComment
 }) => {
   return (
     <CommentContianer>
@@ -331,7 +342,11 @@ const Comment = ({
               >
                 <EvilIcons name="comment" size={18} color={LIGHT_GREY} />
               </OnCommentIcon>
-              <CommentDeleteIcon onPress={() => {}}>
+              <CommentDeleteIcon
+                onPress={() => {
+                  removeComment(comment.id);
+                }}
+              >
                 <Ionicons
                   name="ios-close"
                   size={24}
@@ -347,13 +362,14 @@ const Comment = ({
           comments={comments}
           parentId={comment.id}
           creator={creator}
+          removeComment={removeComment}
         />
       </CommentBox>
     </CommentContianer>
   );
 };
 
-const CommentOnComment = ({ comments, parentId, creator }) => {
+const CommentOnComment = ({ comments, parentId, creator, removeComment }) => {
   return comments
     .filter(comment => comment.referComment !== null)
     .map((comment, i) => {
@@ -382,6 +398,22 @@ const CommentOnComment = ({ comments, parentId, creator }) => {
                 )}
                 <TimeStamp time={comment.natural_time} />
               </CreatorBox>
+              <CommentActionsBox>
+                <ActionBox>
+                  <CommentDeleteIcon
+                    onPress={() => {
+                      removeComment(comment.id);
+                    }}
+                  >
+                    <Ionicons
+                      name="ios-close"
+                      size={24}
+                      color={BODER_COLOR}
+                      style={{ marginTop: 2 }}
+                    />
+                  </CommentDeleteIcon>
+                </ActionBox>
+              </CommentActionsBox>
             </CommentCreatorBox>
             <CommentMessage>{comment.message}</CommentMessage>
           </CommentBox>
