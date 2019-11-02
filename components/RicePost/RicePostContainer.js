@@ -45,9 +45,15 @@ class RicePostContainer extends PureComponent {
           rices: studentFoodStore
         });
       } else if (type === "professor") {
-        this.setState({
-          rices: [professorFoodStore[0].filter((rice, index) => index !== 0)]
-        });
+        if (professorFoodStore[0]) {
+          this.setState({
+            rices: [professorFoodStore[0].filter((rice, index) => index !== 0)]
+          });
+        } else {
+          this.setState({
+            rices: []
+          });
+        }
       } else if (type === "dormitory") {
         this.setState({
           rices: dormitoryFoodStore

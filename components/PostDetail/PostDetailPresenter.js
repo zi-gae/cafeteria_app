@@ -289,10 +289,10 @@ const Comment = ({ comment, comments, creator }) => {
           </CreatorBox>
           <CommentActionsBox>
             <ActionBox>
-              <OnCommentIcon>
+              <OnCommentIcon onPress={() => {}}>
                 <EvilIcons name="comment" size={18} color={LIGHT_GREY} />
               </OnCommentIcon>
-              <CommentDeleteIcon>
+              <CommentDeleteIcon onPress={() => {}}>
                 <Ionicons
                   name="ios-close"
                   size={24}
