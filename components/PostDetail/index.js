@@ -23,8 +23,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         return dispatch(postActions.likePost(id));
       }
     },
-    disaptchCommentPost: message => {
-      return dispatch(postActions.commentPost(id, message));
+    disaptchCommentPost: (message, isChecked) => {
+      return dispatch(postActions.commentPost(id, message, isChecked));
     }
   };
 };

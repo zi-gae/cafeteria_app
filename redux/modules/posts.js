@@ -143,7 +143,7 @@ const unLikePost = postId => {
   };
 };
 
-const commentPost = (postId, message) => {
+const commentPost = (postId, message, anonymousIsChecked) => {
   return async (dispatch, getState) => {
     const {
       user: { token }
@@ -156,7 +156,8 @@ const commentPost = (postId, message) => {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        message
+        message,
+        anonymous: anonymousIsChecked
       })
     });
     const comment = await res.json();

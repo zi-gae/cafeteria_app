@@ -18,7 +18,7 @@ class PostDetailContainer extends Component {
     this.state = {
       isLiked: props.navigation.state.params.isLiked,
       likeCount: props.navigation.state.params.likeCount,
-      isChecked: true,
+      anonymousIsChecked: true,
       keyboardView: false,
       message: "",
       postDetail: this.choicePost()
@@ -112,27 +112,25 @@ class PostDetailContainer extends Component {
   };
 
   handleCheckBox = () => {
-    const { isChecked } = this.state;
-    isChecked
+    const { anonymousIsChecked } = this.state;
+    anonymousIsChecked
       ? this.setState({
-          isChecked: false
+          anonymousIsChecked: false
         })
       : this.setState({
-          isChecked: true
+          anonymousIsChecked: true
         });
   };
 
-  componentWillReceiveProps() {}
-
   submitComment = async () => {
     const { disaptchCommentPost } = this.props;
-    const { message } = this.state;
+    const { message, anonymousIsChecked } = this.state;
     if (message.length < 1) {
       Alert.alert("알림💡", "댓글을 입력해주세요!", [
         { text: "OK", onPress: () => {} }
       ]);
     } else {
-      await disaptchCommentPost(message);
+      await disaptchCommentPost(message, anonymousIsChecked);
       this.setState({
         postDetail: this.choicePost(),
         message: ""
@@ -153,7 +151,7 @@ class PostDetailContainer extends Component {
     const {
       isLiked,
       likeCount,
-      isChecked,
+      anonymousIsChecked,
       keyboardView,
       message,
       postDetail
@@ -192,7 +190,7 @@ class PostDetailContainer extends Component {
         isLiked={isLiked}
         likeCount={likeCount}
         handlePress={handlePress}
-        isChecked={isChecked}
+        anonymousIsChecked={anonymousIsChecked}
         handleCheckBox={handleCheckBox}
         Keyboard={Keyboard}
         message={message}

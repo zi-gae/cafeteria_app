@@ -165,7 +165,7 @@ const PostDetailPresenter = ({
   isLiked,
   likeCount,
   handlePress,
-  isChecked,
+  anonymousIsChecked,
   handleCheckBox,
   Keyboard,
   keyboardView,
@@ -228,7 +228,7 @@ const PostDetailPresenter = ({
         <InputBox isIphoneX={isIphoneX() && !keyboardView}>
           <CommentAnonymous>
             <CheckBox
-              isChecked={isChecked}
+              isChecked={anonymousIsChecked}
               onClick={handleCheckBox}
               checkBoxColor={LIGTH_GREEN}
             />
@@ -278,7 +278,9 @@ const Comment = ({ comment, comments, creator }) => {
           <CreatorBox>
             {creator === comment.creator.username ? (
               <CommentCreator isCreator={true}>
-                {comment.anonymous ? "익명이(글쓴이)" : comment.creator.name}
+                {comment.anonymous
+                  ? "익명이(글쓴이)"
+                  : `${comment.creator.name}(글쓴이)`}
               </CommentCreator>
             ) : (
               <CommentCreator isCreator={false}>
@@ -364,7 +366,7 @@ PostDetailPresenter.propTypes = {
   is_liked: PropTypes.bool,
   dispatchLike: PropTypes.func.isRequired,
   handlePress: PropTypes.func.isRequired,
-  isChecked: PropTypes.bool.isRequired,
+  anonymousIsChecked: PropTypes.bool.isRequired,
   handleCheckBox: PropTypes.func.isRequired,
   keyboardView: PropTypes.bool.isRequired,
   message: PropTypes.string.isRequired,
