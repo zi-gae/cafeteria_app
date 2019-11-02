@@ -23,8 +23,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         return dispatch(postActions.likePost(id));
       }
     },
-    disaptchCommentPost: (message, isChecked) => {
-      return dispatch(postActions.commentPost(id, message, isChecked));
+    disaptchCommentPost: (message, isChecked, referComment = null) => {
+      return dispatch(
+        postActions.commentPost(id, message, isChecked, referComment)
+      );
     }
   };
 };

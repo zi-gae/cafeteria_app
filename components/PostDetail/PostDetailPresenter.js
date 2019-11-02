@@ -96,6 +96,9 @@ const CommentMessage = styled.Text`
 const InputBox = styled.View`
   height: ${RFValue(40)};
   flex-direction: row;
+`;
+
+const SafeAreaBottom = styled.View`
   margin-bottom: ${props => (props.isIphoneX ? getBottomSpace() : "0px")};
 `;
 const CommentAnonymous = styled.View`
@@ -103,23 +106,38 @@ const CommentAnonymous = styled.View`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  margin-right: ${RFValue(10)};
-  margin-left: ${RFValue(10)};
+  margin-left: ${RFValue(5)};
+  margin-top: ${RFValue(3)};
+  margin-bottom: ${RFValue(3)};
+  padding-right: ${RFValue(10)};
+  padding-left: ${RFValue(10)};
+  background-color: #f3f3f3;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
 `;
 const TextInput = styled.TextInput`
-  height: ${RFValue(40)};
   flex: 5;
+  background-color: #f3f3f3;
+  margin-top: ${RFValue(3)};
+  margin-bottom: ${RFValue(3)};
+  font-size: ${RFValue(13)};
 `;
 const CommentAddButton = styled.View`
   flex: 1;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  background-color: #f3f3f3;
+  margin-top: ${RFValue(3)};
+  margin-bottom: ${RFValue(3)};
+  margin-right: ${RFValue(5)};
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
 `;
 const Touch = styled.TouchableOpacity``;
 const Anonymous = styled.Text`
   font-weight: 600;
-  font-size: ${RFValue(13)};
+  font-size: ${RFValue(11)};
   color: ${LIGTH_GREEN};
 `;
 const CommentActionsBox = styled.View`
@@ -171,7 +189,10 @@ const PostDetailPresenter = ({
   keyboardView,
   message,
   onChangeComment,
-  submitComment
+  submitComment,
+  placeholder,
+  handlePlaceholderChange,
+  setCommentId
 }) => {
   return (
     <Container>
@@ -212,6 +233,8 @@ const PostDetailPresenter = ({
                   comment={comment}
                   comments={comments}
                   creator={creator.username}
+                  handlePlaceholderChange={handlePlaceholderChange}
+                  setCommentId={setCommentId}
                 />
               ))
           : null}
@@ -225,7 +248,7 @@ const PostDetailPresenter = ({
           backgroundColor: "white"
         }}
       >
-        <InputBox isIphoneX={isIphoneX() && !keyboardView}>
+        <InputBox>
           <CommentAnonymous>
             <CheckBox
               isChecked={anonymousIsChecked}
@@ -235,10 +258,11 @@ const PostDetailPresenter = ({
             <Anonymous>익명</Anonymous>
           </CommentAnonymous>
           <TextInput
+            ref={commentInputRef => (this.commentInputRef = commentInputRef)}
             autoCapitalize="none"
             autoCompleteType="off"
             autoCorrect={false}
-            placeholder="댓글 입력"
+            placeholder={placeholder}
             onSubmitEditing={() => {
               Keyboard.dismiss;
               submitComment();
@@ -259,11 +283,18 @@ const PostDetailPresenter = ({
           </CommentAddButton>
         </InputBox>
       </KeyboardAccessoryView>
+      <SafeAreaBottom isIphoneX={isIphoneX() && !keyboardView} />
     </Container>
   );
 };
 
-const Comment = ({ comment, comments, creator }) => {
+const Comment = ({
+  comment,
+  comments,
+  creator,
+  handlePlaceholderChange,
+  setCommentId
+}) => {
   return (
     <CommentContianer>
       <CommentBox onComment={false}>
@@ -291,7 +322,13 @@ const Comment = ({ comment, comments, creator }) => {
           </CreatorBox>
           <CommentActionsBox>
             <ActionBox>
-              <OnCommentIcon onPress={() => {}}>
+              <OnCommentIcon
+                onPress={() => {
+                  this.commentInputRef.focus();
+                  handlePlaceholderChange();
+                  setCommentId(comment.id);
+                }}
+              >
                 <EvilIcons name="comment" size={18} color={LIGHT_GREY} />
               </OnCommentIcon>
               <CommentDeleteIcon onPress={() => {}}>
@@ -306,13 +343,17 @@ const Comment = ({ comment, comments, creator }) => {
           </CommentActionsBox>
         </CommentCreatorBox>
         <CommentMessage>{comment.message}</CommentMessage>
-        <CommentOnComment comments={comments} parentId={comment.id} />
+        <CommentOnComment
+          comments={comments}
+          parentId={comment.id}
+          creator={creator}
+        />
       </CommentBox>
     </CommentContianer>
   );
 };
 
-const CommentOnComment = ({ comments, parentId }) => {
+const CommentOnComment = ({ comments, parentId, creator }) => {
   return comments
     .filter(comment => comment.referComment !== null)
     .map((comment, i) => {
@@ -328,7 +369,17 @@ const CommentOnComment = ({ comments, parentId }) => {
                 }
               />
               <CreatorBox>
-                <CommentCreator>{comment.creator.name}</CommentCreator>
+                {creator === comment.creator.username ? (
+                  <CommentCreator isCreator={true}>
+                    {comment.anonymous
+                      ? "익명이(글쓴이)"
+                      : `${comment.creator.name}(글쓴이)`}
+                  </CommentCreator>
+                ) : (
+                  <CommentCreator isCreator={false}>
+                    {comment.anonymous ? "익명이" : comment.creator.name}
+                  </CommentCreator>
+                )}
                 <TimeStamp time={comment.natural_time} />
               </CreatorBox>
             </CommentCreatorBox>

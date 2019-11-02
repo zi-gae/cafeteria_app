@@ -21,7 +21,9 @@ class PostDetailContainer extends Component {
       anonymousIsChecked: true,
       keyboardView: false,
       message: "",
-      postDetail: this.choicePost()
+      postDetail: this.choicePost(),
+      referComment: 0,
+      placeholder: "댓글 입력"
     };
   }
 
@@ -66,7 +68,8 @@ class PostDetailContainer extends Component {
 
   _keyboardDidHide() {
     this.setState({
-      keyboardView: false
+      keyboardView: false,
+      placeholder: "댓글 입력"
     });
   }
 
@@ -75,8 +78,6 @@ class PostDetailContainer extends Component {
       message: text
     });
   };
-
-  onSubmitComment = () => {};
 
   handlePress = async () => {
     const {
@@ -111,6 +112,12 @@ class PostDetailContainer extends Component {
     }
   };
 
+  handlePlaceholderChange = () => {
+    this.setState({
+      placeholder: "대댓글 입력"
+    });
+  };
+
   handleCheckBox = () => {
     const { anonymousIsChecked } = this.state;
     anonymousIsChecked
@@ -122,18 +129,29 @@ class PostDetailContainer extends Component {
         });
   };
 
+  setCommentId = id => {
+    this.setState({
+      referComment: id
+    });
+  };
+
   submitComment = async () => {
     const { disaptchCommentPost } = this.props;
-    const { message, anonymousIsChecked } = this.state;
+    const { message, anonymousIsChecked, referComment } = this.state;
     if (message.length < 1) {
       Alert.alert("알림💡", "댓글을 입력해주세요!", [
         { text: "OK", onPress: () => {} }
       ]);
     } else {
-      await disaptchCommentPost(message, anonymousIsChecked);
+      if (referComment === 0) {
+        await disaptchCommentPost(message, anonymousIsChecked);
+      } else {
+        await disaptchCommentPost(message, anonymousIsChecked, referComment);
+      }
       this.setState({
         postDetail: this.choicePost(),
-        message: ""
+        message: "",
+        referComment: 0
       });
     }
   };
@@ -154,13 +172,17 @@ class PostDetailContainer extends Component {
       anonymousIsChecked,
       keyboardView,
       message,
-      postDetail
+      postDetail,
+      referComment,
+      placeholder
     } = this.state;
     const {
       handlePress,
       handleCheckBox,
       onChangeComment,
-      submitComment
+      submitComment,
+      handlePlaceholderChange,
+      setCommentId
     } = this;
     const {
       anonymous,
@@ -197,6 +219,10 @@ class PostDetailContainer extends Component {
         keyboardView={keyboardView}
         onChangeComment={onChangeComment}
         submitComment={submitComment}
+        referComment={referComment}
+        placeholder={placeholder}
+        handlePlaceholderChange={handlePlaceholderChange}
+        setCommentId={setCommentId}
       />
     );
   }
