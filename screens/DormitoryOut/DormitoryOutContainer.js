@@ -13,7 +13,7 @@ class DormitoryOutContainer extends Component {
       dormitoryOutEndDay: "",
       dormitoryOutReason: "귀가",
       isSubmitting: false,
-      startDay: false,
+      isChoicedStartDay: false,
       endDay: false,
       TextInputDisable: true,
       minDate: "",
@@ -43,7 +43,7 @@ class DormitoryOutContainer extends Component {
     const { dateString } = date;
     this.setState({
       dormitoryOutStartDay: dateString,
-      startDay: false
+      isChoicedStartDay: false
     });
   };
 
@@ -69,7 +69,7 @@ class DormitoryOutContainer extends Component {
 
   handleStartDay = () => {
     this.setState({
-      startDay: true
+      isChoicedStartDay: true
     });
   };
 
@@ -90,10 +90,16 @@ class DormitoryOutContainer extends Component {
   componentDidMount() {
     let today = new Date();
     const dd = String(today.getDate()).padStart(2, "0");
-    const mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+    const mm = String(today.getMonth() + 1).padStart(2, "0");
     const yyyy = today.getFullYear();
     const minDate = yyyy + "-" + mm + "-" + dd;
-    const maxDate = yyyy + "-" + (mm * 1 + 1) + "-" + (dd * 1 + 1);
+    const maxDate =
+      yyyy +
+      "-" +
+      String(mm * 1 + 1 > 12 ? (mm * 1 + 1) % 12 : mm * 1 + 1).padStart(2, 0) +
+      "-" +
+      String(dd * 1 + 1).padStart(2, 0);
+
     this.setState({
       minDate,
       maxDate
@@ -131,6 +137,11 @@ class DormitoryOutContainer extends Component {
       this.resetState();
     } else if (logedMsg === "notaccess") {
       Alert.alert("알림💡", "기숙사생이 아닌것만 같은데...", [
+        { text: "OK", onPress: () => {} }
+      ]);
+      this.resetState();
+    } else if (logedMsg === "error") {
+      Alert.alert("알림💡", "신청 중 에러가 발생 했어요. 다시 시도해주세요ㅠ", [
         { text: "OK", onPress: () => {} }
       ]);
       this.resetState();
@@ -190,7 +201,7 @@ class DormitoryOutContainer extends Component {
       isSubmitting,
       minDate,
       maxDate,
-      startDay,
+      isChoicedStartDay,
       endDay,
       TextInputDisable
     } = this.state;
@@ -222,7 +233,7 @@ class DormitoryOutContainer extends Component {
         isSubmitting={isSubmitting}
         minDate={minDate}
         maxDate={maxDate}
-        startDay={startDay}
+        isChoicedStartDay={isChoicedStartDay}
         endDay={endDay}
         handleStartDay={handleStartDay}
         handleEndDay={handleEndDay}

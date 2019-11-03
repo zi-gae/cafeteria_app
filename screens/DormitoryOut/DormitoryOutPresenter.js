@@ -102,7 +102,7 @@ const DormitoryOutPresenter = ({
   isSubmitting,
   minDate,
   maxDate,
-  startDay,
+  isChoicedStartDay,
   endDay,
   handleStartDay,
   handleEndDay,
@@ -145,7 +145,7 @@ const DormitoryOutPresenter = ({
             onSubmitEditing={() => this.dormitoryOutStartDayRef.onPressDate()}
           />
 
-          {startDay ? (
+          {isChoicedStartDay ? (
             <Calendar
               onDayPress={day => {
                 changeDormitoryOutStartDay(day);
@@ -237,7 +237,7 @@ DormitoryOutPresenter.propTypes = {
   isSubmitting: PropTypes.bool.isRequired,
   minDate: PropTypes.string.isRequired,
   maxDate: PropTypes.string.isRequired,
-  startDay: PropTypes.bool.isRequired,
+  isChoicedStartDay: PropTypes.bool.isRequired,
   endDay: PropTypes.bool.isRequired,
   handleStartDay: PropTypes.func.isRequired,
   handleEndDay: PropTypes.func.isRequired,
