@@ -66,6 +66,8 @@ const postDormitoryOut = (
           dispatch(dormitoryOut("overlap"));
         } else if (message.includes("생활관생만")) {
           dispatch(dormitoryOut("notaccess"));
+        } else if (message.includes("날짜")) {
+          dispatch(dormitoryOut("error"));
         } else {
           dispatch(dormitoryOut("success"));
         }
