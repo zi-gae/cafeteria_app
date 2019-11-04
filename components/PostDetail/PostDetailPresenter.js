@@ -9,7 +9,8 @@ import { RFValue } from "react-native-responsive-fontsize";
 import { KeyboardAccessoryView } from "react-native-keyboard-accessory";
 import CheckBox from "react-native-check-box";
 import { Ionicons, EvilIcons } from "@expo/vector-icons";
-import { getBottomSpace, isIphoneX } from "react-native-iphone-x-helper";
+import ActionSheet from "react-native-actionsheet";
+import SafeAreaBottom from "../SafeAreaBottom";
 
 const Container = styled.View`
   margin-top: 10px;
@@ -98,10 +99,6 @@ const InputBox = styled.View`
   height: ${RFValue(40)};
   flex-direction: row;
 `;
-
-const SafeAreaBottom = styled.View`
-  margin-bottom: ${props => (props.isIphoneX ? getBottomSpace() : "10px")};
-`;
 const CommentAnonymous = styled.View`
   flex: 1;
   flex-direction: row;
@@ -174,6 +171,15 @@ const CommentDeleteIcon = styled.TouchableOpacity`
   justify-content: center;
 `;
 
+const PostActionBox = styled.View`
+  flex: 1;
+  flex-direction: row;
+  justify-content: flex-end;
+`;
+const options = ["취소", "수정", "삭제"];
+const CANCEL_INDEX = 0;
+const DESTRUCTIVE_INDEX = 2;
+
 const PostDetailPresenter = ({
   anonymous,
   comment_count,
@@ -197,11 +203,12 @@ const PostDetailPresenter = ({
   handlePlaceholderChange,
   setCommentId,
   removeComment,
-  isSubmitting
+  isSubmitting,
+  handleSheetPress
 }) => {
   return (
     <Container>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <PostContainer>
           <CreatorContainer>
             <ProfileImg
@@ -215,6 +222,15 @@ const PostDetailPresenter = ({
               <Creator>{anonymous ? "익명이" : creator.name}</Creator>
               <TimeStamp time={natural_time} />
             </CreatorBox>
+            <PostActionBox>
+              <Touch
+                onPress={() => {
+                  this.actionSheet.show();
+                }}
+              >
+                <Ionicons name="md-settings" size={RFValue(15)} color="black" />
+              </Touch>
+            </PostActionBox>
           </CreatorContainer>
           <Title>{title}</Title>
           <Content>{content}</Content>
@@ -293,7 +309,14 @@ const PostDetailPresenter = ({
           </CommentAddButton>
         </InputBox>
       </KeyboardAccessoryView>
-      <SafeAreaBottom isIphoneX={isIphoneX() && !keyboardView} />
+      <ActionSheet
+        ref={actionSheet => (this.actionSheet = actionSheet)}
+        options={options}
+        cancelButtonIndex={CANCEL_INDEX}
+        destructiveButtonIndex={DESTRUCTIVE_INDEX}
+        onPress={handleSheetPress}
+      />
+      <SafeAreaBottom keyboardView={keyboardView} />
     </Container>
   );
 };
