@@ -101,7 +101,7 @@ const WritePostPresenter = ({
           </Touch>
           <AnonymousBox>
             <CheckBox
-              anonymousIsChecked={anonymousIsChecked}
+              isChecked={anonymousIsChecked}
               onClick={handleCheckBox}
               checkBoxColor={LIGTH_GREEN}
             />
