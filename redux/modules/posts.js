@@ -9,6 +9,7 @@ const SET_POST = "SET_POST";
 const SET_SEARCH = "SET_SEARCH";
 const POST_COMMENT = "POST_COMMENT";
 const DELETE_COMMENT = "DELETE_COMMENT";
+const UPDATE_POST = "UPDATE_POST";
 //action creator
 
 const reqSetPost = posts => {
@@ -38,6 +39,13 @@ const reqDeleteComment = (postId, commentId) => {
     type: DELETE_COMMENT,
     postId,
     commentId
+  };
+};
+
+const reqPutPost = postId => {
+  return {
+    type: UPDATE_POST,
+    postId
   };
 };
 
@@ -200,6 +208,33 @@ const commentDelete = (postId, commentId) => {
   };
 };
 
+const putPost = (postId, title, content, file, anonymous) => {
+  let formData = new FormData();
+  formData.append("title", title);
+  formData.append("content", content);
+  formData.append("anonymous", anonymous);
+  // formData.append("file", file, file.name);
+
+  return (dispatch, getState) => {
+    const {
+      user: { token }
+    } = getState();
+    fetch(`${URL}/posts/${postId}/`, {
+      method: "put",
+      headers: {
+        Authorization: `JWT ${token}`
+      },
+      body: formData
+    }).then(res => {
+      if (res.status === 401) {
+        dispatch(userActions.logOut());
+      } else {
+        dispatch(reqPutPost(postId, res.data));
+      }
+    });
+  };
+};
+
 //inital state
 
 const initalState = {};
@@ -238,6 +273,7 @@ const applySetSearch = (state, action) => {
     search
   };
 };
+
 const applyPostComment = (state, action) => {
   const { postId, comment } = action;
   const { posts } = state;
@@ -254,6 +290,7 @@ const applyPostComment = (state, action) => {
   });
   return { ...state, posts: updatePost };
 };
+
 const applyDeleteComment = (state, action) => {
   const { postId, commentId } = action;
   const { posts } = state;
@@ -281,7 +318,8 @@ const actionCreators = {
   unLikePost,
   emptySearch,
   commentPost,
-  commentDelete
+  commentDelete,
+  putPost
 };
 
 export { actionCreators };
