@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { LIGTH_GREEN } from "../../constants/Color";
 import NavButton from "../NavButton";
 import { RFValue } from "react-native-responsive-fontsize";
+import PropTypes from "prop-types";
 
 const Title = styled.Text`
   font-weight: bold;
@@ -33,14 +34,24 @@ const ButtonText = styled.Text`
 class WritePostContainer extends Component {
   constructor(props) {
     super(props);
+    const {
+      navigation: {
+        state: { params }
+      }
+    } = this.props;
     this.state = {
-      isChecked: true
+      anonymousIsChecked: true,
+      title: params.title,
+      content: params.content,
+      file: params.file
     };
   }
-
+  static propTypes = {
+    dispatchPutPost: PropTypes.func.isRequired
+  };
   static navigationOptions = ({ navigation }) => ({
     tabBarVisible: false,
-    headerTitle: <Title>글 쓰기</Title>,
+    headerTitle: <Title>{navigation.state.params.writeType}</Title>,
     headerLeft: (
       <NavButton
         iconName="ios-close"
@@ -49,7 +60,11 @@ class WritePostContainer extends Component {
       />
     ),
     headerRight: (
-      <Button>
+      <Button
+        onPress={() => {
+          navigation.state.params.handleSuccessButton();
+        }}
+      >
         <ButtonBox>
           <ButtonText>완료</ButtonText>
         </ButtonBox>
@@ -57,24 +72,50 @@ class WritePostContainer extends Component {
     )
   });
 
+  componentDidMount() {
+    const { title, content, file, anonymousIsChecked } = this.state;
+    this.props.navigation.setParams({
+      title,
+      content,
+      file,
+      anonymousIsChecked
+    });
+  }
+
   handleCheckBox = () => {
-    const { isChecked } = this.state;
-    isChecked
+    const { anonymousIsChecked } = this.state;
+    anonymousIsChecked
       ? this.setState({
-          isChecked: false
+          anonymousIsChecked: false
         })
       : this.setState({
-          isChecked: true
+          anonymousIsChecked: true
         });
   };
 
+  changeTitle = text => {
+    this.setState({
+      title: text
+    });
+  };
+  changeContent = text => {
+    this.setState({
+      content: text
+    });
+  };
+
   render() {
-    const { handleCheckBox } = this;
-    const { isChecked } = this.state;
+    const { handleCheckBox, changeTitle, changeContent } = this;
+    const { anonymousIsChecked, title, content, file } = this.state;
     return (
       <WritePostPresenter
         handleCheckBox={handleCheckBox}
-        isChecked={isChecked}
+        anonymousIsChecked={anonymousIsChecked}
+        title={title}
+        content={content}
+        file={file}
+        changeTitle={changeTitle}
+        changeContent={changeContent}
       />
     );
   }

@@ -2,9 +2,17 @@ import WritePostContainer from "./WritePostContainer";
 import { connect } from "react-redux";
 import { actionCreators as postActions } from "../../redux/modules/posts";
 const mapDispatchToProps = (dispatch, ownProps) => {
+  const {
+    navigation: {
+      state: {
+        params: { id }
+      }
+    }
+  } = ownProps;
+
   return {
-    putPost: () => {
-      dispatch(postActions.putPost(ownProps.id));
+    dispatchPutPost: (title, content, file, anonymous) => {
+      dispatch(postActions.putPost(id, title, content, file, anonymous));
     }
   };
 };

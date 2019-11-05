@@ -186,6 +186,28 @@ class PostDetailContainer extends Component {
     }
   };
 
+  handleSheetPress = index => {
+    const {
+      navigation: { navigate }
+    } = this.props;
+
+    const {
+      postDetail: { content, file, title, id }
+    } = this.state;
+
+    if (index === 1) {
+      navigate("WritePost", {
+        content,
+        file,
+        title,
+        writeType: "글 수정",
+        id
+      });
+    } else if (index === 2) {
+      console.log("DELETE");
+    }
+  };
+
   choicePost = () => {
     let sample = this.props.posts.posts.filter(
       info => info.id === this.props.navigation.state.params.id
@@ -214,6 +236,7 @@ class PostDetailContainer extends Component {
       submitComment,
       handlePlaceholderChange,
       setCommentId,
+      handleSheetPress,
       removeComment
     } = this;
     const {
@@ -257,6 +280,7 @@ class PostDetailContainer extends Component {
         setCommentId={setCommentId}
         removeComment={removeComment}
         isSubmitting={isSubmitting}
+        handleSheetPress={handleSheetPress}
       />
     );
   }

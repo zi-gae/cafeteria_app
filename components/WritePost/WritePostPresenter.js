@@ -6,6 +6,7 @@ import { BODER_COLOR, LIGTH_GREEN } from "../../constants/Color";
 import { Ionicons } from "@expo/vector-icons";
 import CheckBox from "react-native-check-box";
 import Layout from "../../constants/Layout";
+import SafeAreaBottom from "../SafeAreaBottom";
 
 const Container = styled.View`
   flex: 1;
@@ -13,9 +14,15 @@ const Container = styled.View`
   padding-right: ${Layout.width / 20};
 `;
 const ScrollView = styled.ScrollView``;
+const ContentImg = styled.Image`
+  height: ${Layout.height / 3};
+  width: 100%;
+  margin-top: 5px;
+  margin-bottom: 5px;
+`;
 
 const TitleInput = styled.TextInput`
-  font-size: ${RFValue(20)};
+  font-size: ${RFValue(18)};
   margin-top: ${RFValue(10)};
   margin-bottom: ${RFValue(10)};
   padding-bottom: ${RFValue(10)};
@@ -48,15 +55,25 @@ const Anonymous = styled.Text`
 `;
 const Touch = styled.TouchableOpacity``;
 
-const WritePostPresenter = ({ isChecked, handleCheckBox }) => {
+const WritePostPresenter = ({
+  anonymousIsChecked,
+  handleCheckBox,
+  title,
+  content,
+  file,
+  changeTitle,
+  changeContent
+}) => {
   return (
     <Container>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <TitleInput
           autoCapitalize="none"
           autoCompleteType="off"
           autoCorrect={false}
           placeholder="제목"
+          value={title}
+          onChangeText={changeTitle}
         />
         <ContentInput
           autoCapitalize="none"
@@ -66,16 +83,25 @@ const WritePostPresenter = ({ isChecked, handleCheckBox }) => {
           placeholder="제목"
           placeholder="이곳에 글을 작성해 주세요"
           multiline={true}
+          value={content}
+          onChangeText={changeContent}
         />
       </ScrollView>
-      <KeyboardAccessoryView alwaysVisible={true}>
+      {file ? <ContentImg resizeMode="contain" source={{ uri: file }} /> : null}
+      <KeyboardAccessoryView
+        hideBorder={true}
+        alwaysVisible={true}
+        style={{
+          backgroundColor: "white"
+        }}
+      >
         <ButtonLabel>
           <Touch>
             <Ionicons name="ios-camera" size={30} color={LIGTH_GREEN} />
           </Touch>
           <AnonymousBox>
             <CheckBox
-              isChecked={isChecked}
+              anonymousIsChecked={anonymousIsChecked}
               onClick={handleCheckBox}
               checkBoxColor={LIGTH_GREEN}
             />
@@ -83,6 +109,7 @@ const WritePostPresenter = ({ isChecked, handleCheckBox }) => {
           </AnonymousBox>
         </ButtonLabel>
       </KeyboardAccessoryView>
+      <SafeAreaBottom keyboardView={true} />
     </Container>
   );
 };
