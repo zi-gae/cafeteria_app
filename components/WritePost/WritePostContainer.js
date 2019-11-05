@@ -89,7 +89,7 @@ class WritePostContainer extends Component {
       });
     } else {
       this.props.navigation.setParams({
-        anonymousIsChecked: true
+        anonymous: true
       });
       this.setState({
         anonymousIsChecked: true

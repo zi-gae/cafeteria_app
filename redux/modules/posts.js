@@ -214,7 +214,9 @@ const putPost = (postId, title, content, file, anonymous) => {
   formData.append("title", title);
   formData.append("content", content);
   formData.append("anonymous", anonymous);
-  // formData.append("file", file, file.name);
+  if (file) {
+    formData.append("file", file, file.name);
+  }
 
   return (dispatch, getState) => {
     const {
