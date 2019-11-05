@@ -42,10 +42,11 @@ const reqDeleteComment = (postId, commentId) => {
   };
 };
 
-const reqPutPost = postId => {
+const reqPutPost = (postId, resPost) => {
   return {
     type: UPDATE_POST,
-    postId
+    postId,
+    resPost
   };
 };
 
@@ -225,13 +226,17 @@ const putPost = (postId, title, content, file, anonymous) => {
         Authorization: `JWT ${token}`
       },
       body: formData
-    }).then(res => {
-      if (res.status === 401) {
-        dispatch(userActions.logOut());
-      } else {
-        dispatch(reqPutPost(postId, res.data));
-      }
-    });
+    })
+      .then(res => {
+        if (res.status === 401) {
+          dispatch(userActions.logOut());
+        } else {
+          return res.json();
+        }
+      })
+      .then(json => {
+        dispatch(reqPutPost(postId, json));
+      });
   };
 };
 
@@ -251,6 +256,8 @@ const reducer = (state = initalState, action) => {
       return applyPostComment(state, action);
     case DELETE_COMMENT:
       return applyDeleteComment(state, action);
+    case UPDATE_POST:
+      return applyPutPostComment(state, action);
     default:
       return state;
   }
@@ -306,6 +313,23 @@ const applyDeleteComment = (state, action) => {
     }
   });
 
+  return { ...state, posts: updatePost };
+};
+
+const applyPutPostComment = (state, action) => {
+  const { posts } = state;
+  const { postId, resPost } = action;
+
+  const updatePost = posts.map(post => {
+    if (post.id === postId) {
+      return {
+        ...post,
+        ...resPost
+      };
+    } else {
+      return post;
+    }
+  });
   return { ...state, posts: updatePost };
 };
 

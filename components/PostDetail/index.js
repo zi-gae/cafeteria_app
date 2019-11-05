@@ -10,14 +10,15 @@ const mapStateToProps = (state, ownProps) => {
       }
     }
   } = ownProps;
-  let sample;
+  const { user } = state;
+  let postInfo;
   state.posts.posts.map(post => {
     if (post.id === id) {
-      sample = post;
+      postInfo = post;
     }
   });
 
-  return state;
+  return { postInfo, user };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -44,6 +45,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     disaptchCommentDelete: commentId => {
       return dispatch(postActions.commentDelete(id, commentId));
+    },
+    dispatchPutPost: (title, content, file, anonymous) => {
+      dispatch(postActions.putPost(id, title, content, file, anonymous));
     }
   };
 };

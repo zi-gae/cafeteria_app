@@ -40,7 +40,7 @@ class WritePostContainer extends Component {
       }
     } = this.props;
     this.state = {
-      anonymousIsChecked: true,
+      anonymousIsChecked: params.anonymous,
       title: params.title,
       content: params.content,
       file: params.file
@@ -62,7 +62,13 @@ class WritePostContainer extends Component {
     headerRight: (
       <Button
         onPress={() => {
-          navigation.state.params.handleSuccessButton();
+          navigation.state.params.handleSuccessButton(
+            navigation.state.params.title,
+            navigation.state.params.content,
+            navigation.state.params.file,
+            navigation.state.params.anonymous
+          );
+          navigation.goBack(null);
         }}
       >
         <ButtonBox>
@@ -72,33 +78,37 @@ class WritePostContainer extends Component {
     )
   });
 
-  componentDidMount() {
-    const { title, content, file, anonymousIsChecked } = this.state;
-    this.props.navigation.setParams({
-      title,
-      content,
-      file,
-      anonymousIsChecked
-    });
-  }
-
   handleCheckBox = () => {
     const { anonymousIsChecked } = this.state;
-    anonymousIsChecked
-      ? this.setState({
-          anonymousIsChecked: false
-        })
-      : this.setState({
-          anonymousIsChecked: true
-        });
+    if (anonymousIsChecked) {
+      this.props.navigation.setParams({
+        anonymous: false
+      });
+      this.setState({
+        anonymousIsChecked: false
+      });
+    } else {
+      this.props.navigation.setParams({
+        anonymousIsChecked: true
+      });
+      this.setState({
+        anonymousIsChecked: true
+      });
+    }
   };
 
   changeTitle = text => {
+    this.props.navigation.setParams({
+      title: text
+    });
     this.setState({
       title: text
     });
   };
   changeContent = text => {
+    this.props.navigation.setParams({
+      content: text
+    });
     this.setState({
       content: text
     });

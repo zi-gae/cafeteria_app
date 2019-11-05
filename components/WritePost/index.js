@@ -1,6 +1,24 @@
 import WritePostContainer from "./WritePostContainer";
 import { connect } from "react-redux";
 import { actionCreators as postActions } from "../../redux/modules/posts";
+
+const mapStateToProps = (state, ownProps) => {
+  const {
+    navigation: {
+      state: {
+        params: { id }
+      }
+    }
+  } = ownProps;
+  let sample;
+  state.posts.posts.map(post => {
+    if (post.id === id) {
+      sample = post;
+    }
+  });
+
+  return { sample };
+};
 const mapDispatchToProps = (dispatch, ownProps) => {
   const {
     navigation: {
@@ -18,6 +36,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(WritePostContainer);

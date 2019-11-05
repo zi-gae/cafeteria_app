@@ -21,7 +21,7 @@ class PostDetailContainer extends Component {
       anonymousIsChecked: true,
       keyboardView: false,
       message: "",
-      postDetail: this.choicePost(),
+      postDetail: this.props.postInfo,
       referComment: 0,
       placeholder: "댓글 입력",
       isSubmitting: false
@@ -43,7 +43,8 @@ class PostDetailContainer extends Component {
   static propTypes = {
     dispatchLike: PropTypes.func.isRequired,
     disaptchCommentPost: PropTypes.func.isRequired,
-    disaptchCommentDelete: PropTypes.func.isRequired
+    disaptchCommentDelete: PropTypes.func.isRequired,
+    dispatchPutPost: PropTypes.func.isRequired
   };
 
   componentWillMount() {
@@ -153,8 +154,7 @@ class PostDetailContainer extends Component {
           });
           await disaptchCommentDelete(commentId);
           this.setState({
-            isSubmitting: false,
-            postDetail: this.choicePost()
+            isSubmitting: false
           });
         }
       }
@@ -178,7 +178,6 @@ class PostDetailContainer extends Component {
         await disaptchCommentPost(message, anonymousIsChecked, referComment);
       }
       this.setState({
-        postDetail: this.choicePost(),
         message: "",
         referComment: 0,
         isSubmitting: false
@@ -192,28 +191,33 @@ class PostDetailContainer extends Component {
     } = this.props;
 
     const {
-      postDetail: { content, file, title, id }
+      postDetail: { content, file, title, anonymous, id }
     } = this.state;
 
     if (index === 1) {
       navigate("WritePost", {
+        id,
         content,
         file,
         title,
         writeType: "글 수정",
-        id
+        anonymous,
+        handleSuccessButton: this.handleSuccessButton
       });
     } else if (index === 2) {
       console.log("DELETE");
     }
   };
 
-  choicePost = () => {
-    let sample = this.props.posts.posts.filter(
-      info => info.id === this.props.navigation.state.params.id
-    );
-    sample = sample[0];
-    return sample;
+  handleSuccessButton = async (title, content, file, anonymous) => {
+    const { dispatchPutPost } = this.props;
+    this.setState({
+      isSubmitting: true
+    });
+    await dispatchPutPost(title, content, file, anonymous);
+    this.setState({
+      isSubmitting: false
+    });
   };
 
   render() {
@@ -224,7 +228,6 @@ class PostDetailContainer extends Component {
       anonymousIsChecked,
       keyboardView,
       message,
-      postDetail,
       referComment,
       placeholder,
       isSubmitting
@@ -240,17 +243,21 @@ class PostDetailContainer extends Component {
       removeComment
     } = this;
     const {
-      anonymous,
-      comment_count,
-      comments,
-      content,
-      creator,
-      file,
-      like_count,
-      natural_time,
-      title,
-      is_liked
-    } = postDetail;
+      postInfo: {
+        anonymous,
+        comment_count,
+        comments,
+        content,
+        creator,
+        file,
+        like_count,
+        natural_time,
+        title,
+        is_liked
+      },
+      user: { profile }
+    } = this.props;
+
     return (
       <PostDetailPresenter
         anonymous={anonymous}
@@ -281,6 +288,7 @@ class PostDetailContainer extends Component {
         removeComment={removeComment}
         isSubmitting={isSubmitting}
         handleSheetPress={handleSheetPress}
+        profile={profile}
       />
     );
   }

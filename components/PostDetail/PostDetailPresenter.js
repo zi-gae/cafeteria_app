@@ -204,7 +204,8 @@ const PostDetailPresenter = ({
   setCommentId,
   removeComment,
   isSubmitting,
-  handleSheetPress
+  handleSheetPress,
+  profile
 }) => {
   return (
     <Container>
@@ -223,13 +224,19 @@ const PostDetailPresenter = ({
               <TimeStamp time={natural_time} />
             </CreatorBox>
             <PostActionBox>
-              <Touch
-                onPress={() => {
-                  this.actionSheet.show();
-                }}
-              >
-                <Ionicons name="md-settings" size={RFValue(15)} color="black" />
-              </Touch>
+              {profile.username === creator.username ? (
+                <Touch
+                  onPress={() => {
+                    this.actionSheet.show();
+                  }}
+                >
+                  <Ionicons
+                    name="md-settings"
+                    size={RFValue(15)}
+                    color="black"
+                  />
+                </Touch>
+              ) : null}
             </PostActionBox>
           </CreatorContainer>
           <Title>{title}</Title>
