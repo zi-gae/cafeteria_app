@@ -53,6 +53,18 @@ class PostContainer extends Component {
     }
   };
 
+  navigateWritePost = () => {
+    const {
+      navigation: { navigate }
+    } = this.props;
+    navigate("WritePost", {
+      title: null,
+      content: null,
+      file: null,
+      writeType: "글 쓰기"
+    });
+  };
+
   refresh = () => {
     const { getPost } = this.props;
     this.setState({
@@ -63,13 +75,14 @@ class PostContainer extends Component {
 
   render() {
     const { getPost, posts, navigation } = this.props;
-
+    const { navigateWritePost, refresh } = this;
     const { isFetching } = this.state;
     return (
       <PostPresenter
         getPost={getPost}
         posts={posts}
-        refresh={this.refresh}
+        refresh={refresh}
+        navigateWritePost={navigateWritePost}
         isFetching={isFetching}
         navigation={navigation}
       />

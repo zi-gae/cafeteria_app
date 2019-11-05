@@ -6,6 +6,7 @@ import Layout from "../../constants/Layout";
 import { RFValue } from "react-native-responsive-fontsize";
 import { BODER_COLOR, LIGTH_GREEN } from "../../constants/Color";
 import { EvilIcons } from "@expo/vector-icons";
+
 const Container = styled.View`
   flex: 1;
   align-items: center;
@@ -40,7 +41,13 @@ const WriteText = styled.Text`
   margin-left: ${RFValue(6)};
 `;
 
-const PostPresenter = ({ isFetching, refresh, posts, navigation }) => (
+const PostPresenter = ({
+  isFetching,
+  refresh,
+  posts,
+  navigation,
+  navigateWritePost
+}) => (
   <Container>
     <ScrollContainer
       refreshControl={
@@ -55,7 +62,7 @@ const PostPresenter = ({ isFetching, refresh, posts, navigation }) => (
         {posts && posts.map(post => <TakePost {...post} key={post.id} />)}
       </PostContainer>
     </ScrollContainer>
-    <Touch onPress={() => navigation.navigate("WritePost")}>
+    <Touch onPress={navigateWritePost}>
       <WriteButton>
         <EvilIcons name="pencil" color={LIGTH_GREEN} size={RFValue(25)} />
         <WriteText>글 쓰기</WriteText>
