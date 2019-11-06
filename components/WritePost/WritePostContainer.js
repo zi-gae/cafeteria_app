@@ -97,6 +97,13 @@ class WritePostContainer extends Component {
     }
   };
 
+  handleNavigate = () => {
+    const {
+      navigation: { navigate }
+    } = this.props;
+    navigate("Library");
+  };
+
   changeTitle = text => {
     this.props.navigation.setParams({
       title: text
@@ -115,7 +122,7 @@ class WritePostContainer extends Component {
   };
 
   render() {
-    const { handleCheckBox, changeTitle, changeContent } = this;
+    const { handleCheckBox, changeTitle, changeContent, handleNavigate } = this;
     const { anonymousIsChecked, title, content, file } = this.state;
     return (
       <WritePostPresenter
@@ -126,6 +133,7 @@ class WritePostContainer extends Component {
         file={file}
         changeTitle={changeTitle}
         changeContent={changeContent}
+        handleNavigate={handleNavigate}
       />
     );
   }

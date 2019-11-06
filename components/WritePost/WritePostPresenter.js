@@ -62,7 +62,8 @@ const WritePostPresenter = ({
   content,
   file,
   changeTitle,
-  changeContent
+  changeContent,
+  handleNavigate
 }) => {
   return (
     <Container>
@@ -96,7 +97,7 @@ const WritePostPresenter = ({
         }}
       >
         <ButtonLabel>
-          <Touch>
+          <Touch onPress={handleNavigate}>
             <Ionicons name="ios-camera" size={30} color={LIGTH_GREEN} />
           </Touch>
           <AnonymousBox>
