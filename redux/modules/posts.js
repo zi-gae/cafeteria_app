@@ -10,6 +10,7 @@ const SET_SEARCH = "SET_SEARCH";
 const POST_COMMENT = "POST_COMMENT";
 const DELETE_COMMENT = "DELETE_COMMENT";
 const UPDATE_POST = "UPDATE_POST";
+const DELETE_POST = "DELETE_POST";
 //action creator
 
 const reqSetPost = posts => {
@@ -47,6 +48,13 @@ const reqPutPost = (postId, resPost) => {
     type: UPDATE_POST,
     postId,
     resPost
+  };
+};
+
+const reqDeletePost = postId => {
+  return {
+    type: DELETE_POST,
+    postId
   };
 };
 
@@ -242,6 +250,26 @@ const putPost = (postId, title, content, file, anonymous) => {
   };
 };
 
+const deletePost = postId => {
+  return (dispatch, getState) => {
+    const {
+      user: { token }
+    } = getState();
+    fetch(`${URL}/posts/${postId}/`, {
+      method: "delete",
+      headers: {
+        Authorization: `JWT ${token}`
+      }
+    }).then(res => {
+      if (res.status === 401) {
+        dispatch(userActions.logOut());
+      } else if (res.status === 204) {
+        dispatch(reqDeletePost(postId));
+      }
+    });
+  };
+};
+
 //inital state
 
 const initalState = {};
@@ -260,6 +288,8 @@ const reducer = (state = initalState, action) => {
       return applyDeleteComment(state, action);
     case UPDATE_POST:
       return applyPutPostComment(state, action);
+    case DELETE_POST:
+      return applyDeletePost(state, action);
     default:
       return state;
   }
@@ -335,6 +365,17 @@ const applyPutPostComment = (state, action) => {
   return { ...state, posts: updatePost };
 };
 
+const applyDeletePost = (state, action) => {
+  const { posts } = state;
+  const { postId } = action;
+  const updatePost = posts.filter(post => post.id !== postId);
+
+  return {
+    ...state,
+    posts: updatePost
+  };
+};
+
 // export
 
 const actionCreators = {
@@ -345,7 +386,8 @@ const actionCreators = {
   emptySearch,
   commentPost,
   commentDelete,
-  putPost
+  putPost,
+  deletePost
 };
 
 export { actionCreators };
