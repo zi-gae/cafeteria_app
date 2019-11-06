@@ -1,13 +1,15 @@
 import React from "react";
 import Search from "../screens/Search";
+import Library from "../screens/Library/";
 import { BG_COLOR_WHITE, LIGTH_GREEN } from "../constants/Color";
 import NavButton from "../components/NavButton";
-import PostDetail from "../components/PostDetail";
-import WritePost from "../components/WritePost";
 
 const sharedRoutes = {
   Search: {
     screen: Search
+  },
+  Library: {
+    screen: Library
   }
 };
 

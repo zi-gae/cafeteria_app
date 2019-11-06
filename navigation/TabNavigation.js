@@ -34,9 +34,6 @@ const TabNavigation = createBottomTabNavigator(
             color={focused ? LIGTH_GREEN : LIGHT_GREY}
           />
         )
-        // tabBarOnPress: ({ navigation }) => {
-        //   console.log(navigation.navigate("Post"));
-        // }
       })
     },
     DormitoryOut: {
@@ -84,18 +81,6 @@ const TabNavigation = createBottomTabNavigator(
   },
 
   {
-    // tabBarComponent:({jumpToIndex, ...props, navigation}) =>(
-    //   <TabBarBottom
-    //   {...props}
-    //   jumpToIndex = {index => {
-    //     if(index === 2){
-    //       navigation.navigate("TakePhoto")
-    //     }else{
-    //       jumpToIndex(index)
-    //     }
-    //   }}
-    //   />
-    // ),
     tabBarPosition: "bottom",
     tabBarOptions: {
       showLabel: false,

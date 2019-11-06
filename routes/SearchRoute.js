@@ -9,6 +9,7 @@ const SearchRoute = createStackNavigator(
     },
     ...sharedRoutes
   },
+
   { ...sharedOptions }
 );
 

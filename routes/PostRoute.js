@@ -10,7 +10,6 @@ const PostRoute = createStackNavigator(
     ...sharedRoutes
   },
   {
-    mode: "modal",
     ...sharedOptions
   }
 );

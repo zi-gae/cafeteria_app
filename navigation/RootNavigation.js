@@ -13,6 +13,7 @@ const RootNavigation = createStackNavigator(
   {
     initialRouteName: "Tabs",
     headerMode: "none",
+    mode: "modal",
     navigationOptions: {
       headerVisible: false
     }
