@@ -11,7 +11,18 @@ const mapStateToProps = (state, ownProps) => {
     }
   } = ownProps;
   const { user } = state;
-  let postInfo;
+  let postInfo = {
+    anonymous: false,
+    comment_count: 0,
+    comments: [],
+    content: "",
+    creator: {},
+    file: "",
+    like_count: 0,
+    natural_time: "",
+    title: "",
+    is_liked: false
+  };
   state.posts.posts.map(post => {
     if (post.id === id) {
       postInfo = post;
@@ -39,15 +50,16 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       }
     },
     disaptchCommentPost: (message, isChecked, referComment = null) => {
-      return dispatch(
-        postActions.commentPost(id, message, isChecked, referComment)
-      );
+      dispatch(postActions.commentPost(id, message, isChecked, referComment));
     },
     disaptchCommentDelete: commentId => {
-      return dispatch(postActions.commentDelete(id, commentId));
+      dispatch(postActions.commentDelete(id, commentId));
     },
     dispatchPutPost: (title, content, file, anonymous) => {
       dispatch(postActions.putPost(id, title, content, file, anonymous));
+    },
+    dispatchDeletePost: () => {
+      dispatch(postActions.deletePost(id));
     }
   };
 };

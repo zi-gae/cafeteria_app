@@ -44,7 +44,8 @@ class PostDetailContainer extends Component {
     dispatchLike: PropTypes.func.isRequired,
     disaptchCommentPost: PropTypes.func.isRequired,
     disaptchCommentDelete: PropTypes.func.isRequired,
-    dispatchPutPost: PropTypes.func.isRequired
+    dispatchPutPost: PropTypes.func.isRequired,
+    dispatchDeletePost: PropTypes.func.isRequired
   };
 
   componentWillMount() {
@@ -187,7 +188,8 @@ class PostDetailContainer extends Component {
 
   handleSheetPress = index => {
     const {
-      navigation: { navigate }
+      navigation: { navigate, goBack },
+      dispatchDeletePost
     } = this.props;
 
     const {
@@ -205,7 +207,20 @@ class PostDetailContainer extends Component {
         handleSuccessButton: this.handleSuccessButton
       });
     } else if (index === 2) {
-      console.log("DELETE");
+      //게시글 삭제 만들어야함
+      Alert.alert("삭제 확인", "삭제하시겠어요?", [
+        {
+          text: "취소",
+          onPress: () => {}
+        },
+        {
+          text: "확인",
+          onPress: () => {
+            goBack(null);
+            dispatchDeletePost();
+          }
+        }
+      ]);
     }
   };
 

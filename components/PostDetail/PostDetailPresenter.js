@@ -458,7 +458,7 @@ PostDetailPresenter.propTypes = {
   anonymous: PropTypes.bool.isRequired,
   creator: PropTypes.shape({
     profile_image: PropTypes.string,
-    username: PropTypes.string.isRequired
+    username: PropTypes.string
   }),
   title: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
