@@ -11,16 +11,21 @@ class LibraryContainer extends PureComponent {
     };
   }
   componentWillMount = async () => {
-    const cameraPhotos = await CameraRoll.getPhotos({
+    const { edges } = await CameraRoll.getPhotos({
       first: 2000,
-      groupTypes: "SavedPhotos",
+      groupTypes: "All",
       assetType: "Photos"
     });
-    console.log(cameraPhotos);
+
+    this.setState({
+      photos: edges,
+      pickedPhoto: edges[0]
+    });
   };
 
   render() {
-    return <LibraryPresenter />;
+    const { photos, pickedPhoto } = this.state;
+    return <LibraryPresenter photos={photos} pickedPhoto={pickedPhoto} />;
   }
 }
 
