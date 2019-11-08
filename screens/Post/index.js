@@ -4,11 +4,11 @@ import { actionCreators as postActions } from "../../redux/modules/posts";
 
 const mapStateToProps = (state, ownProps) => {
   const {
-    posts: { post }
+    posts: { posts }
   } = state;
 
   return {
-    post
+    posts
   };
 };
 
