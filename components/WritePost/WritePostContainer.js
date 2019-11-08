@@ -80,15 +80,16 @@ class WritePostContainer extends Component {
 
   handleCheckBox = () => {
     const { anonymousIsChecked } = this.state;
+    const { navigation } = this.props;
     if (anonymousIsChecked) {
-      this.props.navigation.setParams({
+      navigation.setParams({
         anonymous: false
       });
       this.setState({
         anonymousIsChecked: false
       });
     } else {
-      this.props.navigation.setParams({
+      navigation.setParams({
         anonymous: true
       });
       this.setState({
@@ -97,11 +98,31 @@ class WritePostContainer extends Component {
     }
   };
 
+  handleChoicePhoto = photo => {
+    console.log(photo);
+
+    const {
+      node: {
+        image: { uri }
+      }
+    } = photo;
+    this.props.navigation.setParams({
+      file: uri
+    });
+    this.setState({
+      file: uri
+    });
+  };
+
   handleNavigate = () => {
     const {
       navigation: { navigate }
     } = this.props;
-    navigate("Library");
+    const { handleChoicePhoto } = this;
+
+    navigate("Library", {
+      handleChoicePhoto
+    });
   };
 
   changeTitle = text => {
@@ -123,7 +144,7 @@ class WritePostContainer extends Component {
 
   render() {
     const { handleCheckBox, changeTitle, changeContent, handleNavigate } = this;
-    const { anonymousIsChecked, title, content, file } = this.state;
+    const { anonymousIsChecked, title, content, file, photo } = this.state;
     return (
       <WritePostPresenter
         handleCheckBox={handleCheckBox}
@@ -131,6 +152,7 @@ class WritePostContainer extends Component {
         title={title}
         content={content}
         file={file}
+        photo={photo}
         changeTitle={changeTitle}
         changeContent={changeContent}
         handleNavigate={handleNavigate}

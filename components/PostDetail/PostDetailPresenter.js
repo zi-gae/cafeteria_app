@@ -176,6 +176,7 @@ const PostActionBox = styled.View`
   flex-direction: row;
   justify-content: flex-end;
 `;
+
 const options = ["취소", "수정", "삭제"];
 const CANCEL_INDEX = 0;
 const DESTRUCTIVE_INDEX = 2;

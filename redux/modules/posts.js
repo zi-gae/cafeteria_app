@@ -223,7 +223,7 @@ const putPost = (postId, title, content, file, anonymous) => {
   formData.append("content", content);
   formData.append("anonymous", anonymous);
   if (file) {
-    formData.append("file", file, file.name);
+    formData.append("file", file);
   }
 
   return (dispatch, getState) => {
@@ -233,7 +233,8 @@ const putPost = (postId, title, content, file, anonymous) => {
     fetch(`${URL}/posts/${postId}/`, {
       method: "put",
       headers: {
-        Authorization: `JWT ${token}`
+        Authorization: `JWT ${token}`,
+        "Content-type": "multipart/form-data"
       },
       body: formData
     })

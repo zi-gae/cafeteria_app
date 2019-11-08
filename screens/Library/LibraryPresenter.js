@@ -4,6 +4,8 @@ import PropTypes from "prop-types";
 import FitImage from "react-native-fit-image";
 import Layout from "../../constants/Layout";
 import { SafeAreaView } from "react-navigation";
+import { MaterialIcons } from "@expo/vector-icons";
+import { RFValue } from "react-native-responsive-fontsize";
 
 const Container = styled.View`
   flex: 1;
@@ -17,9 +19,17 @@ const PhotoContainer = styled.View`
   flex: 1;
 `;
 const Touch = styled.TouchableOpacity``;
+const Action = styled.View`
+  background-color: transparent;
+  height: ${RFValue(25)};
+  width: ${RFValue(25)};
+  align-self: flex-end;
+  position: absolute;
+  bottom: 10;
+`;
 const SmallPhoto = styled.Image`
-  width: ${Layout.width / 3};
-  height: ${Layout.height / 3};
+  width: ${Layout.width / 4};
+  height: ${Layout.width / 4};
 `;
 const PhotoBox = styled.View`
   flex: 1;
@@ -27,20 +37,37 @@ const PhotoBox = styled.View`
   flex-wrap: wrap;
 `;
 
-const LibraryPresenter = ({ photos, pickedPhoto }) => {
+const LibraryPresenter = ({ photos, pickedPhoto, pickPhoto }) => {
   return (
     <Container>
       {photos && (
         <ImageContainer>
-          <FitImage source={{ uri: pickedPhoto.node.image.uri }}></FitImage>
+          <FitImage
+            resizeMode="contain"
+            source={{ uri: pickedPhoto.node.image.uri }}
+          />
+          <Touch>
+            <Action>
+              <MaterialIcons
+                name="check-circle"
+                color="white"
+                size={RFValue(25)}
+              />
+            </Action>
+          </Touch>
         </ImageContainer>
       )}
       {photos && (
         <PhotoContainer>
-          <ScrollView>
+          <ScrollView showsVerticalScrollIndicator={true}>
             <PhotoBox>
-              {photos.map(photo => (
-                <Touch>
+              {photos.map((photo, index) => (
+                <Touch
+                  key={index}
+                  onPress={() => {
+                    pickPhoto(photo);
+                  }}
+                >
                   <SmallPhoto source={{ uri: photo.node.image.uri }} />
                 </Touch>
               ))}
@@ -51,6 +78,12 @@ const LibraryPresenter = ({ photos, pickedPhoto }) => {
       <SafeAreaView />
     </Container>
   );
+};
+
+LibraryPresenter.propTypes = {
+  pickedPhoto: PropTypes.object,
+  photos: PropTypes.array,
+  pickPhoto: PropTypes.func.isRequired
 };
 
 export default LibraryPresenter;

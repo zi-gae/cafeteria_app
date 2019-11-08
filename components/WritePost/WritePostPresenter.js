@@ -17,6 +17,7 @@ const ScrollView = styled.ScrollView``;
 const ContentImg = styled.Image`
   height: ${Layout.height / 3};
   width: 100%;
+  border-radius: 10px;
   margin-top: 5px;
   margin-bottom: 5px;
 `;
@@ -63,7 +64,8 @@ const WritePostPresenter = ({
   file,
   changeTitle,
   changeContent,
-  handleNavigate
+  handleNavigate,
+  photo
 }) => {
   return (
     <Container>
