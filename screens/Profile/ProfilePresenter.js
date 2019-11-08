@@ -49,18 +49,15 @@ const Touch = styled.TouchableOpacity``;
 
 const NicknameBox = styled.View`
   width: ${Layout.width / 2};
+  height: ${Layout.width / 13};
+  margin-bottom: ${RFValue(10)};
   flex-direction: row;
 `;
 
 const NicknameInput = styled.TextInput`
   background-color: ${BODER_COLOR};
-  padding-top: ${RFValue(4)};
-  padding-left: ${RFValue(10)};
-  padding-right: ${RFValue(50)};
-  padding-bottom: ${RFValue(5)};
   border-radius: 5px;
   width: ${Layout.width / 2};
-  margin-bottom: ${RFValue(20)};
 `;
 const Button = styled.TouchableOpacity`
   position: absolute;
@@ -68,14 +65,14 @@ const Button = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   flex: 1;
+  height: ${Layout.width / 13};
+  border-radius: 5px;
+  background-color: ${LIGTH_GREEN};
 `;
 const ButtonBox = styled.View`
-  background-color: ${LIGTH_GREEN};
   justify-content: center;
   padding-left: ${RFValue(10)};
   padding-right: ${RFValue(10)};
-  padding-top: ${RFValue(7)};
-  padding-bottom: ${RFValue(7)};
   border-radius: 5px;
 `;
 const ButtonText = styled.Text`
@@ -92,7 +89,7 @@ const ProfilePresenter = ({
   submitLogout,
   user
 }) => (
-  <Container>
+  <Container showsVerticalScrollIndicator={false}>
     <BorderBox>
       <ProfileBox>
         <ProfileImage

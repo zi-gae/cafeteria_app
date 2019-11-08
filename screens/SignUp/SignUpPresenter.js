@@ -93,7 +93,11 @@ const SignUpPresenter = ({
 }) => {
   return (
     <Container>
-      <KeyboardAware>
+      <KeyboardAware
+        enableOnAndroid={true}
+        extraHeight={100}
+        extraScrollHeight={100}
+      >
         <StatusBar barStyle={"light-content"} />
         <Header>
           <Logo source={require("../../assets/images/logo.png")} />

@@ -57,7 +57,7 @@ class ProfileContainer extends PureComponent {
       this.setState(
         {
           nickname: "",
-          openNicknameInput: true
+          openNicknameInput: false
         },
         () => {
           Alert.alert("알림💡", "변경되었어요!", [

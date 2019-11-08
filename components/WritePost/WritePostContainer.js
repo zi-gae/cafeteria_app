@@ -99,8 +99,6 @@ class WritePostContainer extends Component {
   };
 
   handleChoicePhoto = photo => {
-    console.log(photo);
-
     const {
       node: {
         image: { uri }

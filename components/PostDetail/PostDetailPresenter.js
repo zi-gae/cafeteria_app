@@ -271,7 +271,7 @@ const PostDetailPresenter = ({
       </ScrollView>
       <KeyboardAccessoryView
         alwaysVisible={true}
-        androidAdjustResize
+        avoidKeyboard
         hideBorder={true}
         bumperHeight={15}
         style={{

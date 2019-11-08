@@ -37,6 +37,7 @@ const RefreshControl = styled.RefreshControl``;
 const NotificationPresenter = ({ notification, isFetching, OnRefresh }) => {
   return (
     <ScrollContainer
+      showsVerticalScrollIndicator={false}
       refreshControl={
         <RefreshControl
           refreshing={isFetching}
