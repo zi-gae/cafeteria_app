@@ -3,22 +3,21 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { Ionicons } from "@expo/vector-icons";
 import { RFValue } from "react-native-responsive-fontsize";
+import Layout from "../../constants/Layout";
 
 const Container = styled.View`
-  flex: 1;
+  width: ${Layout.width / 1.5};
   flex-direction: row;
   justify-content: center;
   align-items: center;
   background-color: #f2f2f2;
   border-radius: 10px;
-  margin-left: 10px;
+  margin-left: ${RFValue(10)};
 `;
 const Search = styled.TextInput`
   flex: 1;
-  padding-top: 10px;
-  padding-right: 10px;
-  padding-bottom: 10px;
-  padding-left: 10px;
+  padding-top: ${RFValue(10)};
+  padding-bottom: ${RFValue(10)};
   font-size: ${RFValue(15)};
   color: #424242;
 `;

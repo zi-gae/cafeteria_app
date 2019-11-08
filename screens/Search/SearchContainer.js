@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import SearchPresenter from "./SearchPresenter";
 import SearchBar from "../../components/SearchBar";
 import PropTypes from "prop-types";
+import NavButton from "../../components/NavButton";
+import { Platform } from "react-native";
+import { LIGTH_GREEN } from "../../constants/Color";
 
 class SearchContainer extends Component {
   constructor(props) {
@@ -23,8 +26,16 @@ class SearchContainer extends Component {
 
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state;
+    const iconName = Platform.OS === "android" ? "ios-close" : "ios-arrow-back";
     return {
-      headerTitle: <SearchBar submit={text => params.submitSearch(text)} />
+      headerTitle: <SearchBar submit={text => params.submitSearch(text)} />,
+      headerLeft: (
+        <NavButton
+          iconName={iconName}
+          color={LIGTH_GREEN}
+          onPress={() => navigation.goBack(null)}
+        />
+      )
     };
   };
 

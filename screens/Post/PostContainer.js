@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { LIGTH_GREEN } from "../../constants/Color";
 import NavButton from "../../components/NavButton";
 import PropTypes from "prop-types";
+import { RFValue } from "react-native-responsive-fontsize";
 
 const Image = styled.Image`
   height: 70px;
@@ -11,7 +12,7 @@ const Image = styled.Image`
 `;
 const Title = styled.Text`
   font-weight: bold;
-  font-size: 18px;
+  font-size: ${RFValue(18)};
   color: ${LIGTH_GREEN};
 `;
 

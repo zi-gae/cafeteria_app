@@ -20,7 +20,7 @@ const sharedOptions = {
     ),
     headerStyle: {
       backgroundColor: BG_COLOR_WHITE,
-      levation: 0,
+      elevation: 0,
       shadowOpacity: 0,
       borderBottomWidth: 0
     }

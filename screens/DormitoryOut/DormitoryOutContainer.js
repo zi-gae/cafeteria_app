@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import DormitoryOutPresenter from "./DormitoryOutPresenter";
 import PropTypes from "prop-types";
 import { Alert } from "react-native";
+import { RFValue } from "react-native-responsive-fontsize";
+import { LIGTH_GREEN } from "../../constants/Color";
 
 class DormitoryOutContainer extends Component {
   constructor() {
@@ -20,7 +22,14 @@ class DormitoryOutContainer extends Component {
       maxDate: ""
     };
   }
-
+  static navigationOptions = props => ({
+    headerTitle: "외박신청",
+    headerTitleStyle: {
+      fontSize: RFValue(18),
+      color: LIGTH_GREEN
+    },
+    headerLeft: null
+  });
   static propTypes = {
     dormitoryOut: PropTypes.func.isRequired,
     dormitoryOutState: PropTypes.string,

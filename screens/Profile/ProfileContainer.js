@@ -2,6 +2,7 @@ import React, { PureComponent } from "react";
 import ProfilePresenter from "./ProfilePresenter";
 import PropTypes from "prop-types";
 import { Alert } from "react-native";
+import { BG_COLOR_WHITE } from "../../constants/Color";
 
 class ProfileContainer extends PureComponent {
   constructor(props) {
@@ -13,7 +14,8 @@ class ProfileContainer extends PureComponent {
   }
 
   static navigationOptions = ({ screenProps }) => ({
-    headerTitle: screenProps.username
+    headerTitle: screenProps.username,
+    headerLeft: null
   });
 
   static propTypes = {
