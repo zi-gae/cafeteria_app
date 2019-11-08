@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import FitImage from "react-native-fit-image";
 import Layout from "../../constants/Layout";
 import { SafeAreaView } from "react-navigation";
-import { MaterialIcons } from "@expo/vector-icons";
 import { RFValue } from "react-native-responsive-fontsize";
 
 const Container = styled.View`
@@ -19,6 +18,9 @@ const PhotoContainer = styled.View`
   flex: 1;
 `;
 const Touch = styled.TouchableOpacity``;
+const FitImg = styled(FitImage)`
+  border-radius: 20;
+`;
 const Action = styled.View`
   background-color: transparent;
   height: ${RFValue(25)};
@@ -27,7 +29,7 @@ const Action = styled.View`
   position: absolute;
   bottom: 10;
 `;
-const SmallPhoto = styled.Image`
+const SmallPhoto = styled(FitImage)`
   width: ${Layout.width / 4};
   height: ${Layout.width / 4};
 `;
@@ -42,19 +44,10 @@ const LibraryPresenter = ({ photos, pickedPhoto, pickPhoto }) => {
     <Container>
       {photos && (
         <ImageContainer>
-          <FitImage
+          <FitImg
             resizeMode="contain"
             source={{ uri: pickedPhoto.node.image.uri }}
           />
-          <Touch>
-            <Action>
-              <MaterialIcons
-                name="check-circle"
-                color="white"
-                size={RFValue(25)}
-              />
-            </Action>
-          </Touch>
         </ImageContainer>
       )}
       {photos && (

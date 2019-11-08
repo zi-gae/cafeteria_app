@@ -2,7 +2,7 @@
 
 import { URL } from "../../constants";
 import { actionCreators as userActions } from "./user";
-
+import uuidv1 from "uuid/v1";
 //action
 
 const SET_POST = "SET_POST";
@@ -223,7 +223,11 @@ const putPost = (postId, title, content, file, anonymous) => {
   formData.append("content", content);
   formData.append("anonymous", anonymous);
   if (file) {
-    formData.append("file", file);
+    formData.append("file", {
+      uri: file,
+      type: "image/jpeg",
+      name: `${uuidv1()}.jpg`
+    });
   }
 
   return (dispatch, getState) => {
@@ -242,12 +246,14 @@ const putPost = (postId, title, content, file, anonymous) => {
         if (res.status === 401) {
           dispatch(userActions.logOut());
         } else {
+          dispatch(getPost());
           return res.json();
         }
       })
       .then(json => {
         dispatch(reqPutPost(postId, json));
-      });
+      })
+      .catch(err => console.log(err));
   };
 };
 
@@ -287,10 +293,10 @@ const reducer = (state = initalState, action) => {
       return applyPostComment(state, action);
     case DELETE_COMMENT:
       return applyDeleteComment(state, action);
-    case UPDATE_POST:
-      return applyPutPostComment(state, action);
     case DELETE_POST:
       return applyDeletePost(state, action);
+    case UPDATE_POST:
+      return applyUpdatePost(state, action);
     default:
       return state;
   }
@@ -349,7 +355,18 @@ const applyDeleteComment = (state, action) => {
   return { ...state, posts: updatePost };
 };
 
-const applyPutPostComment = (state, action) => {
+const applyDeletePost = (state, action) => {
+  const { posts } = state;
+  const { postId } = action;
+  const updatePost = posts.filter(post => post.id !== postId);
+
+  return {
+    ...state,
+    posts: updatePost
+  };
+};
+
+const applyUpdatePost = (state, action) => {
   const { posts } = state;
   const { postId, resPost } = action;
 
@@ -363,18 +380,8 @@ const applyPutPostComment = (state, action) => {
       return post;
     }
   });
+
   return { ...state, posts: updatePost };
-};
-
-const applyDeletePost = (state, action) => {
-  const { posts } = state;
-  const { postId } = action;
-  const updatePost = posts.filter(post => post.id !== postId);
-
-  return {
-    ...state,
-    posts: updatePost
-  };
 };
 
 // export
