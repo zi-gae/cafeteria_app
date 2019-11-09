@@ -3,9 +3,10 @@ import { connect } from "react-redux";
 import { actionCreators as userActions } from "../../redux/modules/user";
 
 const mapStateToProps = (state, ownProps) => {
-  const { user } = state;
+  const { user, posts } = state;
   return {
-    user
+    user,
+    posts
   };
 };
 

@@ -8,19 +8,22 @@ const Container = styled.View`
   padding-left: 10px;
   padding-right: 10px;
 `;
+const Empty = styled.View``;
 
-const NavButton = ({ iconName, onPress, color }) => {
-  return (
-    <TouchableWithoutFeedback onPress={onPress}>
+const NavButton = ({ iconName, onPress, color }) => (
+  <TouchableWithoutFeedback onPress={onPress}>
+    {iconName ? (
       <Container>
         <Ionicons name={iconName} color={color} size={30} />
       </Container>
-    </TouchableWithoutFeedback>
-  );
-};
+    ) : (
+      <Empty />
+    )}
+  </TouchableWithoutFeedback>
+);
 
 NavButton.propTypes = {
-  iconName: PropTypes.string.isRequired,
+  iconName: PropTypes.string,
   onPress: PropTypes.func.isRequired,
   color: PropTypes.string.isRequired
 };

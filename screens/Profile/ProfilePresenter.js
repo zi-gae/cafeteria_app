@@ -87,7 +87,8 @@ const ProfilePresenter = ({
   changeNickname,
   nickname,
   submitLogout,
-  user
+  user,
+  handleNavigate
 }) => (
   <Container showsVerticalScrollIndicator={false}>
     <BorderBox>
@@ -105,7 +106,7 @@ const ProfilePresenter = ({
     </BorderBox>
     <BorderBox>
       <Text header={true}>계정</Text>
-      <Touch>
+      <Touch onPress={handleNavigate}>
         <Text header={false}>내가 쓴 글</Text>
       </Touch>
       <Touch>

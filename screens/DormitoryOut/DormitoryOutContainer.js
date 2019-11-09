@@ -4,6 +4,12 @@ import PropTypes from "prop-types";
 import { Alert } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 import { LIGTH_GREEN } from "../../constants/Color";
+import styled from "styled-components";
+
+const Image = styled.Image`
+  height: ${RFValue(58)};
+  width: ${RFValue(58)};
+`;
 
 class DormitoryOutContainer extends Component {
   constructor() {
@@ -24,11 +30,16 @@ class DormitoryOutContainer extends Component {
   }
   static navigationOptions = props => ({
     headerTitle: "외박신청",
+    headerLeft: (
+      <Image
+        source={require("../../assets/images/logo.png")}
+        resizeMode={"contain"}
+      />
+    ),
     headerTitleStyle: {
       fontSize: RFValue(18),
       color: LIGTH_GREEN
-    },
-    headerLeft: null
+    }
   });
   static propTypes = {
     dormitoryOut: PropTypes.func.isRequired,

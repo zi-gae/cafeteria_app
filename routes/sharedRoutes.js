@@ -3,6 +3,7 @@ import Search from "../screens/Search";
 import Library from "../screens/Library/";
 import { BG_COLOR_WHITE, LIGTH_GREEN } from "../constants/Color";
 import NavButton from "../components/NavButton";
+import Post from "../screens/Post";
 
 const sharedRoutes = {
   Search: {
@@ -10,6 +11,9 @@ const sharedRoutes = {
   },
   Library: {
     screen: Library
+  },
+  OwnPost: {
+    screen: Post
   }
 };
 

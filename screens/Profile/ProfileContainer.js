@@ -2,6 +2,13 @@ import React, { PureComponent } from "react";
 import ProfilePresenter from "./ProfilePresenter";
 import PropTypes from "prop-types";
 import { Alert } from "react-native";
+import styled from "styled-components";
+import { RFValue } from "react-native-responsive-fontsize";
+
+const Image = styled.Image`
+  height: ${RFValue(58)};
+  width: ${RFValue(58)};
+`;
 
 class ProfileContainer extends PureComponent {
   constructor(props) {
@@ -14,7 +21,12 @@ class ProfileContainer extends PureComponent {
 
   static navigationOptions = ({ screenProps }) => ({
     headerTitle: screenProps.username,
-    headerLeft: null
+    headerLeft: (
+      <Image
+        source={require("../../assets/images/logo.png")}
+        resizeMode={"contain"}
+      />
+    )
   });
 
   static propTypes = {
@@ -46,6 +58,25 @@ class ProfileContainer extends PureComponent {
     ]);
   };
 
+  handleNavigate = () => {
+    const {
+      navigation: { navigate },
+      posts: { posts },
+      user: { profile }
+    } = this.props;
+
+    const ownPost = posts.filter(post => {
+      if (post.creator.username === profile.name) {
+        return post;
+      }
+    });
+    navigate("OwnPost", {
+      ownPost,
+      headerTitle: "내가 작성한 글",
+      headerRight: null
+    });
+  };
+
   changeProfile = () => {
     const { modifyNickname } = this.props;
     const { nickname } = this.state;
@@ -75,7 +106,8 @@ class ProfileContainer extends PureComponent {
       handleNicknameInput,
       changeProfile,
       changeNickname,
-      submitLogout
+      submitLogout,
+      handleNavigate
     } = this;
     const { user } = this.props;
 
@@ -88,6 +120,7 @@ class ProfileContainer extends PureComponent {
         nickname={nickname}
         user={user}
         submitLogout={submitLogout}
+        handleNavigate={handleNavigate}
       />
     );
   }
