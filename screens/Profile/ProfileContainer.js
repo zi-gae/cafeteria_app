@@ -2,7 +2,6 @@ import React, { PureComponent } from "react";
 import ProfilePresenter from "./ProfilePresenter";
 import PropTypes from "prop-types";
 import { Alert } from "react-native";
-import { BG_COLOR_WHITE } from "../../constants/Color";
 
 class ProfileContainer extends PureComponent {
   constructor(props) {

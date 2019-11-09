@@ -17,7 +17,7 @@ const ScrollView = styled.ScrollView``;
 const ContentImg = styled.Image`
   height: ${Layout.height / 3};
   width: 100%;
-  border-radius: 20px;
+  border-radius: 10px;
   margin-top: 5px;
   margin-bottom: 5px;
 `;
@@ -90,7 +90,7 @@ const WritePostPresenter = ({
           onChangeText={changeContent}
         />
       </ScrollView>
-      {file ? <ContentImg resizeMode="contain" source={{ uri: file }} /> : null}
+      {file ? <ContentImg resizeMode="cover" source={{ uri: file }} /> : null}
       <KeyboardAccessoryView
         hideBorder={true}
         alwaysVisible={true}
