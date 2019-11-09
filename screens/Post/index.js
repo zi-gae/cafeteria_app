@@ -16,6 +16,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     getPost: () => {
       dispatch(postActions.getPost());
+    },
+    dispatchCreatePost: (title, content, file, anonymous) => {
+      dispatch(postActions.createPost(title, content, file, anonymous));
     }
   };
 };

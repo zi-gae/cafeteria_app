@@ -11,6 +11,7 @@ const POST_COMMENT = "POST_COMMENT";
 const DELETE_COMMENT = "DELETE_COMMENT";
 const UPDATE_POST = "UPDATE_POST";
 const DELETE_POST = "DELETE_POST";
+const CREATE_POST = "CREATE_POST";
 //action creator
 
 const reqSetPost = posts => {
@@ -55,6 +56,12 @@ const reqDeletePost = postId => {
   return {
     type: DELETE_POST,
     postId
+  };
+};
+
+const reqCreatePost = () => {
+  return {
+    type: CREATE_POST
   };
 };
 
@@ -277,6 +284,47 @@ const deletePost = postId => {
   };
 };
 
+const createPost = (title, content, file, anonymous) => {
+  let formData = new FormData();
+  formData.append("title", title);
+  formData.append("content", content);
+  formData.append("anonymous", anonymous);
+  if (file) {
+    formData.append("file", {
+      uri: file,
+      type: "image/jpeg",
+      name: `${uuidv1()}.jpg`
+    });
+  }
+
+  return (dispatch, getState) => {
+    const {
+      user: { token }
+    } = getState();
+    fetch(`${URL}/posts/`, {
+      method: "post",
+      headers: {
+        Authorization: `JWT ${token}`,
+        "Content-type": "multipart/form-data"
+      },
+      body: formData
+    })
+      .then(res => {
+        if (res.status === 401) {
+          dispatch(userActions.logOut());
+        } else {
+          dispatch(getPost());
+          return res.json();
+        }
+      })
+      .then(json => {
+        console.log(json);
+        dispatch(reqCreatePost());
+      })
+      .catch(err => console.log(err));
+  };
+};
+
 //inital state
 
 const initalState = {};
@@ -297,6 +345,8 @@ const reducer = (state = initalState, action) => {
       return applyDeletePost(state, action);
     case UPDATE_POST:
       return applyUpdatePost(state, action);
+    case CREATE_POST:
+      return applyCreatePost(state, action);
     default:
       return state;
   }
@@ -384,6 +434,24 @@ const applyUpdatePost = (state, action) => {
   return { ...state, posts: updatePost };
 };
 
+const applyCreatePost = (state, action) => {
+  const { posts } = state;
+  const { postId, resPost } = action;
+
+  const updatePost = posts.map(post => {
+    if (post.id === postId) {
+      return {
+        ...post,
+        ...resPost
+      };
+    } else {
+      return post;
+    }
+  });
+
+  return { ...state };
+};
+
 // export
 
 const actionCreators = {
@@ -395,7 +463,8 @@ const actionCreators = {
   commentPost,
   commentDelete,
   putPost,
-  deletePost
+  deletePost,
+  createPost
 };
 
 export { actionCreators };

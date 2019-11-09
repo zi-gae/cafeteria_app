@@ -17,6 +17,14 @@ const Title = styled.Text`
 `;
 
 class PostContainer extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isFetching: false,
+      isPostSubmitting: false
+    };
+  }
+
   static navigationOptions = ({ navigation }) => ({
     headerTitle: <Title>자유게시판</Title>,
     headerLeft: (
@@ -39,13 +47,6 @@ class PostContainer extends Component {
     getPost: PropTypes.func.isRequired
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      isFetching: false
-    };
-  }
-
   componentWillReceiveProps = nextProps => {
     if (nextProps.posts) {
       this.setState({
@@ -62,8 +63,17 @@ class PostContainer extends Component {
       title: null,
       content: null,
       file: null,
-      writeType: "글 쓰기"
+      writeType: "글 쓰기",
+      handleSuccessButton: this.handleSuccessButton
     });
+  };
+
+  handleSuccessButton = async (title, content, file, anonymous) => {
+    if (anonymous === undefined) {
+      anonymous = false;
+    }
+    const { dispatchCreatePost } = this.props;
+    await dispatchCreatePost(title, content, file, anonymous);
   };
 
   refresh = () => {
@@ -77,7 +87,7 @@ class PostContainer extends Component {
   render() {
     const { getPost, posts, navigation } = this.props;
     const { navigateWritePost, refresh } = this;
-    const { isFetching } = this.state;
+    const { isFetching, isPostSubmitting } = this.state;
     return (
       <PostPresenter
         getPost={getPost}
@@ -86,6 +96,7 @@ class PostContainer extends Component {
         navigateWritePost={navigateWritePost}
         isFetching={isFetching}
         navigation={navigation}
+        isPostSubmitting={isPostSubmitting}
       />
     );
   }

@@ -41,12 +41,18 @@ const WriteText = styled.Text`
   margin-left: ${RFValue(6)};
 `;
 
-const PostPresenter = ({ isFetching, refresh, posts, navigateWritePost }) => (
+const PostPresenter = ({
+  isFetching,
+  refresh,
+  posts,
+  navigateWritePost,
+  isPostSubmitting
+}) => (
   <Container>
     <ScrollContainer
       refreshControl={
         <RefreshControl
-          refreshing={isFetching}
+          refreshing={isFetching && isPostSubmitting}
           onRefresh={refresh}
           tintColor="black"
         />
