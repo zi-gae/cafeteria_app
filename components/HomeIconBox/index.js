@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
 import { RFValue } from "react-native-responsive-fontsize";
 import { Linking } from "react-native";
+import WebViewBox from "../WebViewBox";
 
 const IconBox = styled.View`
   align-items: center;
@@ -23,10 +24,16 @@ const View = styled.View`
   border-radius: 20px;
 `;
 
-const index = ({ name, size, color, type, kind, url }) => (
+const index = ({ name, size, color, type, kind, url, navigate }) => (
   <IconBox>
     <View>
-      <Touch onPress={() => Linking.openURL(url)}>
+      <Touch
+        onPress={() =>
+          navigate("WebView", {
+            url
+          })
+        }
+      >
         {type === "Ii" ? (
           <Ionicons name={name} size={RFValue(size)} color={color} />
         ) : (
