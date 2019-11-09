@@ -16,7 +16,10 @@ const Container = styled.View`
   margin-top: 10px;
   flex: 1;
 `;
-const ActivityIndicator = styled.ActivityIndicator``;
+const ActivityIndicator = styled.ActivityIndicator`
+  height: ${Layout.height / 3};
+  width: 100%;
+`;
 const PostContainer = styled.View`
   border-bottom-color: ${BODER_COLOR};
   border-bottom-width: 1px;
@@ -206,7 +209,8 @@ const PostDetailPresenter = ({
   removeComment,
   isSubmitting,
   handleSheetPress,
-  profile
+  profile,
+  isPhotoSubmitting
 }) => {
   return (
     <Container>
@@ -243,7 +247,11 @@ const PostDetailPresenter = ({
           <Title>{title}</Title>
           <Content>{content}</Content>
           {file ? (
-            <ContentImg resizeMode="contain" source={{ uri: file }} />
+            isPhotoSubmitting ? (
+              <ActivityIndicator color="black" size="large" />
+            ) : (
+              <ContentImg resizeMode="cover" source={{ uri: file }} />
+            )
           ) : null}
           <PostActions
             dispatchLike={handlePress}
@@ -485,7 +493,8 @@ PostDetailPresenter.propTypes = {
   keyboardView: PropTypes.bool.isRequired,
   message: PropTypes.string.isRequired,
   onChangeComment: PropTypes.func.isRequired,
-  submitComment: PropTypes.func.isRequired
+  submitComment: PropTypes.func.isRequired,
+  isPhotoSubmitting: PropTypes.bool.isRequired
 };
 
 export default PostDetailPresenter;

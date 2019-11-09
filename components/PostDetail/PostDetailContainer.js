@@ -24,7 +24,8 @@ class PostDetailContainer extends Component {
       postDetail: this.props.postInfo,
       referComment: 0,
       placeholder: "댓글 입력",
-      isSubmitting: false
+      isCommentSubmitting: false,
+      isPhotoSubmitting: false
     };
   }
 
@@ -189,12 +190,9 @@ class PostDetailContainer extends Component {
   handleSheetPress = index => {
     const {
       navigation: { navigate, goBack },
-      dispatchDeletePost
+      dispatchDeletePost,
+      postInfo: { content, file, title, anonymous, id }
     } = this.props;
-
-    const {
-      postDetail: { content, file, title, anonymous, id }
-    } = this.state;
 
     if (index === 1) {
       navigate("WritePost", {
@@ -227,11 +225,11 @@ class PostDetailContainer extends Component {
   handleSuccessButton = async (title, content, file, anonymous) => {
     const { dispatchPutPost } = this.props;
     this.setState({
-      isSubmitting: true
+      isPhotoSubmitting: true
     });
     await dispatchPutPost(title, content, file, anonymous);
     this.setState({
-      isSubmitting: false
+      isPhotoSubmitting: false
     });
   };
 
@@ -245,7 +243,8 @@ class PostDetailContainer extends Component {
       message,
       referComment,
       placeholder,
-      isSubmitting
+      isSubmitting,
+      isPhotoSubmitting
     } = this.state;
     const {
       handlePress,
@@ -304,6 +303,7 @@ class PostDetailContainer extends Component {
         isSubmitting={isSubmitting}
         handleSheetPress={handleSheetPress}
         profile={profile}
+        isPhotoSubmitting={isPhotoSubmitting}
       />
     );
   }
