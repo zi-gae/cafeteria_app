@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import HomePresenter from "./HomePresenter";
 import { LIGTH_GREEN } from "../../constants/Color";
-import styled from "styled-components";
 import NavButton from "../../components/NavButton";
+import styled from "styled-components";
+import { RFValue } from "react-native-responsive-fontsize";
 
 const Image = styled.Image`
-  height: 70px;
-  width: 70px;
+  height: ${RFValue(58)};
+  width: ${RFValue(58)};
 `;
 
 class HomeContainer extends Component {
@@ -26,7 +27,10 @@ class HomeContainer extends Component {
     )
   });
   render() {
-    return <HomePresenter />;
+    const {
+      navigation: { navigate }
+    } = this.props;
+    return <HomePresenter navigate={navigate} />;
   }
 }
 

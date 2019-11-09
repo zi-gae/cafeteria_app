@@ -36,7 +36,7 @@ const IconContainer = styled.View`
   margin-bottom: ${RFValue(20)};
 `;
 
-const HomePresenter = () => (
+const HomePresenter = ({ navigate }) => (
   <Container showsVerticalScrollIndicator={false}>
     <SquareContainer>
       <RicePost type="student" title="학생 식당" />
@@ -53,14 +53,16 @@ const HomePresenter = () => (
 
     <IconContainer>
       <HomeIconBox
+        navigate={navigate}
         name={"home"}
         size={25}
         color={LIGHT_BLUE}
         type="Fa"
         kind="TU 홈"
-        url="http://www.m.tu.ac.kr/tu/index.jsp"
+        url="http://m.tu.ac.kr"
       />
       <HomeIconBox
+        navigate={navigate}
         name={"ios-calendar"}
         size={25}
         color={LIGHT_BLUE}
@@ -69,6 +71,7 @@ const HomePresenter = () => (
         url="http://m.tu.ac.kr/tu/html/04_life/life_02.jsp"
       />
       <HomeIconBox
+        navigate={navigate}
         name={"ios-book"}
         size={25}
         color={LIGHT_BLUE}
@@ -77,6 +80,7 @@ const HomePresenter = () => (
         url="http://libebook.tu.ac.kr:8081/EZ5500/SEAT/RoomStatus.aspx"
       />
       <HomeIconBox
+        navigate={navigate}
         name={"stack-overflow"}
         size={25}
         color={LIGHT_BLUE}
@@ -85,6 +89,7 @@ const HomePresenter = () => (
         url="https://up.tu.ac.kr"
       />
       <HomeIconBox
+        navigate={navigate}
         name={"book"}
         size={25}
         color={LIGHT_BLUE}

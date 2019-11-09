@@ -46,7 +46,8 @@ const PostPresenter = ({
   refresh,
   posts,
   navigateWritePost,
-  isPostSubmitting
+  isPostSubmitting,
+  navigation
 }) => (
   <Container>
     <ScrollContainer
@@ -62,12 +63,14 @@ const PostPresenter = ({
         {posts && posts.map(post => <TakePost {...post} key={post.id} />)}
       </PostContainer>
     </ScrollContainer>
-    <Touch onPress={navigateWritePost}>
-      <WriteButton>
-        <EvilIcons name="pencil" color={LIGTH_GREEN} size={RFValue(25)} />
-        <WriteText>글 쓰기</WriteText>
-      </WriteButton>
-    </Touch>
+    {navigation.state.params ? null : (
+      <Touch onPress={navigateWritePost}>
+        <WriteButton>
+          <EvilIcons name="pencil" color={LIGTH_GREEN} size={RFValue(25)} />
+          <WriteText>글 쓰기</WriteText>
+        </WriteButton>
+      </Touch>
+    )}
   </Container>
 );
 

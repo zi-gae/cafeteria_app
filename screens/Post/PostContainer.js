@@ -7,11 +7,11 @@ import PropTypes from "prop-types";
 import { RFValue } from "react-native-responsive-fontsize";
 
 const Image = styled.Image`
-  height: 70px;
-  width: 70px;
+  height: ${RFValue(58)};
+  width: ${RFValue(58)};
 `;
 const Title = styled.Text`
-  font-weight: bold;
+  font-weight: 600;
   font-size: ${RFValue(18)};
   color: ${LIGTH_GREEN};
 `;
@@ -26,7 +26,13 @@ class PostContainer extends Component {
   }
 
   static navigationOptions = ({ navigation }) => ({
-    headerTitle: <Title>자유게시판</Title>,
+    headerTitle: (
+      <Title>
+        {navigation.state.params
+          ? navigation.state.params.headerTitle
+          : "자유게시판"}
+      </Title>
+    ),
     headerLeft: (
       <Image
         source={require("../../assets/images/logo.png")}
@@ -35,7 +41,11 @@ class PostContainer extends Component {
     ),
     headerRight: (
       <NavButton
-        iconName={"ios-search"}
+        iconName={
+          navigation.state.params
+            ? navigation.state.params.headerRight
+            : "ios-search"
+        }
         color={LIGTH_GREEN}
         onPress={() => navigation.navigate("Search")}
       />
@@ -88,10 +98,13 @@ class PostContainer extends Component {
     const { getPost, posts, navigation } = this.props;
     const { navigateWritePost, refresh } = this;
     const { isFetching, isPostSubmitting } = this.state;
+
     return (
       <PostPresenter
         getPost={getPost}
-        posts={posts}
+        posts={
+          navigation.state.params ? navigation.state.params.ownPost : posts
+        }
         refresh={refresh}
         navigateWritePost={navigateWritePost}
         isFetching={isFetching}
