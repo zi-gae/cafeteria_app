@@ -25,32 +25,34 @@ class PostContainer extends Component {
     };
   }
 
-  static navigationOptions = ({ navigation }) => ({
-    headerTitle: (
-      <Title>
-        {navigation.state.params
-          ? navigation.state.params.headerTitle
-          : "자유게시판"}
-      </Title>
-    ),
-    headerLeft: (
+  static navigationOptions = ({ navigation }) => {
+    const {
+      state: { params }
+    } = navigation;
+    const headerLeft = params ? (
+      <NavButton
+        onPress={() => navigation.goBack(null)}
+        iconName={"ios-arrow-back"}
+        color={LIGTH_GREEN}
+      />
+    ) : (
       <Image
         source={require("../../assets/images/logo.png")}
         resizeMode={"contain"}
       />
-    ),
-    headerRight: (
-      <NavButton
-        iconName={
-          navigation.state.params
-            ? navigation.state.params.headerRight
-            : "ios-search"
-        }
-        color={LIGTH_GREEN}
-        onPress={() => navigation.navigate("Search")}
-      />
-    )
-  });
+    );
+    return {
+      headerTitle: <Title>{params ? params.headerTitle : "자유게시판"}</Title>,
+      headerLeft: headerLeft,
+      headerRight: (
+        <NavButton
+          iconName={params ? params.headerRight : "ios-search"}
+          color={LIGTH_GREEN}
+          onPress={() => navigation.navigate("Search")}
+        />
+      )
+    };
+  };
 
   static propTyeps = {
     posts: PropTypes.array.isRequired,

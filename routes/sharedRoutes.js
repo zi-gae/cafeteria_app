@@ -4,6 +4,7 @@ import Library from "../screens/Library/";
 import { BG_COLOR_WHITE, LIGTH_GREEN } from "../constants/Color";
 import NavButton from "../components/NavButton";
 import Post from "../screens/Post";
+import { RFValue } from "react-native-responsive-fontsize";
 
 const sharedRoutes = {
   Search: {
@@ -26,7 +27,8 @@ const sharedOptions = {
       backgroundColor: BG_COLOR_WHITE,
       elevation: 0,
       shadowOpacity: 0,
-      borderBottomWidth: 0
+      borderBottomWidth: 0,
+      marginBottom: RFValue(15)
     }
   }
 };
