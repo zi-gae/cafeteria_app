@@ -85,8 +85,8 @@ const HomePresenter = ({ navigate }) => (
         size={25}
         color={LIGHT_BLUE}
         type="Fa"
-        kind="마일리지"
-        url="https://up.tu.ac.kr"
+        kind="장학정보"
+        url="m.tu.ac.kr/tu/html/04_life/life_04.jsp"
       />
       <HomeIconBox
         navigate={navigate}
