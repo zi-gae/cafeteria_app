@@ -22,6 +22,9 @@ mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(postActions.emptySearch());
       dispatch(userActions.getNotification());
       dispatch(userActions.getOwnProfile());
+    },
+    dispatchPostToken: token => {
+      dispatch(userActions.postToken(token));
     }
   };
 };

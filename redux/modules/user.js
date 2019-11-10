@@ -182,6 +182,37 @@ const putProfile = (profileImage, nickname) => {
   };
 };
 
+const postToken = notificationToken => {
+  console.log("notificationToken", notificationToken);
+
+  return (dispatch, getState) => {
+    const {
+      user: {
+        token,
+        profile: { username }
+      }
+    } = getState();
+    fetch(`${URL}/users/push-token/`, {
+      method: "post",
+      headers: {
+        Authorization: `JWT ${token}`,
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        token: notificationToken,
+        username
+      })
+    })
+      .then(res => {
+        if (res.status === 401) {
+          dispatch(logOut());
+        }
+      })
+      .catch(err => console.log(err));
+  };
+};
+
 // instial state
 
 const initialState = {
@@ -261,7 +292,8 @@ const actionCreators = {
   logOut,
   getNotification,
   getOwnProfile,
-  putProfile
+  putProfile,
+  postToken
 };
 
 export { actionCreators };
