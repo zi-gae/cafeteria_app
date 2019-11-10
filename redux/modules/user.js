@@ -183,14 +183,9 @@ const putProfile = (profileImage, nickname) => {
 };
 
 const postToken = notificationToken => {
-  console.log("notificationToken", notificationToken);
-
   return (dispatch, getState) => {
     const {
-      user: {
-        token,
-        profile: { username }
-      }
+      user: { token }
     } = getState();
     fetch(`${URL}/users/push-token/`, {
       method: "post",
@@ -200,8 +195,7 @@ const postToken = notificationToken => {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        token: notificationToken,
-        username
+        push_token: notificationToken
       })
     })
       .then(res => {
