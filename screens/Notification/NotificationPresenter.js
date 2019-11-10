@@ -10,7 +10,9 @@ import Notification from "../../components/Notification";
 const ScrollContainer = styled.ScrollView`
   margin-top: 10px;
 `;
-
+const ActivityIndicator = styled.ActivityIndicator`
+  align-self: center;
+`;
 const PostContainer = styled.View`
   align-items: center;
 `;
@@ -34,10 +36,24 @@ const GuideText = styled.Text`
 `;
 const RefreshControl = styled.RefreshControl``;
 
-const NotificationPresenter = ({ notification, isFetching, OnRefresh }) => {
+const NotificationPresenter = ({
+  notification,
+  isFetching,
+  OnRefresh,
+  handleNotificationLength,
+  notificationLength,
+  fetchNotification,
+  isCloseToBottom
+}) => {
   return (
     <ScrollContainer
       showsVerticalScrollIndicator={false}
+      onScroll={({ nativeEvent }) => {
+        if (isCloseToBottom(nativeEvent)) {
+          handleNotificationLength();
+        }
+      }}
+      scrollEventThrottle={16}
       refreshControl={
         <RefreshControl
           refreshing={isFetching}
@@ -59,11 +75,18 @@ const NotificationPresenter = ({ notification, isFetching, OnRefresh }) => {
             <GuideText>알림이 없네요..</GuideText>
           </GuideBox>
         ) : (
-          notification.map((notification, i) => (
-            <Notification {...notification} key={i} />
-          ))
+          notification.map((notification, index) => {
+            if (index < notificationLength) {
+              return <Notification {...notification} key={index} />;
+            } else {
+              return null;
+            }
+          })
         )}
       </PostContainer>
+      {fetchNotification ? (
+        <ActivityIndicator size="small" color="black" />
+      ) : null}
     </ScrollContainer>
   );
 };

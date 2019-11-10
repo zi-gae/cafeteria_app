@@ -16,6 +16,9 @@ const ScrollContainer = styled.ScrollView`
   margin-top: 10px;
   width: ${Layout.width};
 `;
+const ActivityIndicator = styled.ActivityIndicator`
+  align-self: center;
+`;
 const RefreshControl = styled.RefreshControl``;
 
 const PostContainer = styled.View`
@@ -47,10 +50,20 @@ const PostPresenter = ({
   posts,
   navigateWritePost,
   isPostSubmitting,
-  navigation
+  navigation,
+  isCloseToBottom,
+  handlePostLength,
+  postLength,
+  fetchPost
 }) => (
   <Container>
     <ScrollContainer
+      onScroll={({ nativeEvent }) => {
+        if (isCloseToBottom(nativeEvent)) {
+          handlePostLength();
+        }
+      }}
+      scrollEventThrottle={16}
       refreshControl={
         <RefreshControl
           refreshing={isFetching && isPostSubmitting}
@@ -60,8 +73,16 @@ const PostPresenter = ({
       }
     >
       <PostContainer>
-        {posts && posts.map(post => <TakePost {...post} key={post.id} />)}
+        {posts &&
+          posts.map((post, index) => {
+            if (index < postLength) {
+              return <TakePost {...post} key={post.id} />;
+            } else {
+              return null;
+            }
+          })}
       </PostContainer>
+      {fetchPost ? <ActivityIndicator size="small" color="black" /> : null}
     </ScrollContainer>
     {navigation.state.params ? null : (
       <Touch onPress={navigateWritePost}>

@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
 import NotificationPresenter from "./NotificationPresenter";
 import PropTypes from "prop-types";
 import { RFValue } from "react-native-responsive-fontsize";
@@ -10,11 +10,13 @@ const Image = styled.Image`
   width: ${RFValue(58)};
 `;
 
-class NotificationContainer extends PureComponent {
+class NotificationContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isFetching: false
+      isFetching: false,
+      notificationLength: 20,
+      fetchNotification: false
     };
   }
   static navigationOptions = props => ({
@@ -43,6 +45,32 @@ class NotificationContainer extends PureComponent {
     }
   };
 
+  handleNotificationLength = () => {
+    const { notification } = this.props;
+    const { notificationLength } = this.state;
+    const lenght = notification.length;
+
+    if (lenght > notificationLength) {
+      this.setState({
+        fetchNotification: true
+      });
+      setTimeout(() => {
+        this.setState({
+          notificationLength: notificationLength + 10,
+          fetchNotification: false
+        });
+      }, 700);
+    }
+  };
+
+  isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
+    const paddingToBottom = 20;
+    return (
+      layoutMeasurement.height + contentOffset.y >=
+      contentSize.height - paddingToBottom
+    );
+  };
+
   refresh = () => {
     const { getNotifications } = this.props;
     this.setState(
@@ -57,13 +85,18 @@ class NotificationContainer extends PureComponent {
 
   render() {
     const { notification } = this.props;
-    const { isFetching } = this.state;
+    const { isFetching, notificationLength, fetchNotification } = this.state;
+    const { isCloseToBottom, handleNotificationLength } = this;
 
     return (
       <NotificationPresenter
         isFetching={isFetching}
         OnRefresh={this.refresh}
         notification={notification}
+        isCloseToBottom={isCloseToBottom}
+        handleNotificationLength={handleNotificationLength}
+        notificationLength={notificationLength}
+        fetchNotification={fetchNotification}
       />
     );
   }

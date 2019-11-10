@@ -21,7 +21,9 @@ class PostContainer extends Component {
     super(props);
     this.state = {
       isFetching: false,
-      isPostSubmitting: false
+      isPostSubmitting: false,
+      postLength: 20,
+      fetchPost: false
     };
   }
 
@@ -52,6 +54,27 @@ class PostContainer extends Component {
         />
       )
     };
+  };
+
+  handlePostLength = () => {
+    const { posts } = this.props;
+    const { navigation } = this.props;
+    const { postLength } = this.state;
+    const lenght = navigation.state.params
+      ? navigation.state.params.ownPost.length
+      : posts.length;
+
+    if (lenght > postLength) {
+      this.setState({
+        fetchPost: true
+      });
+      setTimeout(() => {
+        this.setState({
+          postLength: postLength + 10,
+          fetchPost: false
+        });
+      }, 700);
+    }
   };
 
   static propTyeps = {
@@ -96,10 +119,23 @@ class PostContainer extends Component {
     getPost();
   };
 
+  isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
+    const paddingToBottom = 20;
+    return (
+      layoutMeasurement.height + contentOffset.y >=
+      contentSize.height - paddingToBottom
+    );
+  };
+
   render() {
     const { getPost, posts, navigation } = this.props;
-    const { navigateWritePost, refresh } = this;
-    const { isFetching, isPostSubmitting } = this.state;
+    const {
+      navigateWritePost,
+      refresh,
+      isCloseToBottom,
+      handlePostLength
+    } = this;
+    const { isFetching, isPostSubmitting, postLength, fetchPost } = this.state;
 
     return (
       <PostPresenter
@@ -112,6 +148,10 @@ class PostContainer extends Component {
         isFetching={isFetching}
         navigation={navigation}
         isPostSubmitting={isPostSubmitting}
+        isCloseToBottom={isCloseToBottom}
+        handlePostLength={handlePostLength}
+        postLength={postLength}
+        fetchPost={fetchPost}
       />
     );
   }
