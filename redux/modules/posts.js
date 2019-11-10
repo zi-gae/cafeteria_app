@@ -318,7 +318,6 @@ const createPost = (title, content, file, anonymous) => {
         }
       })
       .then(json => {
-        console.log(json);
         dispatch(reqCreatePost());
       })
       .catch(err => console.log(err));
@@ -448,8 +447,7 @@ const applyCreatePost = (state, action) => {
       return post;
     }
   });
-
-  return { ...state };
+  return { ...state, posts: updatePost };
 };
 
 // export

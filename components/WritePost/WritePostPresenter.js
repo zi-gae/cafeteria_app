@@ -64,8 +64,7 @@ const WritePostPresenter = ({
   file,
   changeTitle,
   changeContent,
-  handleNavigate,
-  photo
+  handleNavigate
 }) => {
   return (
     <Container>

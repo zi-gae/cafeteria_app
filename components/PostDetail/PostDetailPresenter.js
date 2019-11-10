@@ -42,9 +42,10 @@ const Creator = styled.Text`
   margin-bottom: ${RFValue(2)};
 `;
 const ProfileImg = styled.Image`
-  width: ${RFValue(45)};
-  height: ${RFValue(45)};
-  border-radius: 22px;
+  width: ${RFValue(44)};
+  height: ${RFValue(44)};
+  border-radius: ${RFValue(22)};
+  margin-right: ${RFValue(5)};
 `;
 const Title = styled.Text`
   font-size: ${RFValue(18)};
@@ -86,17 +87,18 @@ const CommentCreator = styled.Text`
   color: ${props => (props.isCreator ? `${LIGTH_GREEN}` : "black")};
 `;
 const CommentProfileImg = styled.Image`
-  height: 35px;
-  width: 35px;
-  border-radius: 17.5px;
+  height: ${RFValue(30)};
+  width: ${RFValue(30)};
+  border-radius: ${RFValue(15)};
+  margin-right: ${RFValue(5)};
 `;
 const CommentMessage = styled.Text`
   font-size: ${RFValue(13)};
   font-weight: 200;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  margin-left: 5px;
-  padding: 5px;
+  margin-top: ${RFValue(2)};
+  margin-bottom: ${RFValue(2)};
+  padding-top: ${RFValue(3)};
+  padding-bottom: ${RFValue(2)};
 `;
 const InputBox = styled.View`
   height: ${RFValue(40)};
@@ -345,6 +347,8 @@ const Comment = ({
   setCommentId,
   removeComment
 }) => {
+  console.log(comment.creator.profile_image);
+
   return (
     <CommentContianer>
       <CommentBox onComment={false}>
@@ -352,7 +356,7 @@ const Comment = ({
           <CommentProfileImg
             source={
               comment.creator.profile_image && !comment.anonymous
-                ? { uri: comment.profile_image }
+                ? { uri: comment.creator.profile_image }
                 : require("../../assets/images/noProfile.png")
             }
           />

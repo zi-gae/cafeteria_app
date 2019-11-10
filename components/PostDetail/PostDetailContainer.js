@@ -205,7 +205,6 @@ class PostDetailContainer extends Component {
         handleSuccessButton: this.handleSuccessButton
       });
     } else if (index === 2) {
-      //게시글 삭제 만들어야함
       Alert.alert("삭제 확인", "삭제하시겠어요?", [
         {
           text: "취소",
