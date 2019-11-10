@@ -61,6 +61,7 @@ class LibraryContainer extends PureComponent {
   });
 
   componentWillMount = async () => {
+    const { navigation } = this.props;
     const photoOptions = {
       first: 2000,
       groupTypes: "All",
@@ -71,6 +72,9 @@ class LibraryContainer extends PureComponent {
     }
     const { edges } = await CameraRoll.getPhotos(photoOptions);
 
+    navigation.setParams({
+      pickedPhoto: edges[0]
+    });
     this.setState({
       photos: edges,
       pickedPhoto: edges[0]
