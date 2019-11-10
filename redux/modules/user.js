@@ -3,6 +3,7 @@
 import { URL } from "../../constants";
 import { AsyncStorage } from "react-native";
 import axios from "axios";
+import uuidv1 from "uuid/v1";
 
 //actions
 
@@ -146,7 +147,7 @@ const getOwnProfile = () => {
   };
 };
 
-const postNickname = nickname => {
+const putProfile = (profileImage, nickname) => {
   return (dispatch, getState) => {
     const {
       user: {
@@ -155,9 +156,18 @@ const postNickname = nickname => {
       }
     } = getState();
     let formData = new FormData();
-    formData.append("name", nickname);
+    if (nickname) {
+      formData.append("name", nickname);
+    }
+    if (profileImage) {
+      formData.append("profile_image", {
+        uri: profileImage,
+        type: "image/jpeg",
+        name: `${uuidv1()}.jpg`
+      });
+    }
     axios(`${URL}/users/${username}/`, {
-      method: "post",
+      method: "put",
       headers: {
         Authorization: `JWT ${token}`
       },
@@ -191,7 +201,7 @@ const reducer = (state = initialState, action) => {
     case SET_NOTIFICATION:
       return applySetNotification(state, action);
     case MODIFY_NICKNAME:
-      return applyModifyNickname(state, action);
+      return applyModifyProfile(state, action);
     default:
       return state;
   }
@@ -219,6 +229,7 @@ const applyLogOut = (state, action) => {
 
 const applySetUser = (state, action) => {
   const { user } = action;
+
   return {
     ...state,
     profile: user
@@ -227,14 +238,16 @@ const applySetUser = (state, action) => {
 
 const applySetNotification = (state, action) => {
   const { notification } = action;
+
   return {
     ...state,
     notification
   };
 };
 
-const applyModifyNickname = (state, action) => {
+const applyModifyProfile = (state, action) => {
   const { profile } = action;
+
   return {
     ...state,
     profile
@@ -248,7 +261,7 @@ const actionCreators = {
   logOut,
   getNotification,
   getOwnProfile,
-  postNickname
+  putProfile
 };
 
 export { actionCreators };

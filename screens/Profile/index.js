@@ -12,8 +12,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    modifyNickname: nickname => {
-      dispatch(userActions.postNickname(nickname));
+    modifyMyProfile: (profileImage, nickname) => {
+      dispatch(userActions.putProfile(profileImage, nickname));
     },
     logout: () => {
       dispatch(userActions.logOut());

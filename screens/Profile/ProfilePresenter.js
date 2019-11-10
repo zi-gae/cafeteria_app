@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Layout from "../../constants/Layout";
 import { RFValue } from "react-native-responsive-fontsize";
 import { BODER_COLOR, LIGHT_GREY, LIGTH_GREEN } from "../../constants/Color";
+import ActionSheet from "react-native-actionsheet";
 
 const Container = styled.ScrollView`
   margin-top: 10px;
@@ -25,10 +26,15 @@ const ProfileBox = styled.View`
   flex-direction: row;
   align-items: center;
 `;
+const ActivityIndicator = styled.ActivityIndicator`
+  align-self: center;
+  height: ${Layout.height / 5};
+  width: 100%;
+`;
 const ProfileImage = styled.Image`
   height: ${RFValue(70)};
   width: ${RFValue(70)};
-  border-radius: ${RFValue(38)};
+  border-radius: ${RFValue(35)};
 `;
 const ProfileTextBox = styled.View`
   padding-left: ${RFValue(10)};
@@ -79,7 +85,9 @@ const ButtonText = styled.Text`
   font-size: ${RFValue(10)};
   color: white;
 `;
-// Profile 디자인
+const options = ["취소", "변경", "기본사진으로 변경"];
+const CANCEL_INDEX = 0;
+
 const ProfilePresenter = ({
   changeProfile,
   handleNicknameInput,
@@ -88,20 +96,35 @@ const ProfilePresenter = ({
   nickname,
   submitLogout,
   user,
-  handleNavigate
+  handleNavigate,
+  handleSheetPress,
+  isProfileImageSubmitting
 }) => (
   <Container showsVerticalScrollIndicator={false}>
     <BorderBox>
       <ProfileBox>
-        <ProfileImage
-          resizeMode="contain"
-          source={require("../../assets/images/noProfile.png")}
-        />
-        <ProfileTextBox>
-          <ProfileText nickname={true}>{user.profile.name}</ProfileText>
-          <ProfileText nickname={false}>{user.profile.username}</ProfileText>
-          <ProfileText nickname={false}>{user.profile.stdntnum}</ProfileText>
-        </ProfileTextBox>
+        {isProfileImageSubmitting ? (
+          <ActivityIndicator color="black" size="small" />
+        ) : (
+          <>
+            <ProfileImage
+              source={
+                user.profile.profile_image
+                  ? { uri: user.profile.profile_image }
+                  : require("../../assets/images/noProfile.png")
+              }
+            />
+            <ProfileTextBox>
+              <ProfileText nickname={true}>{user.profile.name}</ProfileText>
+              <ProfileText nickname={false}>
+                {user.profile.username}
+              </ProfileText>
+              <ProfileText nickname={false}>
+                {user.profile.stdntnum}
+              </ProfileText>
+            </ProfileTextBox>
+          </>
+        )}
       </ProfileBox>
     </BorderBox>
     <BorderBox>
@@ -109,8 +132,12 @@ const ProfilePresenter = ({
       <Touch onPress={handleNavigate}>
         <Text header={false}>내가 쓴 글</Text>
       </Touch>
-      <Touch>
-        <Text header={false}>프로필 변경</Text>
+      <Touch
+        onPress={() => {
+          this.actionSheet.show();
+        }}
+      >
+        <Text header={false}>프로필 사진 변경</Text>
       </Touch>
       <Touch onPress={handleNicknameInput}>
         {openNicknameInput ? (
@@ -154,6 +181,12 @@ const ProfilePresenter = ({
         <Text header={false}>개인정보 처리 방침</Text>
       </Touch>
     </BorderBox>
+    <ActionSheet
+      ref={actionSheet => (this.actionSheet = actionSheet)}
+      options={options}
+      cancelButtonIndex={CANCEL_INDEX}
+      onPress={handleSheetPress}
+    />
   </Container>
 );
 

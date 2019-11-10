@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
 import ProfilePresenter from "./ProfilePresenter";
 import PropTypes from "prop-types";
 import { Alert } from "react-native";
@@ -10,12 +10,13 @@ const Image = styled.Image`
   width: ${RFValue(58)};
 `;
 
-class ProfileContainer extends PureComponent {
+class ProfileContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
       nickname: "",
-      openNicknameInput: false
+      openNicknameInput: false,
+      isProfileImageSubmitting: false
     };
   }
 
@@ -30,7 +31,7 @@ class ProfileContainer extends PureComponent {
   });
 
   static propTypes = {
-    modifyNickname: PropTypes.func.isRequired,
+    modifyMyProfile: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired
   };
 
@@ -64,12 +65,12 @@ class ProfileContainer extends PureComponent {
       posts: { posts },
       user: { profile }
     } = this.props;
-
     const ownPost = posts.filter(post => {
-      if (post.creator.username === profile.name) {
+      if (post.creator.username === profile.username) {
         return post;
       }
     });
+
     navigate("OwnPost", {
       ownPost,
       headerTitle: "내가 작성한 글",
@@ -78,14 +79,18 @@ class ProfileContainer extends PureComponent {
   };
 
   changeProfile = () => {
-    const { modifyNickname } = this.props;
+    const { modifyMyProfile } = this.props;
     const { nickname } = this.state;
     if (nickname.length < 2) {
       Alert.alert("알림💡", "두 글자 이상 입력해주세요!", [
         { text: "OK", onPress: () => {} }
       ]);
+    } else if (nickname.length > 11) {
+      Alert.alert("알림💡", "열 글자 이하로 입력해주세요!", [
+        { text: "OK", onPress: () => {} }
+      ]);
     } else {
-      modifyNickname(nickname);
+      modifyMyProfile(null, nickname);
       this.setState(
         {
           nickname: "",
@@ -99,18 +104,59 @@ class ProfileContainer extends PureComponent {
       );
     }
   };
+  handleChoicePhoto = async pickedPhoto => {
+    const { modifyMyProfile } = this.props;
+    const {
+      node: {
+        image: { uri }
+      }
+    } = pickedPhoto;
+    this.setState({
+      isProfileImageSubmitting: true
+    });
+    await modifyMyProfile(uri, null);
+    this.setState({
+      isProfileImageSubmitting: false
+    });
+  };
+  handleSheetPress = async index => {
+    const {
+      navigation: { navigate },
+      modifyMyProfile
+    } = this.props;
+    const { handleChoicePhoto } = this;
+    const defaultProfileImageUrl = "../../assets/images/noProfile.png";
+
+    if (index === 1) {
+      navigate("Library", {
+        handleChoicePhoto
+      });
+    } else if (index === 2) {
+      this.setState({
+        isProfileImageSubmitting: true
+      });
+      await modifyMyProfile(defaultProfileImageUrl, null);
+      this.setState({
+        isProfileImageSubmitting: false
+      });
+    }
+  };
 
   render() {
-    const { openNicknameInput, nickname } = this.state;
+    const {
+      openNicknameInput,
+      nickname,
+      isProfileImageSubmitting
+    } = this.state;
     const {
       handleNicknameInput,
       changeProfile,
       changeNickname,
       submitLogout,
-      handleNavigate
+      handleNavigate,
+      handleSheetPress
     } = this;
     const { user } = this.props;
-
     return (
       <ProfilePresenter
         handleNicknameInput={handleNicknameInput}
@@ -121,6 +167,8 @@ class ProfileContainer extends PureComponent {
         user={user}
         submitLogout={submitLogout}
         handleNavigate={handleNavigate}
+        handleSheetPress={handleSheetPress}
+        isProfileImageSubmitting={isProfileImageSubmitting}
       />
     );
   }
