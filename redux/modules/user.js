@@ -119,7 +119,10 @@ const getNotification = () => {
           return res.json();
         }
       })
-      .then(json => dispatch(reqSetNotification(json)));
+      .then(json => {
+        dispatch(reqSetNotification(json));
+      })
+      .catch(err => console.log(err));
   };
 };
 

@@ -39,7 +39,7 @@ const RefreshControl = styled.RefreshControl``;
 const NotificationPresenter = ({
   notification,
   isFetching,
-  OnRefresh,
+  refresh,
   handleNotificationLength,
   notificationLength,
   fetchNotification,
@@ -57,7 +57,7 @@ const NotificationPresenter = ({
       refreshControl={
         <RefreshControl
           refreshing={isFetching}
-          OnRefresh={OnRefresh}
+          onRefresh={refresh}
           tintColor={"black"}
         />
       }
@@ -94,7 +94,7 @@ const NotificationPresenter = ({
 NotificationPresenter.propTypes = {
   notification: PropTypes.array.isRequired,
   isFetching: PropTypes.bool.isRequired,
-  OnRefresh: PropTypes.func.isRequired
+  refresh: PropTypes.func.isRequired
 };
 
 export default NotificationPresenter;

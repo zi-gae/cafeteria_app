@@ -38,7 +38,7 @@ class NotificationContainer extends Component {
   };
 
   componentWillReceiveProps = nextProps => {
-    if (nextProps.post) {
+    if (nextProps.notification) {
       this.setState({
         isFetching: false
       });
@@ -73,25 +73,21 @@ class NotificationContainer extends Component {
 
   refresh = () => {
     const { getNotifications } = this.props;
-    this.setState(
-      {
-        isFetching: true
-      },
-      () => {
-        getNotifications();
-      }
-    );
+    this.setState({
+      isFetching: true
+    });
+    getNotifications();
   };
 
   render() {
     const { notification } = this.props;
     const { isFetching, notificationLength, fetchNotification } = this.state;
-    const { isCloseToBottom, handleNotificationLength } = this;
+    const { isCloseToBottom, handleNotificationLength, refresh } = this;
 
     return (
       <NotificationPresenter
         isFetching={isFetching}
-        OnRefresh={this.refresh}
+        refresh={refresh}
         notification={notification}
         isCloseToBottom={isCloseToBottom}
         handleNotificationLength={handleNotificationLength}

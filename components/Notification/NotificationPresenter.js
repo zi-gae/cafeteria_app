@@ -102,7 +102,7 @@ const NotificationPresenter = ({
                 새로운 대댓글이 달렸어요:{" "}
                 {comment.length > 7
                   ? `${comment.substring(0, 7)}...`
-                  : { comment }}
+                  : `${comment}`}
               </PreviewContent>
             )}
             <TimeStamp time={time} />
