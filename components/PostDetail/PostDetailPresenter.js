@@ -347,8 +347,6 @@ const Comment = ({
   setCommentId,
   removeComment
 }) => {
-  console.log(comment.creator.profile_image);
-
   return (
     <CommentContianer>
       <CommentBox onComment={false}>

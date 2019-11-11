@@ -90,7 +90,7 @@ const getRice = () => {
         if (res.status === 200) {
           return res.json();
         } else {
-          dispatch(userActions.logout());
+          dispatch(userActions.logOut());
         }
       })
       .then(json => {

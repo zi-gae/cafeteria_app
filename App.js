@@ -11,11 +11,14 @@ import AppContainer from "./components/AppCotainer";
 const { persistor, store } = configureStore();
 
 class App extends Component {
-  state = {
-    isLoadingComplete: false
-  };
+  constructor() {
+    super();
+    this.state = {
+      isLoadingComplete: false
+    };
+  }
 
-  _loadAssetsAsync = async () => {
+  loadAssetsAsync = async () => {
     return Promise.all([
       Asset.loadAsync([
         require("./assets/images/logo.png"),
@@ -30,30 +33,26 @@ class App extends Component {
       })
     ]);
   };
-  _handleLoadingError = err => {
+  handleLoadingError = err => {
     console.log(err);
   };
-  _handleFinishLoading = async () => {
+  handleFinishLoading = async () => {
     this.setState({
       isLoadingComplete: true
     });
   };
 
   render() {
-    const {
-      _loadAssetsAsync,
-      _handleFinishLoading,
-      _handleLoadingError
-    } = this;
+    const { loadAssetsAsync, handleFinishLoading, handleLoadingError } = this;
 
     const { isLoadingComplete } = this.state;
 
     if (!isLoadingComplete) {
       return (
         <AppLoading
-          startAsync={_loadAssetsAsync}
-          onError={_handleLoadingError}
-          onFinish={_handleFinishLoading}
+          startAsync={loadAssetsAsync}
+          onError={handleLoadingError}
+          onFinish={handleFinishLoading}
         />
       );
     }
