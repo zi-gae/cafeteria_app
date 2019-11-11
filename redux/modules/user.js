@@ -16,10 +16,11 @@ const MODIFY_NICKNAME = "MODIFY_NICKNAME";
 
 // action creators
 
-const setLogIn = token => {
+const setLogIn = (token, push_token) => {
   return {
     type: LOG_IN,
-    token
+    token,
+    push_token
   };
 };
 
@@ -66,7 +67,7 @@ const login = (username, password) => {
       .then(res => res.json())
       .then(json => {
         if (json.token && json.user) {
-          dispatch(setLogIn(json.token));
+          dispatch(setLogIn(json.token, json.user.push_token));
           dispatch(setUser(json.user));
           return true;
         } else {
@@ -235,11 +236,13 @@ const reducer = (state = initialState, action) => {
 //reducer func
 
 const applyLogIn = (state, action) => {
-  const { token } = action;
+  const { token, push_token } = action;
+
   return {
     ...state,
     isLoggedIn: true,
-    token
+    token,
+    push_token
   };
 };
 

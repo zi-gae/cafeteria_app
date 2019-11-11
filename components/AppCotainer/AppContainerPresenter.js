@@ -16,32 +16,36 @@ class AppContainerPresenter extends Component {
 
   static propTypes = {
     isLoggedIn: PropTypes.bool.isRequired,
+    pushToken: PropTypes.string,
     initApp: PropTypes.func.isRequired,
     dispatchPostToken: PropTypes.func.isRequired
   };
 
-  componentDidMount = async () => {
-    const { isLoggedIn, initApp, dispatchPostToken } = this.props;
+  componentWillUpdate = async () => {
+    const { dispatchPostToken } = this.props;
+    const { status: existingStatus } = await Permissions.getAsync(
+      Permissions.NOTIFICATIONS
+    );
+    let finalStatus = existingStatus;
+    if (existingStatus !== "granted") {
+      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+      finalStatus = status;
+    }
+    if (finalStatus !== "granted") {
+      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+      finalStatus = status;
+    }
+    let token = await Notifications.getExpoPushTokenAsync();
+    dispatchPostToken(token);
+  };
 
+  componentDidMount = async () => {
+    const { isLoggedIn, initApp } = this.props;
     if (isLoggedIn) {
       await initApp();
-      const { status: existingStatus } = await Permissions.getAsync(
-        Permissions.NOTIFICATIONS
-      );
-      let finalStatus = existingStatus;
-
-      if (existingStatus !== "granted") {
-        const { status } = await Permissions.askAsync(
-          Permissions.NOTIFICATIONS
-        );
-        finalStatus = status;
-      }
-      if (finalStatus !== "granted") {
-      }
-      let token = await Notifications.getExpoPushTokenAsync();
-      dispatchPostToken(token);
     }
   };
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.crawlers !== this.props.crawlers) {
       this.setState({
@@ -52,15 +56,15 @@ class AppContainerPresenter extends Component {
 
   render() {
     const { isLoggedIn, profile } = this.props;
-
+    const { view } = this.state;
     return (
       <>
         {isLoggedIn && profile ? (
-          this.state.view ? (
+          view ? (
             <RootNavigation
               screenProps={{
                 username: profile.username,
-                view: this.state.view
+                view
               }}
             />
           ) : (
