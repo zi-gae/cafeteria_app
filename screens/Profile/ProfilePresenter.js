@@ -98,7 +98,9 @@ const ProfilePresenter = ({
   user,
   handleNavigate,
   handleSheetPress,
-  isProfileImageSubmitting
+  isProfileImageSubmitting,
+  clickedAppVersion,
+  handleNavigatePrivacy
 }) => (
   <Container showsVerticalScrollIndicator={false}>
     <BorderBox>
@@ -168,7 +170,7 @@ const ProfilePresenter = ({
     </BorderBox>
     <BorderBox>
       <Text header={true}>앱 정보</Text>
-      <Touch>
+      <Touch onPress={clickedAppVersion}>
         <Text header={false}>앱 버전</Text>
       </Touch>
       <Touch>
@@ -177,7 +179,7 @@ const ProfilePresenter = ({
       <Touch>
         <Text header={false}>공지사항</Text>
       </Touch>
-      <Touch>
+      <Touch onPress={handleNavigatePrivacy}>
         <Text header={false}>개인정보 처리 방침</Text>
       </Touch>
     </BorderBox>

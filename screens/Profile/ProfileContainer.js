@@ -104,6 +104,7 @@ class ProfileContainer extends Component {
       );
     }
   };
+
   handleChoicePhoto = async pickedPhoto => {
     const { modifyMyProfile } = this.props;
     const {
@@ -119,6 +120,20 @@ class ProfileContainer extends Component {
       isProfileImageSubmitting: false
     });
   };
+
+  clickedAppVersion = () => {
+    Alert.alert("💡Beta💡", "0.8.1", [{ text: "OK", onPress: () => {} }]);
+  };
+
+  handleNavigatePrivacy = () => {
+    console.log("handleNavigatePrivacy");
+
+    const {
+      navigation: { navigate }
+    } = this.props;
+    navigate("PrivacyPolicy");
+  };
+
   handleSheetPress = async index => {
     const {
       navigation: { navigate },
@@ -154,7 +169,9 @@ class ProfileContainer extends Component {
       changeNickname,
       submitLogout,
       handleNavigate,
-      handleSheetPress
+      handleSheetPress,
+      clickedAppVersion,
+      handleNavigatePrivacy
     } = this;
     const { user } = this.props;
     return (
@@ -169,6 +186,8 @@ class ProfileContainer extends Component {
         handleNavigate={handleNavigate}
         handleSheetPress={handleSheetPress}
         isProfileImageSubmitting={isProfileImageSubmitting}
+        clickedAppVersion={clickedAppVersion}
+        handleNavigatePrivacy={handleNavigatePrivacy}
       />
     );
   }
