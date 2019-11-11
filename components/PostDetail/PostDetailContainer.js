@@ -43,10 +43,12 @@ class PostDetailContainer extends Component {
 
   static propTypes = {
     dispatchLike: PropTypes.func.isRequired,
-    disaptchCommentPost: PropTypes.func.isRequired,
-    disaptchCommentDelete: PropTypes.func.isRequired,
+    dispatchCommentPost: PropTypes.func.isRequired,
+    dispatchCommentDelete: PropTypes.func.isRequired,
+    dispatchOnCommentPost: PropTypes.func.isRequired,
     dispatchPutPost: PropTypes.func.isRequired,
-    dispatchDeletePost: PropTypes.func.isRequired
+    dispatchDeletePost: PropTypes.func.isRequired,
+    push_token: PropTypes.string.isRequired
   };
 
   componentWillMount() {
@@ -91,10 +93,11 @@ class PostDetailContainer extends Component {
         state: {
           params: { handleTakePress }
         }
-      }
+      },
+      push_token
     } = this.props;
     const { isLiked } = this.state;
-    const result = dispatchLike(isLiked);
+    const result = dispatchLike(push_token, isLiked);
     handleTakePress(result);
     if (result) {
       if (isLiked) {
@@ -141,7 +144,7 @@ class PostDetailContainer extends Component {
   };
 
   removeComment = async commentId => {
-    const { disaptchCommentDelete } = this.props;
+    const { dispatchCommentDelete } = this.props;
 
     Alert.alert("삭제 확인", "삭제하시겠어요?", [
       {
@@ -154,7 +157,7 @@ class PostDetailContainer extends Component {
           this.setState({
             isSubmitting: true
           });
-          await disaptchCommentDelete(commentId);
+          await dispatchCommentDelete(commentId);
           this.setState({
             isSubmitting: false
           });
@@ -164,7 +167,11 @@ class PostDetailContainer extends Component {
   };
 
   submitComment = async () => {
-    const { disaptchCommentPost } = this.props;
+    const {
+      dispatchCommentPost,
+      dispatchOnCommentPost,
+      push_token
+    } = this.props;
     const { message, anonymousIsChecked, referComment } = this.state;
     this.setState({
       isSubmitting: true
@@ -175,9 +182,15 @@ class PostDetailContainer extends Component {
       ]);
     } else {
       if (referComment === 0) {
-        await disaptchCommentPost(message, anonymousIsChecked);
+        await dispatchCommentPost(message, anonymousIsChecked, push_token);
       } else {
-        await disaptchCommentPost(message, anonymousIsChecked, referComment);
+        await dispatchOnCommentPost(
+          referComment,
+          message,
+          anonymousIsChecked,
+          referComment,
+          push_token
+        );
       }
       this.setState({
         message: "",

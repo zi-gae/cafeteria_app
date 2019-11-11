@@ -132,7 +132,7 @@ const emptySearch = term => {
   };
 };
 
-const likePost = postId => {
+const likePost = (push_token, postId) => {
   return (dispatch, getState) => {
     const {
       user: { token }
@@ -140,8 +140,13 @@ const likePost = postId => {
     return fetch(`${URL}/posts/${postId}/like/`, {
       method: "post",
       headers: {
-        Authorization: `JWT ${token}`
-      }
+        Authorization: `JWT ${token}`,
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        token: push_token
+      })
     }).then(res => {
       if (res.status === 401) {
         dispatch(userActions.logOut());
@@ -176,7 +181,7 @@ const unLikePost = postId => {
   };
 };
 
-const commentPost = (postId, message, anonymousIsChecked, referComment) => {
+const commentPost = (postId, message, anonymousIsChecked, push_token) => {
   return async (dispatch, getState) => {
     const {
       user: { token }
@@ -191,7 +196,43 @@ const commentPost = (postId, message, anonymousIsChecked, referComment) => {
       body: JSON.stringify({
         message,
         anonymous: anonymousIsChecked,
-        referComment
+        token: push_token
+      })
+    });
+    if (res.status === 401) {
+      await dispatch(userActions.logOut());
+    }
+    const comment = await res.json();
+    if (comment.message) {
+      await dispatch(reqPostComment(postId, comment));
+    }
+  };
+};
+
+const onCommentPost = (
+  postId,
+  commentId,
+  message,
+  anonymousIsChecked,
+  referComment,
+  push_token
+) => {
+  return async (dispatch, getState) => {
+    const {
+      user: { token }
+    } = getState();
+    const res = await fetch(`${URL}/posts/${postId}/${commentId}/comments/`, {
+      method: "post",
+      headers: {
+        Authorization: `JWT ${token}`,
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        message,
+        anonymous: anonymousIsChecked,
+        referComment,
+        token: push_token
       })
     });
     if (res.status === 401) {
@@ -462,7 +503,8 @@ const actionCreators = {
   commentDelete,
   putPost,
   deletePost,
-  createPost
+  createPost,
+  onCommentPost
 };
 
 export { actionCreators };

@@ -488,7 +488,6 @@ PostDetailPresenter.propTypes = {
   ),
   natural_time: PropTypes.string.isRequired,
   is_liked: PropTypes.bool,
-  dispatchLike: PropTypes.func.isRequired,
   handlePress: PropTypes.func.isRequired,
   anonymousIsChecked: PropTypes.bool.isRequired,
   handleCheckBox: PropTypes.func.isRequired,

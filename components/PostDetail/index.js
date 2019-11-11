@@ -10,6 +10,10 @@ const mapStateToProps = (state, ownProps) => {
       }
     }
   } = ownProps;
+  const {
+    user: { push_token }
+  } = state;
+
   const { user } = state;
   let postInfo = {
     anonymous: false,
@@ -29,7 +33,7 @@ const mapStateToProps = (state, ownProps) => {
     }
   });
 
-  return { postInfo, user };
+  return { postInfo, user, push_token };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -42,17 +46,35 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   } = ownProps;
 
   return {
-    dispatchLike: isLiked => {
+    dispatchLike: (push_token, isLiked) => {
       if (isLiked) {
         return dispatch(postActions.unLikePost(id));
       } else {
-        return dispatch(postActions.likePost(id));
+        return dispatch(postActions.likePost(push_token, id));
       }
     },
-    disaptchCommentPost: (message, isChecked, referComment = null) => {
-      dispatch(postActions.commentPost(id, message, isChecked, referComment));
+    dispatchCommentPost: (message, isChecked, push_token) => {
+      dispatch(postActions.commentPost(id, message, isChecked, push_token));
     },
-    disaptchCommentDelete: commentId => {
+    dispatchOnCommentPost: (
+      commentId,
+      message,
+      isChecked,
+      referComment,
+      push_token
+    ) => {
+      dispatch(
+        postActions.onCommentPost(
+          id,
+          commentId,
+          message,
+          isChecked,
+          referComment,
+          push_token
+        )
+      );
+    },
+    dispatchCommentDelete: commentId => {
       dispatch(postActions.commentDelete(id, commentId));
     },
     dispatchPutPost: (title, content, file, anonymous) => {
