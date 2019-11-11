@@ -152,6 +152,8 @@ const getOwnProfile = () => {
 };
 
 const putProfile = (profileImage, nickname) => {
+  console.log(profileImage, nickname);
+
   return (dispatch, getState) => {
     const {
       user: {
@@ -169,6 +171,10 @@ const putProfile = (profileImage, nickname) => {
         type: "image/jpeg",
         name: `${uuidv1()}.jpg`
       });
+    } else {
+      if (!nickname) {
+        formData.append("profile_image", null);
+      }
     }
     axios(`${URL}/users/${username}/`, {
       method: "put",

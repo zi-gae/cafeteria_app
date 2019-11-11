@@ -42,9 +42,6 @@ const HomePresenter = ({ navigate }) => (
       <RicePost type="student" title="학생 식당" />
     </SquareContainer>
     <SquareContainer>
-      <RicePost type="student" title="학생 식당" />
-    </SquareContainer>
-    <SquareContainer>
       <RicePost type="dormitory" title="기숙사 식당" />
     </SquareContainer>
     <SquareContainer>

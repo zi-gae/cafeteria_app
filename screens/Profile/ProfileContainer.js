@@ -125,7 +125,7 @@ class ProfileContainer extends Component {
       modifyMyProfile
     } = this.props;
     const { handleChoicePhoto } = this;
-    const defaultProfileImageUrl = "../../assets/images/noProfile.png";
+    const defaultProfileImageUrl = null;
 
     if (index === 1) {
       navigate("Library", {

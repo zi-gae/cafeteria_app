@@ -15,8 +15,8 @@ class DormitoryOutContainer extends Component {
   constructor() {
     super();
     this.state = {
-      collegeStudentId: "15110074",
-      collegeStudentPwd: "my3265tutm",
+      collegeStudentId: "",
+      collegeStudentPwd: "",
       dormitoryOutStartDay: "",
       dormitoryOutEndDay: "",
       dormitoryOutReason: "귀가",
