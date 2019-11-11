@@ -13,7 +13,8 @@ class LoginContainer extends Component {
     };
   }
   static propTypes = {
-    login: PropTypes.func.isRequired
+    dispatchLogin: PropTypes.func.isRequired,
+    dispatchGetRice: PropTypes.func.isRequired
   };
   changeUsername = text => {
     this.setState({
@@ -29,14 +30,15 @@ class LoginContainer extends Component {
 
   handleSubmit = async () => {
     const { username, password, isSubmitting } = this.state;
-    const { login } = this.props;
+    const { dispatchLogin, dispatchGetRice } = this.props;
 
     if (!isSubmitting) {
       if (username && password) {
         this.setState({
           isSubmitting: true
         });
-        const loginResult = await login(username, password);
+        const loginResult = await dispatchLogin(username, password);
+        await dispatchGetRice();
         if (!loginResult) {
           Alert.alert("아이디 또는 비밀번호가 틀렸습니다. 다시 시도 해주세요!");
           this.setState({
