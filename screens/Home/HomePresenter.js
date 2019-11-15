@@ -95,9 +95,6 @@ const HomePresenter = ({ navigate }) => (
         url="http://lib.tu.ac.kr"
       />
     </IconContainer>
-    <SquareContainer>
-      <Title>현재 인기글</Title>
-    </SquareContainer>
   </Container>
 );
 // Home 디자인

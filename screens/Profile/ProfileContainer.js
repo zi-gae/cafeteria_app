@@ -126,8 +126,6 @@ class ProfileContainer extends Component {
   };
 
   handleNavigatePrivacy = () => {
-    console.log("handleNavigatePrivacy");
-
     const {
       navigation: { navigate }
     } = this.props;

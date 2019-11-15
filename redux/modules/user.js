@@ -152,8 +152,6 @@ const getOwnProfile = () => {
 };
 
 const putProfile = (profileImage, nickname) => {
-  console.log(profileImage, nickname);
-
   return (dispatch, getState) => {
     const {
       user: {

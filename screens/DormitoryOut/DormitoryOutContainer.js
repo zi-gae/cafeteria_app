@@ -133,7 +133,7 @@ class DormitoryOutContainer extends Component {
       collegeStudentPwd: "",
       dormitoryOutStartDay: "",
       dormitoryOutEndDay: "",
-      dormitoryOutReason: "",
+      dormitoryOutReason: "귀가",
       TextInputDisable: true
     });
   };
@@ -157,6 +157,11 @@ class DormitoryOutContainer extends Component {
       this.resetState();
     } else if (logedMsg === "notaccess") {
       Alert.alert("알림💡", "기숙사생이 아닌것만 같은데...", [
+        { text: "OK", onPress: () => {} }
+      ]);
+      this.resetState();
+    } else if (logedMsg === "applyOver") {
+      Alert.alert("알림💡", "월 4회 이상 신청 불가능해요ㅠ", [
         { text: "OK", onPress: () => {} }
       ]);
       this.resetState();
@@ -199,8 +204,8 @@ class DormitoryOutContainer extends Component {
         dormitoryOut(
           collegeStudentId,
           collegeStudentPwd,
-          dormitoryOutStartDay.substring(dormitoryOutStartDay.length - 2),
-          dormitoryOutEndDay.substring(dormitoryOutEndDay.length - 2),
+          dormitoryOutStartDay,
+          dormitoryOutEndDay,
           dormitoryOutReason
         );
       } else {
