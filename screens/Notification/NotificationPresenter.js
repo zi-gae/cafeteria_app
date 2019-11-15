@@ -63,7 +63,7 @@ const NotificationPresenter = ({
       }
     >
       <PostContainer>
-        {notification.length === 0 && notification.length > 1 ? (
+        {notification && notification.length > 1 ? (
           <NotFount>알림이 없습니다.</NotFount>
         ) : notification.length === 0 ? (
           <GuideBox>

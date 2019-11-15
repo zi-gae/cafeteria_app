@@ -73,14 +73,15 @@ const PostPresenter = ({
       }
     >
       <PostContainer>
-        {posts &&
-          posts.map((post, index) => {
-            if (index < postLength) {
-              return <TakePost {...post} key={post.id} />;
-            } else {
-              return null;
-            }
-          })}
+        {posts
+          ? posts.map((post, index) => {
+              if (index < postLength) {
+                return <TakePost {...post} key={post.id} />;
+              } else {
+                return null;
+              }
+            })
+          : null}
       </PostContainer>
       {fetchPost ? <ActivityIndicator size="small" color="black" /> : null}
     </ScrollContainer>
