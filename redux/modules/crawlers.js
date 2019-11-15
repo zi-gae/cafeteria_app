@@ -68,6 +68,8 @@ const postDormitoryOut = (
           dispatch(dormitoryOut("notaccess"));
         } else if (message.includes("날짜")) {
           dispatch(dormitoryOut("error"));
+        } else if (message.includes("이내로")) {
+          dispatch(dormitoryOut("applyOver"));
         } else {
           dispatch(dormitoryOut("success"));
         }
