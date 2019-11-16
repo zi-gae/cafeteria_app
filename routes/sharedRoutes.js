@@ -28,7 +28,7 @@ const sharedOptions = {
       elevation: 0,
       shadowOpacity: 0,
       borderBottomWidth: 0,
-      marginBottom: RFValue(15)
+      marginBottom: RFValue(5)
     }
   }
 };

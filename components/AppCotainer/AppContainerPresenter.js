@@ -5,6 +5,7 @@ import RootNavigation from "../../navigation/RootNavigation";
 import LoadingLogo from "../LoadingLogo";
 import { Notifications } from "expo";
 import * as Permissions from "expo-permissions";
+import { StatusBar } from "react-native";
 
 class AppContainerPresenter extends Component {
   constructor() {
@@ -59,6 +60,7 @@ class AppContainerPresenter extends Component {
     const { view } = this.state;
     return (
       <>
+        <StatusBar hidden={false} />
         {isLoggedIn && profile ? (
           view ? (
             <RootNavigation
