@@ -104,21 +104,19 @@ class ProfileContainer extends Component {
       );
     }
   };
-
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.user.profile.profile_image) {
+      this.setState({
+        isProfileImageSubmitting: false
+      });
+    }
+  }
   handleChoicePhoto = async pickedPhoto => {
     const { modifyMyProfile } = this.props;
-    const {
-      node: {
-        image: { uri }
-      }
-    } = pickedPhoto;
     this.setState({
       isProfileImageSubmitting: true
     });
-    await modifyMyProfile(uri, null);
-    this.setState({
-      isProfileImageSubmitting: false
-    });
+    await modifyMyProfile(pickedPhoto, null);
   };
 
   clickedAppVersion = () => {

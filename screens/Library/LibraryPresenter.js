@@ -2,81 +2,54 @@ import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import FitImage from "react-native-fit-image";
-import Layout from "../../constants/Layout";
 import { SafeAreaView } from "react-navigation";
-import { RFValue } from "react-native-responsive-fontsize";
+import CameraRollPicker from "react-native-camera-roll-picker";
 
 const Container = styled.View`
   flex: 1;
 `;
 const ImageContainer = styled.View`
-  flex: 2;
+  flex: 1.5;
   justify-content: center;
 `;
 const ScrollView = styled.ScrollView``;
 const PhotoContainer = styled.View`
   flex: 1;
 `;
-const Touch = styled.TouchableOpacity``;
 const FitImg = styled(FitImage)`
   border-radius: 20;
 `;
-const Action = styled.View`
-  background-color: transparent;
-  height: ${RFValue(25)};
-  width: ${RFValue(25)};
-  align-self: flex-end;
-  position: absolute;
-  bottom: 10;
-`;
-const SmallPhoto = styled(FitImage)`
-  width: ${Layout.width / 4};
-  height: ${Layout.width / 4};
-`;
-const PhotoBox = styled.View`
-  flex: 1;
-  flex-direction: row;
-  flex-wrap: wrap;
-`;
+const NotFountImage = styled.Text``;
 
-const LibraryPresenter = ({ photos, pickedPhoto, pickPhoto }) => {
+const LibraryPresenter = ({ pickedPhoto, setChoicedPhoto }) => {
   return (
     <Container>
-      {photos && (
+      {pickedPhoto.length > 1 && (
         <ImageContainer>
-          <FitImg
-            resizeMode="contain"
-            source={{ uri: pickedPhoto.node.image.uri }}
-          />
+          <ScrollView showsVerticalScrollIndicator={false}>
+            {pickedPhoto ? (
+              <FitImg resizeMode="contain" source={{ uri: pickedPhoto }} />
+            ) : (
+              <NotFountImage>이미지가 없어요.</NotFountImage>
+            )}
+          </ScrollView>
         </ImageContainer>
       )}
-      {photos && (
-        <PhotoContainer>
-          <ScrollView showsVerticalScrollIndicator={true}>
-            <PhotoBox>
-              {photos.map((photo, index) => (
-                <Touch
-                  key={index}
-                  onPress={() => {
-                    pickPhoto(photo);
-                  }}
-                >
-                  <SmallPhoto source={{ uri: photo.node.image.uri }} />
-                </Touch>
-              ))}
-            </PhotoBox>
-          </ScrollView>
-        </PhotoContainer>
-      )}
+      <PhotoContainer>
+        <CameraRollPicker
+          groupTypes="All"
+          emptyText="사진이 없어요 ㅠ"
+          imagesPerRow={4}
+          selectSingleItem={true}
+          imageMargin={2}
+          callback={(arrPhoto, objPhoto) => setChoicedPhoto(objPhoto)}
+        />
+      </PhotoContainer>
       <SafeAreaView />
     </Container>
   );
 };
 
-LibraryPresenter.propTypes = {
-  pickedPhoto: PropTypes.object,
-  photos: PropTypes.array,
-  pickPhoto: PropTypes.func.isRequired
-};
+LibraryPresenter.propTypes = {};
 
 export default LibraryPresenter;

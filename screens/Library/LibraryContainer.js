@@ -35,11 +35,8 @@ class LibraryContainer extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      photo: null,
-      pickedPhoto: null,
-      hasCameraPermission: false
+      pickedPhoto: []
     };
-    this.permissionCheck();
   }
 
   static navigationOptions = ({ navigation }) => ({
@@ -60,10 +57,11 @@ class LibraryContainer extends PureComponent {
     )
   });
 
-  componentWillMount = async () => {
+  componentDidMount = async () => {
+    this.permissionCheck();
     const { navigation } = this.props;
     const photoOptions = {
-      first: 2000,
+      first: 10,
       groupTypes: "All",
       assetType: "Photos"
     };
@@ -73,11 +71,11 @@ class LibraryContainer extends PureComponent {
     const { edges } = await CameraRoll.getPhotos(photoOptions);
 
     navigation.setParams({
-      pickedPhoto: edges[0]
+      pickedPhoto: edges[0].node.image.uri
     });
     this.setState({
       photos: edges,
-      pickedPhoto: edges[0]
+      pickedPhoto: edges[0].node.image.uri
     });
   };
 
@@ -88,26 +86,24 @@ class LibraryContainer extends PureComponent {
     });
   };
 
-  pickPhoto = photo => {
+  setChoicedPhoto = photo => {
     const { navigation } = this.props;
     navigation.setParams({
-      pickedPhoto: photo
+      pickedPhoto: photo.uri
     });
-
     this.setState({
-      pickedPhoto: photo
+      pickedPhoto: photo.uri
     });
   };
 
   render() {
-    const { photos, pickedPhoto } = this.state;
-    const { pickPhoto, approvePhoto } = this;
+    const { pickedPhoto, choicedPhoto } = this.state;
+    const { setChoicedPhoto } = this;
     return (
       <LibraryPresenter
-        photos={photos}
         pickedPhoto={pickedPhoto}
-        pickPhoto={pickPhoto}
-        approvePhoto={approvePhoto}
+        setChoicedPhoto={setChoicedPhoto}
+        choicedPhoto={choicedPhoto}
       />
     );
   }
