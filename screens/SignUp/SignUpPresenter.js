@@ -78,7 +78,7 @@ const SignUpText = styled.Text`
 `;
 
 const SignUpPresenter = ({
-  stdntnum,
+  email,
   username,
   password1,
   password2,
@@ -88,7 +88,7 @@ const SignUpPresenter = ({
   changePasswordOne,
   changePasswordTwo,
   changeNickname,
-  changeStdntNumber,
+  changeEmail,
   handleSubmit
 }) => {
   return (
@@ -136,24 +136,26 @@ const SignUpPresenter = ({
             placeholder="닉네임"
             keyboardType="default"
             autoCorrect={false}
+            autoCapitalize="none"
             returnKeyType="next"
             value={nickname}
             onChangeText={changeNickname}
-            onSubmitEditing={() => this.stdntnumRef.focus()}
+            onSubmitEditing={() => this.emailRef.focus()}
           />
           <TextInput
-            ref={stdntnumRef => (this.stdntnumRef = stdntnumRef)}
-            placeholder="학번"
-            keyboardType="number-pad"
+            ref={emailRef => (this.emailRef = emailRef)}
+            placeholder="이메일 *비밀번호 분실시 필요*"
+            keyboardType="email-address"
+            autoCapitalize="none"
             autoCorrect={false}
             returnKeyType="done"
-            value={stdntnum}
-            onChangeText={changeStdntNumber}
+            value={email}
+            onChangeText={changeEmail}
             onSubmitEditing={handleSubmit}
           />
           <Button onPress={handleSubmit}>
             <BtnContainer>
-              <BtnText>로그인</BtnText>
+              <BtnText>회원가입</BtnText>
             </BtnContainer>
           </Button>
         </Content>
@@ -171,7 +173,7 @@ const SignUpPresenter = ({
 };
 
 SignUpPresenter.propTypes = {
-  stdntnum: PropTypes.string.isRequired,
+  email: PropTypes.string.isRequired,
   username: PropTypes.string.isRequired,
   password1: PropTypes.string.isRequired,
   password2: PropTypes.string.isRequired,
@@ -181,7 +183,7 @@ SignUpPresenter.propTypes = {
   changePasswordOne: PropTypes.func.isRequired,
   changePasswordTwo: PropTypes.func.isRequired,
   changeNickname: PropTypes.func.isRequired,
-  changeStdntNumber: PropTypes.func.isRequired,
+  changeEmail: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired
 };
 
