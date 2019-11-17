@@ -5,6 +5,8 @@ import FitImage from "react-native-fit-image";
 import { SafeAreaView } from "react-navigation";
 import CameraRollPicker from "react-native-camera-roll-picker";
 
+//회원가입
+
 const Container = styled.View`
   flex: 1;
 `;
@@ -24,7 +26,7 @@ const NotFountImage = styled.Text``;
 const LibraryPresenter = ({ pickedPhoto, setChoicedPhoto }) => {
   return (
     <Container>
-      {pickedPhoto.length > 1 && (
+      {pickedPhoto && (
         <ImageContainer>
           <ScrollView showsVerticalScrollIndicator={false}>
             {pickedPhoto ? (

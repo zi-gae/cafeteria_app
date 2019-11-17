@@ -35,7 +35,7 @@ class LibraryContainer extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      pickedPhoto: []
+      pickedPhoto: null
     };
   }
 
@@ -60,22 +60,13 @@ class LibraryContainer extends PureComponent {
   componentDidMount = async () => {
     this.permissionCheck();
     const { navigation } = this.props;
-    const photoOptions = {
-      first: 10,
-      groupTypes: "All",
-      assetType: "Photos"
-    };
-    if (Platform.OS === "android") {
-      delete photoOptions.groupTypes;
-    }
-    const { edges } = await CameraRoll.getPhotos(photoOptions);
+    const { pickedPhoto } = this.state;
 
     navigation.setParams({
-      pickedPhoto: edges[0].node.image.uri
+      pickedPhoto
     });
     this.setState({
-      photos: edges,
-      pickedPhoto: edges[0].node.image.uri
+      pickedPhoto
     });
   };
 

@@ -99,16 +99,11 @@ class WritePostContainer extends Component {
   };
 
   handleChoicePhoto = photo => {
-    const {
-      node: {
-        image: { uri }
-      }
-    } = photo;
     this.props.navigation.setParams({
-      file: uri
+      file: photo
     });
     this.setState({
-      file: uri
+      file: photo
     });
   };
 
