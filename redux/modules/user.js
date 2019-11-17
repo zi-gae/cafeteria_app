@@ -8,9 +8,9 @@ import uuidv1 from "uuid/v1";
 //actions
 
 const LOG_IN = "LOG_IN";
+const SIGN_UP = "SIGN_UP";
 const LOG_OUT = "LOG_OUT";
 const SET_USER = "SET_USER";
-const SIGN_UP = "SIGN_UP";
 const SET_NOTIFICATION = "SET_NOTIFICATION";
 const MODIFY_NICKNAME = "MODIFY_NICKNAME";
 
@@ -21,6 +21,13 @@ const setLogIn = (token, push_token) => {
     type: LOG_IN,
     token,
     push_token
+  };
+};
+
+const signUp = signUpStatusCode => {
+  return {
+    type: SIGN_UP,
+    signUpStatusCode
   };
 };
 
@@ -77,27 +84,29 @@ const login = (username, password) => {
   };
 };
 
-const createAccount = (username, password, nickname, stdntnum) => {
+const createAccount = (username, password, nickname, email) => {
+  AsyncStorage.removeItem("signUpStatusCode");
   return dispatch => {
     return fetch(`${URL}/rest-auth/registration/`, {
       method: "post",
       headers: {
-        "Content-type": "application/json"
+        "Content-type": "application/json",
+        Accept: "application/json"
       },
       body: JSON.stringify({
         username,
         password1: password,
         password2: password,
         nickname,
-        stdntnum
+        email
       })
-    })
-      .then(res => res.json())
-      .then(json => {
-        if (json.token) {
-          dispatch(setLogIn(json.token));
-        }
-      });
+    }).then(res => {
+      if (res.status === 201) {
+        return true;
+      } else {
+        return false;
+      }
+    });
   };
 };
 
@@ -235,6 +244,8 @@ const reducer = (state = initialState, action) => {
       return applySetNotification(state, action);
     case MODIFY_NICKNAME:
       return applyModifyProfile(state, action);
+    case SIGN_UP:
+      return applySignUp(state, action);
     default:
       return state;
   }
@@ -264,7 +275,6 @@ const applyLogOut = (state, action) => {
 
 const applySetUser = (state, action) => {
   const { user } = action;
-
   return {
     ...state,
     profile: user
@@ -273,7 +283,6 @@ const applySetUser = (state, action) => {
 
 const applySetNotification = (state, action) => {
   const { notification } = action;
-
   return {
     ...state,
     notification
@@ -282,7 +291,6 @@ const applySetNotification = (state, action) => {
 
 const applyModifyProfile = (state, action) => {
   const { profile } = action;
-
   return {
     ...state,
     profile
@@ -297,7 +305,8 @@ const actionCreators = {
   getNotification,
   getOwnProfile,
   putProfile,
-  postToken
+  postToken,
+  createAccount
 };
 
 export { actionCreators };
