@@ -59,7 +59,7 @@ class ProfileContainer extends Component {
     ]);
   };
 
-  handleNavigate = () => {
+  handleNavigateOwnPosts = () => {
     const {
       navigation: { navigate },
       posts: { posts },
@@ -76,6 +76,13 @@ class ProfileContainer extends Component {
       headerTitle: "내가 작성한 글",
       headerRight: null
     });
+  };
+
+  handleNavigateStudentAuth = () => {
+    const {
+      navigation: { navigate }
+    } = this.props;
+    navigate("StudentAuthentication");
   };
 
   changeProfile = () => {
@@ -164,10 +171,11 @@ class ProfileContainer extends Component {
       changeProfile,
       changeNickname,
       submitLogout,
-      handleNavigate,
+      handleNavigateOwnPosts,
       handleSheetPress,
       clickedAppVersion,
-      handleNavigatePrivacy
+      handleNavigatePrivacy,
+      handleNavigateStudentAuth
     } = this;
     const { user } = this.props;
     return (
@@ -179,11 +187,12 @@ class ProfileContainer extends Component {
         nickname={nickname}
         user={user}
         submitLogout={submitLogout}
-        handleNavigate={handleNavigate}
+        handleNavigateOwnPosts={handleNavigateOwnPosts}
         handleSheetPress={handleSheetPress}
         isProfileImageSubmitting={isProfileImageSubmitting}
         clickedAppVersion={clickedAppVersion}
         handleNavigatePrivacy={handleNavigatePrivacy}
+        handleNavigateStudentAuth={handleNavigateStudentAuth}
       />
     );
   }

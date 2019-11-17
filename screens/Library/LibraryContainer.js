@@ -79,6 +79,8 @@ class LibraryContainer extends PureComponent {
 
   setChoicedPhoto = photo => {
     const { navigation } = this.props;
+    console.log(photo);
+
     navigation.setParams({
       pickedPhoto: photo.uri
     });

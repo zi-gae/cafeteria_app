@@ -32,7 +32,7 @@ const LibraryPresenter = ({ pickedPhoto, setChoicedPhoto }) => {
             {pickedPhoto ? (
               <FitImg resizeMode="contain" source={{ uri: pickedPhoto }} />
             ) : (
-              <NotFountImage>이미지가 없어요.</NotFountImage>
+              <NotFountImage>이미지가 없어요...</NotFountImage>
             )}
           </ScrollView>
         </ImageContainer>
@@ -41,6 +41,7 @@ const LibraryPresenter = ({ pickedPhoto, setChoicedPhoto }) => {
         <CameraRollPicker
           groupTypes="All"
           emptyText="사진이 없어요 ㅠ"
+          groupName="Recent Photos"
           imagesPerRow={4}
           selectSingleItem={true}
           imageMargin={2}

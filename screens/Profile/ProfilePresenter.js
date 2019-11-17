@@ -96,11 +96,12 @@ const ProfilePresenter = ({
   nickname,
   submitLogout,
   user,
-  handleNavigate,
   handleSheetPress,
   isProfileImageSubmitting,
   clickedAppVersion,
-  handleNavigatePrivacy
+  handleNavigatePrivacy,
+  handleNavigateOwnPosts,
+  handleNavigateStudentAuth
 }) => (
   <Container showsVerticalScrollIndicator={false}>
     <BorderBox>
@@ -131,7 +132,10 @@ const ProfilePresenter = ({
     </BorderBox>
     <BorderBox>
       <Text header={true}>계정</Text>
-      <Touch onPress={handleNavigate}>
+      <Touch onPress={handleNavigateStudentAuth}>
+        <Text header={false}>재학생 인증</Text>
+      </Touch>
+      <Touch onPress={handleNavigateOwnPosts}>
         <Text header={false}>내가 쓴 글</Text>
       </Touch>
       <Touch
