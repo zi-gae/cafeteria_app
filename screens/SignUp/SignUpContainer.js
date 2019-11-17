@@ -64,8 +64,6 @@ class SignUpContainer extends Component {
     }
   };
 
-  nextSubmitAction = () => {};
-
   render() {
     const {
       changeUsername,

@@ -115,7 +115,6 @@ const DormitoryOutPresenter = ({
         extraHeight={100}
         extraScrollHeight={100}
       >
-        <StatusBar barStyle={"light-content"} />
         <Header>
           <Logo source={require("../../assets/images/logo.png")} />
           <HeaderText>외박 신청을 더 편하고 빠르게</HeaderText>

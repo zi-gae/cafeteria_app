@@ -60,7 +60,7 @@ class AppContainerPresenter extends Component {
     const { view } = this.state;
     return (
       <>
-        <StatusBar hidden={false} />
+        <StatusBar hidden={false} barStyle="dark-content" />
         {isLoggedIn && profile ? (
           view ? (
             <RootNavigation

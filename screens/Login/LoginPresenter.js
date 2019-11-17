@@ -93,7 +93,6 @@ const LoginPresenter = ({
       contentContainerStyle={{ flexGrow: 1 }}
       keyboardShouldPersistTaps="handled"
     >
-      <StatusBar hidden={false} />
       <Header>
         <Logo source={require("../../assets/images/logo.png")} />
       </Header>

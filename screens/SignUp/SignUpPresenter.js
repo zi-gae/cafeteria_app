@@ -93,7 +93,6 @@ const SignUpPresenter = ({
 }) => {
   return (
     <Container>
-      <StatusBar hidden={false} />
       <KeyboardAware
         enableOnAndroid={true}
         extraHeight={100}
@@ -112,7 +111,6 @@ const SignUpPresenter = ({
             onChangeText={changeUsername}
             onSubmitEditing={() => this.passwordRefOne.focus()}
           />
-
           <TextInput
             ref={passwordRefOne => (this.passwordRefOne = passwordRefOne)}
             placeholder="비밀번호"
