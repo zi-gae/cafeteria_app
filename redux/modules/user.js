@@ -24,13 +24,6 @@ const setLogIn = (token, push_token) => {
   };
 };
 
-const signUp = signUpStatusCode => {
-  return {
-    type: SIGN_UP,
-    signUpStatusCode
-  };
-};
-
 const logOut = () => {
   return {
     type: LOG_OUT
