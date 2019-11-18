@@ -106,7 +106,9 @@ const DormitoryOutPresenter = ({
   endDay,
   handleStartDay,
   handleEndDay,
-  TextInputDisable
+  TextInputDisable,
+  alertAccessAuthentication,
+  univAuthentication
 }) => {
   return (
     <Container showsVerticalScrollIndicator={false}>
@@ -210,7 +212,11 @@ const DormitoryOutPresenter = ({
             onChangeText={changeDormitoryOutReason}
             onSubmitEditing={handleSubmit}
           />
-          <Button onPress={handleSubmit}>
+          <Button
+            onPress={() => {
+              univAuthentication ? handleSubmit : alertAccessAuthentication;
+            }}
+          >
             {isSubmitting ? (
               <ActivityIndicator color="white" />
             ) : (

@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { Alert } from "react-native";
 import styled from "styled-components";
 import { RFValue } from "react-native-responsive-fontsize";
+import { Platform } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
 
@@ -51,7 +52,7 @@ class ProfileContainer extends Component {
   }
 
   getPermissionAsync = async () => {
-    if (Constants.platform.ios) {
+    if (Platform.OS === "ios") {
       const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
       if (status !== "granted") {
         alert("Sorry, we need camera roll permissions to make this work!");

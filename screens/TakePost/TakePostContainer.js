@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import TakePostPresenter from "./TakePostPresenter";
+import { Alert } from "react-native";
 
 class TakePostContainer extends Component {
   constructor(props) {
@@ -9,6 +10,7 @@ class TakePostContainer extends Component {
       likeCount: props.like_count
     };
   }
+
   handleTakePress = result => {
     const { isLiked, likeCount } = this.state;
     if (result) {
@@ -25,6 +27,51 @@ class TakePostContainer extends Component {
       }
     }
   };
+
+  handleNavigatePostDetail = navigation => {
+    const {
+      id,
+      anonymous,
+      comment_count,
+      comments,
+      content,
+      creator,
+      file,
+      kinds,
+      natural_time,
+      title
+    } = this.props;
+    const { handleTakePress } = this;
+    const { likeCount, isLiked } = this.state;
+
+    navigation.navigate("PostDetail", {
+      id,
+      anonymous,
+      comment_count,
+      comments,
+      content,
+      creator,
+      file,
+      kinds,
+      likeCount,
+      natural_time,
+      title,
+      isLiked,
+      handleTakePress
+    });
+  };
+
+  alertAccessAuthentication = navigation => {
+    Alert.alert("알림💡", "재학생 인증 후에 시도 해주세오", [
+      {
+        text: "OK",
+        onPress: () => {
+          navigation.navigate("Profile");
+        }
+      }
+    ]);
+  };
+
   render() {
     const {
       id,
@@ -39,10 +86,16 @@ class TakePostContainer extends Component {
       natural_time,
       title,
       is_liked,
-      navigation
+      navigation,
+      univAuthentication
     } = this.props;
-    const { isLiked, likeCount } = this.state;
 
+    const { isLiked, likeCount } = this.state;
+    const {
+      alertAccessAuthentication,
+      handleNavigatePostDetail,
+      handleTakePress
+    } = this;
     return (
       <TakePostPresenter
         id={id}
@@ -58,9 +111,12 @@ class TakePostContainer extends Component {
         title={title}
         is_liked={is_liked}
         navigation={navigation}
-        handleTakePress={this.handleTakePress}
+        handleTakePress={handleTakePress}
         isLiked={isLiked}
         likeCount={likeCount}
+        alertAccessAuthentication={alertAccessAuthentication}
+        univAuthentication={univAuthentication}
+        handleNavigatePostDetail={handleNavigatePostDetail}
       />
     );
   }

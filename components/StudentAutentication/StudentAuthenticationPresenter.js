@@ -105,7 +105,6 @@ const StudentAuthenticationPresenter = ({ pickImage, image }) => (
           </ButtonBox>
         </Button>
       </NicknameBox>
-
       <PushButton>
         <Touch>
           <PushText>인 증</PushText>

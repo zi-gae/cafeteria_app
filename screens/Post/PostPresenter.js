@@ -54,7 +54,8 @@ const PostPresenter = ({
   isCloseToBottom,
   handlePostLength,
   postLength,
-  fetchPost
+  fetchPost,
+  univAuthentication
 }) => (
   <Container>
     <ScrollContainer
@@ -72,18 +73,24 @@ const PostPresenter = ({
         />
       }
     >
+      {fetchPost ? <ActivityIndicator size="small" color="black" /> : null}
       <PostContainer>
         {posts
           ? posts.map((post, index) => {
               if (index < postLength) {
-                return <TakePost {...post} key={post.id} />;
+                return (
+                  <TakePost
+                    {...post}
+                    key={post.id}
+                    univAuthentication={univAuthentication}
+                  />
+                );
               } else {
                 return null;
               }
             })
           : null}
       </PostContainer>
-      {fetchPost ? <ActivityIndicator size="small" color="black" /> : null}
     </ScrollContainer>
     {navigation.state.params ? null : (
       <Touch onPress={navigateWritePost}>

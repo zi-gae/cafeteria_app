@@ -5,6 +5,7 @@ import { LIGTH_GREEN } from "../../constants/Color";
 import NavButton from "../../components/NavButton";
 import PropTypes from "prop-types";
 import { RFValue } from "react-native-responsive-fontsize";
+import { Alert } from "react-native";
 
 const Image = styled.Image`
   height: ${RFValue(58)};
@@ -91,16 +92,35 @@ class PostContainer extends Component {
   };
 
   navigateWritePost = () => {
+    const { alertAccessAuthentication } = this;
     const {
-      navigation: { navigate }
+      navigation: { navigate },
+      user: {
+        profile: { univ_authentication }
+      }
     } = this.props;
-    navigate("WritePost", {
-      title: null,
-      content: null,
-      image: null,
-      writeType: "글 쓰기",
-      handleSuccessButton: this.handleSuccessButton
-    });
+
+    univ_authentication
+      ? navigate("WritePost", {
+          title: "",
+          content: "",
+          image: null,
+          writeType: "글 쓰기",
+          handleSuccessButton: this.handleSuccessButton
+        })
+      : alertAccessAuthentication();
+  };
+
+  alertAccessAuthentication = () => {
+    const { navigation } = this.props;
+    Alert.alert("알림💡", "재학생 인증 후에 시도 해주세오", [
+      {
+        text: "OK",
+        onPress: () => {
+          navigation.navigate("Profile");
+        }
+      }
+    ]);
   };
 
   handleSuccessButton = async (title, content, image, anonymous) => {
@@ -108,7 +128,18 @@ class PostContainer extends Component {
       anonymous = false;
     }
     const { dispatchCreatePost } = this.props;
-    await dispatchCreatePost(title, content, image, anonymous);
+    this.setState({
+      fetchPost: true
+    });
+    const result = await dispatchCreatePost(title, content, image, anonymous);
+    if (result) {
+      console.log(result);
+      this.setState({
+        fetchPost: false
+      });
+    } else {
+      console.log(result);
+    }
   };
 
   refresh = () => {
@@ -128,7 +159,14 @@ class PostContainer extends Component {
   };
 
   render() {
-    const { getPost, posts, navigation } = this.props;
+    const {
+      getPost,
+      posts,
+      navigation,
+      user: {
+        profile: { univ_authentication }
+      }
+    } = this.props;
     const {
       navigateWritePost,
       refresh,
@@ -152,6 +190,7 @@ class PostContainer extends Component {
         handlePostLength={handlePostLength}
         postLength={postLength}
         fetchPost={fetchPost}
+        univAuthentication={univ_authentication}
       />
     );
   }

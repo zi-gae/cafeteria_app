@@ -216,6 +216,18 @@ class DormitoryOutContainer extends Component {
     }
   };
 
+  alertAccessAuthentication = () => {
+    const { navigation } = this.props;
+    Alert.alert("알림💡", "재학생 인증 후에 시도 해주세오", [
+      {
+        text: "OK",
+        onPress: () => {
+          navigation.navigate("Profile");
+        }
+      }
+    ]);
+  };
+
   render() {
     const {
       collegeStudentId,
@@ -239,8 +251,15 @@ class DormitoryOutContainer extends Component {
       changeDormitoryOutReason,
       handleSubmit,
       handleStartDay,
-      handleEndDay
+      handleEndDay,
+      alertAccessAuthentication
     } = this;
+
+    const {
+      user: {
+        profile: { univAuthentication }
+      }
+    } = this.props;
 
     return (
       <DormitoryOutPresenter
@@ -263,6 +282,9 @@ class DormitoryOutContainer extends Component {
         handleStartDay={handleStartDay}
         handleEndDay={handleEndDay}
         TextInputDisable={TextInputDisable}
+        alertAccessAuthentication={alertAccessAuthentication}
+        alertAccessAuthentication={alertAccessAuthentication}
+        univAuthentication={univAuthentication}
       />
     );
   }

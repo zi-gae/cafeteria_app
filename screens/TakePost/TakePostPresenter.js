@@ -68,39 +68,26 @@ const ActionContainer = styled.View`
 `;
 
 const TakePostPresenter = ({
-  id,
   anonymous,
   comment_count,
-  comments,
   content,
   creator,
   file,
-  kinds,
   natural_time,
   title,
   navigation,
-  handleTakePress,
   isLiked,
-  likeCount
+  likeCount,
+  univAuthentication,
+  alertAccessAuthentication,
+  handleNavigatePostDetail
 }) => (
   <Container>
     <InnerContainer
       onPress={() =>
-        navigation.navigate("PostDetail", {
-          id,
-          anonymous,
-          comment_count,
-          comments,
-          content,
-          creator,
-          file,
-          kinds,
-          likeCount,
-          natural_time,
-          title,
-          isLiked,
-          handleTakePress
-        })
+        univAuthentication
+          ? handleNavigatePostDetail(navigation)
+          : alertAccessAuthentication(navigation)
       }
     >
       <ContentContainer>

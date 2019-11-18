@@ -4,10 +4,12 @@ import { actionCreators as crawlerActions } from "../../redux/modules/crawlers";
 
 const mapStateToProps = (state, ownProps) => {
   const {
-    crawlers: { dormitoryOutState }
+    crawlers: { dormitoryOutState },
+    user
   } = state;
   return {
-    dormitoryOutState
+    dormitoryOutState,
+    user
   };
 };
 

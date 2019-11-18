@@ -59,7 +59,7 @@ class SignUpContainer extends Component {
         if (password1 !== password2) {
           Alert.alert("알림💡", "비밀번호가 일치하지 않습니다!");
         } else {
-          if (checkPassword(password1) && checkId(id)) {
+          if (checkPassword(password1) && checkId(username)) {
             // 아이디 중복 검사 해줘야함
             this.setState({
               isSubmitting: true

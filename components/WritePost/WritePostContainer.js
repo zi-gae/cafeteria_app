@@ -5,7 +5,7 @@ import { LIGTH_GREEN } from "../../constants/Color";
 import NavButton from "../NavButton";
 import { RFValue } from "react-native-responsive-fontsize";
 import PropTypes from "prop-types";
-import { Platform } from "react-native";
+import { Platform, Alert } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
 
@@ -44,8 +44,8 @@ class WritePostContainer extends Component {
     } = this.props;
     this.state = {
       anonymousIsChecked: params.anonymous,
-      title: params.title,
-      content: params.content,
+      title: params.title ? params.title : "",
+      content: params.content ? params.content : "",
       image: params.image
     };
   }
@@ -67,13 +67,39 @@ class WritePostContainer extends Component {
     headerRight: (
       <Button
         onPress={() => {
-          navigation.state.params.handleSuccessButton(
-            navigation.state.params.title,
-            navigation.state.params.content,
-            navigation.state.params.image,
-            navigation.state.params.anonymous
-          );
-          navigation.goBack(null);
+          const {
+            state: { params }
+          } = navigation;
+          if (
+            params.title.trim().length < 2 &&
+            params.content.trim().length < 2
+          ) {
+            Alert.alert("알림💡", "제목과 본문을 3글자 이상 입력 해주세요", [
+              {
+                text: "OK"
+              }
+            ]);
+          } else if (params.title.trim().length < 2) {
+            Alert.alert("알림💡", "제목을 3글자 이상 입력 해주세요", [
+              {
+                text: "OK"
+              }
+            ]);
+          } else if (params.content.trim().length < 2) {
+            Alert.alert("알림💡", "본문을 3글자 이상 입력 해주세요", [
+              {
+                text: "OK"
+              }
+            ]);
+          } else {
+            params.handleSuccessButton(
+              params.title,
+              params.content,
+              params.image,
+              params.anonymous
+            );
+            navigation.goBack(null);
+          }
         }}
       >
         <ButtonBox>

@@ -355,11 +355,8 @@ const createPost = (title, content, file, anonymous) => {
           dispatch(userActions.logOut());
         } else {
           dispatch(getPost());
-          return res.json();
+          dispatch(reqCreatePost());
         }
-      })
-      .then(json => {
-        dispatch(reqCreatePost());
       })
       .catch(err => console.log(err));
   };
