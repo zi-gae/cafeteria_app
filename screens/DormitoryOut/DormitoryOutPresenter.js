@@ -107,7 +107,8 @@ const DormitoryOutPresenter = ({
   handleEndDay,
   TextInputDisable,
   alertAccessAuthentication,
-  univAuthentication
+  univAuthentication,
+  stdntnum
 }) => (
   <Container showsVerticalScrollIndicator={false}>
     <KeyboardAware

@@ -12,10 +12,16 @@ const Image = styled.Image`
 `;
 
 class DormitoryOutContainer extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    const {
+      user: {
+        profile: { stdntnum }
+      }
+    } = this.props;
+
     this.state = {
-      collegeStudentId: "",
+      collegeStudentId: stdntnum ? stdntnum + "" : "",
       collegeStudentPwd: "",
       dormitoryOutStartDay: "",
       dormitoryOutEndDay: "",
@@ -101,7 +107,6 @@ class DormitoryOutContainer extends Component {
       ]);
       this.resetState();
     } else if (logedMsg === "idlock") {
-      alert("비밀번호 5회를 틀려 계정이 잠겼어요!");
       Alert.alert("알림💡", "비밀번호 5회 오류로 계정이 잠겼어요!", [
         { text: "OK", onPress: () => {} }
       ]);
