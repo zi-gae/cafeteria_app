@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import PostActionsPresenter from "./PostActionsPresenter";
-import PropTypes from "prop-types";
 
 class PostActionsContainer extends Component {
   constructor(props) {
@@ -21,12 +20,5 @@ class PostActionsContainer extends Component {
     );
   }
 }
-
-PostActionsContainer.propTypes = {
-  isLiked: PropTypes.bool.isRequired,
-  likeCount: PropTypes.number.isRequired,
-  commentCount: PropTypes.number.isRequired,
-  dispatchLike: PropTypes.func
-};
 
 export default PostActionsContainer;

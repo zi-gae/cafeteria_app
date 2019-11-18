@@ -1,11 +1,10 @@
 import React, { Component } from "react";
-import PostDetailPresenter from "./PostDetailPresenter";
+import { Alert, Keyboard } from "react-native";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import PostDetailPresenter from "./PostDetailPresenter";
 import NavButton from "../NavButton";
 import { LIGTH_GREEN } from "../../constants/Color";
-import { Keyboard } from "react-native";
-import { Alert } from "react-native";
 
 const Title = styled.Text`
   font-weight: bold;
@@ -54,11 +53,11 @@ class PostDetailContainer extends Component {
   componentWillMount() {
     this.keyboardDidShowListener = Keyboard.addListener(
       "keyboardDidShow",
-      (this._keyboardDidShow = this._keyboardDidShow.bind(this))
+      (this.keyboardDidShow = this.keyboardDidShow.bind(this))
     );
     this.keyboardDidHideListener = Keyboard.addListener(
       "keyboardDidHide",
-      (this._keyboardDidHide = this._keyboardDidHide.bind(this))
+      (this.keyboardDidHide = this.keyboardDidHide.bind(this))
     );
   }
 
@@ -67,23 +66,51 @@ class PostDetailContainer extends Component {
     this.keyboardDidHideListener.remove();
   }
 
-  _keyboardDidShow() {
+  keyboardDidShow() {
     this.setState({
       keyboardView: true
     });
   }
 
-  _keyboardDidHide() {
+  keyboardDidHide() {
     this.setState({
       keyboardView: false,
       placeholder: "댓글 입력"
     });
   }
 
-  onChangeComment = text => {
+  submitComment = async () => {
+    const {
+      dispatchCommentPost,
+      dispatchOnCommentPost,
+      push_token
+    } = this.props;
+    const { message, anonymousIsChecked, referComment } = this.state;
     this.setState({
-      message: text
+      isSubmitting: true
     });
+    if (message.length < 1) {
+      Alert.alert("알림💡", "댓글을 입력해주세요!", [
+        { text: "확인", onPress: () => {} }
+      ]);
+    } else {
+      if (referComment === 0) {
+        await dispatchCommentPost(message, anonymousIsChecked, push_token);
+      } else {
+        await dispatchOnCommentPost(
+          referComment,
+          message,
+          anonymousIsChecked,
+          referComment,
+          push_token
+        );
+      }
+      this.setState({
+        message: "",
+        referComment: 0,
+        isSubmitting: false
+      });
+    }
   };
 
   handlePress = async () => {
@@ -137,12 +164,6 @@ class PostDetailContainer extends Component {
         });
   };
 
-  setCommentId = id => {
-    this.setState({
-      referComment: id
-    });
-  };
-
   removeComment = async commentId => {
     const { dispatchCommentDelete } = this.props;
 
@@ -164,40 +185,6 @@ class PostDetailContainer extends Component {
         }
       }
     ]);
-  };
-
-  submitComment = async () => {
-    const {
-      dispatchCommentPost,
-      dispatchOnCommentPost,
-      push_token
-    } = this.props;
-    const { message, anonymousIsChecked, referComment } = this.state;
-    this.setState({
-      isSubmitting: true
-    });
-    if (message.length < 1) {
-      Alert.alert("알림💡", "댓글을 입력해주세요!", [
-        { text: "확인", onPress: () => {} }
-      ]);
-    } else {
-      if (referComment === 0) {
-        await dispatchCommentPost(message, anonymousIsChecked, push_token);
-      } else {
-        await dispatchOnCommentPost(
-          referComment,
-          message,
-          anonymousIsChecked,
-          referComment,
-          push_token
-        );
-      }
-      this.setState({
-        message: "",
-        referComment: 0,
-        isSubmitting: false
-      });
-    }
   };
 
   handleSheetPress = index => {
@@ -245,6 +232,18 @@ class PostDetailContainer extends Component {
     });
   };
 
+  onChangeComment = text => {
+    this.setState({
+      message: text
+    });
+  };
+
+  onChangeCommentId = id => {
+    this.setState({
+      referComment: id
+    });
+  };
+
   render() {
     const { dispatchLike } = this.props;
     const {
@@ -264,7 +263,7 @@ class PostDetailContainer extends Component {
       onChangeComment,
       submitComment,
       handlePlaceholderChange,
-      setCommentId,
+      onChangeCommentId,
       handleSheetPress,
       removeComment
     } = this;
@@ -310,7 +309,7 @@ class PostDetailContainer extends Component {
         referComment={referComment}
         placeholder={placeholder}
         handlePlaceholderChange={handlePlaceholderChange}
-        setCommentId={setCommentId}
+        onChangeCommentId={onChangeCommentId}
         removeComment={removeComment}
         isSubmitting={isSubmitting}
         handleSheetPress={handleSheetPress}

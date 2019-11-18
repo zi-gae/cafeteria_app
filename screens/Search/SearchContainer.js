@@ -1,9 +1,9 @@
 import React, { Component } from "react";
+import { Platform } from "react-native";
+import PropTypes from "prop-types";
 import SearchPresenter from "./SearchPresenter";
 import SearchBar from "../../components/SearchBar";
-import PropTypes from "prop-types";
 import NavButton from "../../components/NavButton";
-import { Platform } from "react-native";
 import { LIGTH_GREEN } from "../../constants/Color";
 
 class SearchContainer extends Component {
@@ -20,6 +20,7 @@ class SearchContainer extends Component {
     search: PropTypes.array,
     emptySearch: PropTypes.func.isRequired
   };
+
   static defaultProps = {
     search: []
   };
@@ -39,6 +40,13 @@ class SearchContainer extends Component {
     };
   };
 
+  componentDidMount() {
+    const { navigation } = this.props;
+    navigation.setParams({
+      submitSearch: this.submitSearch
+    });
+  }
+
   componentWillReceiveProps = nextProps => {
     if (nextProps.search) {
       this.setState({
@@ -56,13 +64,6 @@ class SearchContainer extends Component {
       searchByTerm(searchingBy);
     }
   };
-
-  componentDidMount() {
-    const { navigation } = this.props;
-    navigation.setParams({
-      submitSearch: this.submitSearch
-    });
-  }
 
   submitSearch = text => {
     const { searchByTerm, emptySearch } = this.props;

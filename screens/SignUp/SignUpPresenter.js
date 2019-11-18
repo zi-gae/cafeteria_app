@@ -1,15 +1,15 @@
 import React from "react";
 import styled from "styled-components";
-import Layout from "../../constants/Layout";
+import PropTypes from "prop-types";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { RFValue } from "react-native-responsive-fontsize";
 import {
   BG_COLOR_WHITE,
   BODER_COLOR,
   LIGTH_GREEN,
   LIGHT_GREY
 } from "../../constants/Color";
-import PropTypes from "prop-types";
-import { RFValue } from "react-native-responsive-fontsize";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import Layout from "../../constants/Layout";
 
 const KeyboardAware = styled(KeyboardAwareScrollView)``;
 const Container = styled.View`
@@ -89,87 +89,85 @@ const SignUpPresenter = ({
   changeNickname,
   changeEmail,
   handleSubmit
-}) => {
-  return (
-    <Container>
-      <KeyboardAware
-        enableOnAndroid={true}
-        extraHeight={100}
-        extraScrollHeight={100}
-      >
-        <Header>
-          <Logo source={require("../../assets/images/logo.png")} />
-        </Header>
-        <Content>
-          <TextInput
-            placeholder="아이디"
-            autoCapitalize="none"
-            autoCorrect={false}
-            returnKeyType="next"
-            value={username}
-            onChangeText={changeUsername}
-            onSubmitEditing={() => this.passwordRefOne.focus()}
-          />
-          <TextInput
-            ref={passwordRefOne => (this.passwordRefOne = passwordRefOne)}
-            placeholder="비밀번호"
-            secureTextEntry={true}
-            autoCorrect={false}
-            returnKeyType="next"
-            value={password1}
-            onChangeText={changePasswordOne}
-            onSubmitEditing={() => this.passwordRefTwo.focus()}
-          />
-          <TextInput
-            ref={passwordRefTwo => (this.passwordRefTwo = passwordRefTwo)}
-            placeholder="비밀번호 확인"
-            secureTextEntry={true}
-            autoCorrect={false}
-            returnKeyType="next"
-            value={password2}
-            onChangeText={changePasswordTwo}
-            onSubmitEditing={() => this.nicknameRef.focus()}
-          />
-          <TextInput
-            ref={nicknameRef => (this.nicknameRef = nicknameRef)}
-            placeholder="닉네임"
-            keyboardType="default"
-            autoCorrect={false}
-            autoCapitalize="none"
-            returnKeyType="next"
-            value={nickname}
-            onChangeText={changeNickname}
-            onSubmitEditing={() => this.emailRef.focus()}
-          />
-          <TextInput
-            ref={emailRef => (this.emailRef = emailRef)}
-            placeholder="이메일 *비밀번호 분실시 필요*"
-            keyboardType="email-address"
-            autoCapitalize="none"
-            autoCorrect={false}
-            returnKeyType="done"
-            value={email}
-            onChangeText={changeEmail}
-            onSubmitEditing={handleSubmit}
-          />
-          <Button onPress={handleSubmit}>
-            <BtnContainer>
-              <BtnText>회원가입</BtnText>
-            </BtnContainer>
-          </Button>
-        </Content>
-      </KeyboardAware>
-      <Footer>
-        <FooterBox>
-          <FooterText>계정이 있으신가요?</FooterText>
-          <BtnSignUp onPress={handleAccountAction}>
-            <SignUpText>로그인</SignUpText>
-          </BtnSignUp>
-        </FooterBox>
-      </Footer>
-    </Container>
-  );
-};
+}) => (
+  <Container>
+    <KeyboardAware
+      enableOnAndroid={true}
+      extraHeight={100}
+      extraScrollHeight={100}
+    >
+      <Header>
+        <Logo source={require("../../assets/images/logo.png")} />
+      </Header>
+      <Content>
+        <TextInput
+          placeholder="아이디"
+          autoCapitalize="none"
+          autoCorrect={false}
+          returnKeyType="next"
+          value={username}
+          onChangeText={changeUsername}
+          onSubmitEditing={() => this.passwordRefOne.focus()}
+        />
+        <TextInput
+          ref={passwordRefOne => (this.passwordRefOne = passwordRefOne)}
+          placeholder="비밀번호"
+          secureTextEntry={true}
+          autoCorrect={false}
+          returnKeyType="next"
+          value={password1}
+          onChangeText={changePasswordOne}
+          onSubmitEditing={() => this.passwordRefTwo.focus()}
+        />
+        <TextInput
+          ref={passwordRefTwo => (this.passwordRefTwo = passwordRefTwo)}
+          placeholder="비밀번호 확인"
+          secureTextEntry={true}
+          autoCorrect={false}
+          returnKeyType="next"
+          value={password2}
+          onChangeText={changePasswordTwo}
+          onSubmitEditing={() => this.nicknameRef.focus()}
+        />
+        <TextInput
+          ref={nicknameRef => (this.nicknameRef = nicknameRef)}
+          placeholder="닉네임"
+          keyboardType="default"
+          autoCorrect={false}
+          autoCapitalize="none"
+          returnKeyType="next"
+          value={nickname}
+          onChangeText={changeNickname}
+          onSubmitEditing={() => this.emailRef.focus()}
+        />
+        <TextInput
+          ref={emailRef => (this.emailRef = emailRef)}
+          placeholder="이메일 *비밀번호 분실시 필요*"
+          keyboardType="email-address"
+          autoCapitalize="none"
+          autoCorrect={false}
+          returnKeyType="done"
+          value={email}
+          onChangeText={changeEmail}
+          onSubmitEditing={handleSubmit}
+        />
+        <Button onPress={handleSubmit}>
+          <BtnContainer>
+            <BtnText>회원가입</BtnText>
+          </BtnContainer>
+        </Button>
+      </Content>
+    </KeyboardAware>
+    <Footer>
+      <FooterBox>
+        <FooterText>계정이 있으신가요?</FooterText>
+        <BtnSignUp onPress={handleAccountAction}>
+          <SignUpText>로그인</SignUpText>
+        </BtnSignUp>
+      </FooterBox>
+    </Footer>
+  </Container>
+);
 
 SignUpPresenter.propTypes = {
   email: PropTypes.string.isRequired,

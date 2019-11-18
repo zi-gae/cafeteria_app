@@ -10,6 +10,7 @@ const mapStateToProps = (state, ownProps) => {
       }
     }
   } = ownProps;
+
   let sample;
   state.posts.posts.map(post => {
     if (post.id === id) {
@@ -19,6 +20,7 @@ const mapStateToProps = (state, ownProps) => {
 
   return { sample };
 };
+
 const mapDispatchToProps = (dispatch, ownProps) => {
   const {
     navigation: {
@@ -35,7 +37,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(WritePostContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(WritePostContainer);

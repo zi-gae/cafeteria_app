@@ -1,10 +1,10 @@
 import React from "react";
 import { TouchableOpacity } from "react-native";
-import PropTypes from "prop-types";
-import { Ionicons, EvilIcons } from "@expo/vector-icons";
-import { LIGTH_GREEN, DARK_BLUE } from "../../constants/Color";
 import { withNavigation } from "react-navigation";
+import PropTypes from "prop-types";
 import styled from "styled-components";
+import { LIGTH_GREEN, DARK_BLUE } from "../../constants/Color";
+import { Ionicons, EvilIcons } from "@expo/vector-icons";
 import { RFValue } from "react-native-responsive-fontsize";
 
 const Container = styled.View`

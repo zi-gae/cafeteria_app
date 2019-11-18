@@ -12,6 +12,7 @@ const DELETE_COMMENT = "DELETE_COMMENT";
 const UPDATE_POST = "UPDATE_POST";
 const DELETE_POST = "DELETE_POST";
 const CREATE_POST = "CREATE_POST";
+
 //action creator
 
 const reqSetPost = posts => {

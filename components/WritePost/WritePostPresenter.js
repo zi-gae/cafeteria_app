@@ -13,6 +13,9 @@ const Container = styled.View`
   padding-left: ${Layout.width / 20};
   padding-right: ${Layout.width / 20};
 `;
+const InputBox = styled.View`
+  flex: 1;
+`;
 const ScrollView = styled.ScrollView``;
 const ContentImg = styled.Image`
   height: ${Layout.height / 3};
@@ -21,7 +24,6 @@ const ContentImg = styled.Image`
   margin-top: 5px;
   margin-bottom: 5px;
 `;
-
 const TitleInput = styled.TextInput`
   font-size: ${RFValue(18)};
   margin-top: ${RFValue(10)};
@@ -35,7 +37,6 @@ const ContentInput = styled.TextInput`
   font-size: ${RFValue(15)};
   font-weight: 500;
 `;
-
 const ButtonLabel = styled.View`
   height: ${RFValue(40)};
   padding: 5px;
@@ -57,63 +58,61 @@ const Anonymous = styled.Text`
 const Touch = styled.TouchableOpacity``;
 
 const WritePostPresenter = ({
-  anonymousIsChecked,
-  handleCheckBox,
   title,
   content,
+  anonymousIsChecked,
   image,
-  changeTitle,
-  changeContent,
+  handleCheckBox,
+  onChangeTitle,
+  onChangeContent,
   pickImage
-}) => {
-  return (
-    <Container>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <TitleInput
-          autoCapitalize="none"
-          autoCompleteType="off"
-          autoCorrect={false}
-          placeholder="제목"
-          value={title}
-          onChangeText={changeTitle}
-        />
-        <ContentInput
-          autoCapitalize="none"
-          autoCompleteType="off"
-          autoCorrect={false}
-          numberOfLines={10}
-          placeholder="제목"
-          placeholder="이곳에 글을 작성해 주세요"
-          multiline={true}
-          value={content}
-          onChangeText={changeContent}
-        />
-      </ScrollView>
-      {image ? <ContentImg resizeMode="cover" source={{ uri: image }} /> : null}
-      <KeyboardAccessoryView
-        hideBorder={true}
-        alwaysVisible={true}
-        style={{
-          backgroundColor: "white"
-        }}
-      >
-        <ButtonLabel>
-          <Touch onPress={pickImage}>
-            <Ionicons name="ios-camera" size={30} color={LIGTH_GREEN} />
-          </Touch>
-          <AnonymousBox>
-            <CheckBox
-              isChecked={anonymousIsChecked}
-              onClick={handleCheckBox}
-              checkBoxColor={LIGTH_GREEN}
-            />
-            <Anonymous>익명</Anonymous>
-          </AnonymousBox>
-        </ButtonLabel>
-      </KeyboardAccessoryView>
-      <SafeAreaBottom keyboardView={true} />
-    </Container>
-  );
-};
+}) => (
+  <Container>
+    <ScrollView showsVerticalScrollIndicator={false}>
+      <TitleInput
+        autoCapitalize="none"
+        autoCompleteType="off"
+        autoCorrect={false}
+        placeholder="제목"
+        value={title}
+        onChangeText={onChangeTitle}
+      />
+      <ContentInput
+        autoCapitalize="none"
+        autoCompleteType="off"
+        autoCorrect={false}
+        numberOfLines={10}
+        placeholder="제목"
+        placeholder="이곳에 글을 작성해 주세요"
+        multiline={true}
+        value={content}
+        onChangeText={onChangeContent}
+      />
+    </ScrollView>
+    {image ? <ContentImg resizeMode="cover" source={{ uri: image }} /> : null}
+    <KeyboardAccessoryView
+      hideBorder={true}
+      alwaysVisible={true}
+      style={{
+        backgroundColor: "white"
+      }}
+    >
+      <ButtonLabel>
+        <Touch onPress={pickImage}>
+          <Ionicons name="ios-camera" size={30} color={LIGTH_GREEN} />
+        </Touch>
+        <AnonymousBox>
+          <CheckBox
+            isChecked={anonymousIsChecked}
+            onClick={handleCheckBox}
+            checkBoxColor={LIGTH_GREEN}
+          />
+          <Anonymous>익명</Anonymous>
+        </AnonymousBox>
+      </ButtonLabel>
+    </KeyboardAccessoryView>
+    <SafeAreaBottom keyboardView={true} />
+  </Container>
+);
 
 export default WritePostPresenter;

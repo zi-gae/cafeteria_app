@@ -1,5 +1,9 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
+import { RFValue } from "react-native-responsive-fontsize";
+import { Calendar } from "react-native-calendars";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Layout from "../../constants/Layout";
 import {
   BG_COLOR_WHITE,
@@ -7,10 +11,6 @@ import {
   LIGTH_GREEN,
   LIGHT_GREY
 } from "../../constants/Color";
-import PropTypes from "prop-types";
-import { RFValue } from "react-native-responsive-fontsize";
-import { Calendar } from "react-native-calendars";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const KeyboardAware = styled(KeyboardAwareScrollView)``;
 const Container = styled.View`
@@ -69,7 +69,6 @@ const BtnText = styled.Text`
   text-align: center;
   font-size: 14px;
 `;
-const StatusBar = styled.StatusBar``;
 const ActivityIndicator = styled.ActivityIndicator``;
 const DateChoice = styled.TouchableOpacity`
   height: ${RFValue(33)};
@@ -88,11 +87,11 @@ const DateText = styled.Text`
 `;
 
 const DormitoryOutPresenter = ({
-  changeCollegeStudentId,
-  changeCollegeStudentPwd,
-  changeDormitoryOutStartDay,
-  changeDormitoryOutEndDay,
-  changeDormitoryOutReason,
+  onChangeCollegeStudentId,
+  onChangeCollegeStudentPwd,
+  onChangeDormitoryOutStartDay,
+  onChangeDormitoryOutEndDay,
+  onChangeDormitoryOutReason,
   collegeStudentId,
   collegeStudentPwd,
   dormitoryOutStartDay,
@@ -109,134 +108,130 @@ const DormitoryOutPresenter = ({
   TextInputDisable,
   alertAccessAuthentication,
   univAuthentication
-}) => {
-  return (
-    <Container showsVerticalScrollIndicator={false}>
-      <KeyboardAware
-        enableOnAndroid={true}
-        extraHeight={100}
-        extraScrollHeight={100}
-      >
-        <Header>
-          <Logo source={require("../../assets/images/logo.png")} />
-          <HeaderText>외박 신청을 더 편하고 빠르게</HeaderText>
-          <HeaderText>기숙사생 취향저격</HeaderText>
-          <LogoText>동명대학식이</LogoText>
-        </Header>
+}) => (
+  <Container showsVerticalScrollIndicator={false}>
+    <KeyboardAware
+      enableOnAndroid={true}
+      extraHeight={100}
+      extraScrollHeight={100}
+    >
+      <Header>
+        <Logo source={require("../../assets/images/logo.png")} />
+        <HeaderText>외박 신청을 더 편하고 빠르게</HeaderText>
+        <HeaderText>기숙사생 취향저격</HeaderText>
+        <LogoText>동명대학식이</LogoText>
+      </Header>
 
-        <Content>
-          <TextInput
-            editable={TextInputDisable}
-            placeholder="학번"
-            keyboardType="number-pad"
-            autoCompleteType="username"
-            autoCorrect={false}
-            returnKeyType="next"
-            value={collegeStudentId}
-            onChangeText={changeCollegeStudentId}
-            onSubmitEditing={() => this.passwordRefOne.focus()}
-          />
-
-          <TextInput
-            editable={TextInputDisable}
-            ref={passwordRefOne => (this.passwordRefOne = passwordRefOne)}
-            placeholder="비밀번호"
-            secureTextEntry={true}
-            autoCompleteType="password"
-            autoCorrect={false}
-            returnKeyType="next"
-            value={collegeStudentPwd}
-            onChangeText={changeCollegeStudentPwd}
-            onSubmitEditing={() => this.dormitoryOutStartDayRef.onPressDate()}
-          />
-
-          {isChoicedStartDay ? (
-            <Calendar
-              onDayPress={day => {
-                changeDormitoryOutStartDay(day);
-              }}
-              minDate={minDate}
-              maxDate={maxDate}
-              markedDates={{
-                [dormitoryOutStartDay]: {
-                  selected: true,
-                  selectedColor: "blue"
-                }
-              }}
-            />
-          ) : (
-            <DateChoice onPress={TextInputDisable ? handleStartDay : null}>
-              {dormitoryOutStartDay ? (
-                <DateText date={true}>{dormitoryOutStartDay}</DateText>
-              ) : (
-                <DateText date={false}>외박 시작일</DateText>
-              )}
-            </DateChoice>
-          )}
-
-          {endDay ? (
-            <Calendar
-              onDayPress={day => {
-                changeDormitoryOutEndDay(day);
-              }}
-              current={dormitoryOutStartDay}
-              minDate={dormitoryOutStartDay}
-              maxDate={maxDate}
-              markedDates={{
-                [dormitoryOutEndDay]: {
-                  selected: true,
-                  selectedColor: "blue"
-                }
-              }}
-            />
-          ) : (
-            <DateChoice onPress={TextInputDisable ? handleEndDay : null}>
-              {dormitoryOutEndDay ? (
-                <DateText date={true}>{dormitoryOutEndDay}</DateText>
-              ) : (
-                <DateText date={false}>기숙사 복귀일</DateText>
-              )}
-            </DateChoice>
-          )}
-
-          <TextInput
-            editable={TextInputDisable}
-            ref={dormitoryOutReasonRef =>
-              (this.dormitoryOutReasonRef = dormitoryOutReasonRef)
-            }
-            placeholder="외박 사유"
-            keyboardType="default"
-            returnKeyType="done"
-            value={dormitoryOutReason}
-            autoCorrect={false}
-            onChangeText={changeDormitoryOutReason}
-            onSubmitEditing={handleSubmit}
-          />
-          <Button
-            onPress={() => {
-              univAuthentication ? handleSubmit : alertAccessAuthentication;
+      <Content>
+        <TextInput
+          editable={TextInputDisable}
+          placeholder="학번"
+          keyboardType="number-pad"
+          autoCompleteType="username"
+          autoCorrect={false}
+          returnKeyType="next"
+          value={collegeStudentId}
+          onChangeText={onChangeCollegeStudentId}
+          onSubmitEditing={() => this.passwordRefOne.focus()}
+        />
+        <TextInput
+          editable={TextInputDisable}
+          ref={passwordRefOne => (this.passwordRefOne = passwordRefOne)}
+          placeholder="비밀번호"
+          secureTextEntry={true}
+          autoCompleteType="password"
+          autoCorrect={false}
+          returnKeyType="next"
+          value={collegeStudentPwd}
+          onChangeText={onChangeCollegeStudentPwd}
+          onSubmitEditing={() => this.dormitoryOutStartDayRef.onPressDate()}
+        />
+        {isChoicedStartDay ? (
+          <Calendar
+            onDayPress={day => {
+              onChangeDormitoryOutStartDay(day);
             }}
-          >
-            {isSubmitting ? (
-              <ActivityIndicator color="white" />
+            minDate={minDate}
+            maxDate={maxDate}
+            markedDates={{
+              [dormitoryOutStartDay]: {
+                selected: true,
+                selectedColor: "blue"
+              }
+            }}
+          />
+        ) : (
+          <DateChoice onPress={TextInputDisable ? handleStartDay : null}>
+            {dormitoryOutStartDay ? (
+              <DateText date={true}>{dormitoryOutStartDay}</DateText>
             ) : (
-              <BtnContainer>
-                <BtnText>외박신청</BtnText>
-              </BtnContainer>
+              <DateText date={false}>외박 시작일</DateText>
             )}
-          </Button>
-        </Content>
-      </KeyboardAware>
-    </Container>
-  );
-};
+          </DateChoice>
+        )}
+
+        {endDay ? (
+          <Calendar
+            onDayPress={day => {
+              onChangeDormitoryOutEndDay(day);
+            }}
+            current={dormitoryOutStartDay}
+            minDate={dormitoryOutStartDay}
+            maxDate={maxDate}
+            markedDates={{
+              [dormitoryOutEndDay]: {
+                selected: true,
+                selectedColor: "blue"
+              }
+            }}
+          />
+        ) : (
+          <DateChoice onPress={TextInputDisable ? handleEndDay : null}>
+            {dormitoryOutEndDay ? (
+              <DateText date={true}>{dormitoryOutEndDay}</DateText>
+            ) : (
+              <DateText date={false}>기숙사 복귀일</DateText>
+            )}
+          </DateChoice>
+        )}
+
+        <TextInput
+          editable={TextInputDisable}
+          ref={dormitoryOutReasonRef =>
+            (this.dormitoryOutReasonRef = dormitoryOutReasonRef)
+          }
+          placeholder="외박 사유"
+          keyboardType="default"
+          returnKeyType="done"
+          value={dormitoryOutReason}
+          autoCorrect={false}
+          onChangeText={onChangeDormitoryOutReason}
+          onSubmitEditing={handleSubmit}
+        />
+        <Button
+          onPress={() => {
+            univAuthentication ? handleSubmit() : alertAccessAuthentication();
+          }}
+        >
+          {isSubmitting ? (
+            <ActivityIndicator color="white" />
+          ) : (
+            <BtnContainer>
+              <BtnText>외박신청</BtnText>
+            </BtnContainer>
+          )}
+        </Button>
+      </Content>
+    </KeyboardAware>
+  </Container>
+);
 
 DormitoryOutPresenter.propTypes = {
-  changeCollegeStudentId: PropTypes.func.isRequired,
-  changeCollegeStudentPwd: PropTypes.func.isRequired,
-  changeDormitoryOutStartDay: PropTypes.func.isRequired,
-  changeDormitoryOutEndDay: PropTypes.func.isRequired,
-  changeDormitoryOutReason: PropTypes.func.isRequired,
+  onChangeCollegeStudentId: PropTypes.func.isRequired,
+  onChangeCollegeStudentPwd: PropTypes.func.isRequired,
+  onChangeDormitoryOutStartDay: PropTypes.func.isRequired,
+  onChangeDormitoryOutEndDay: PropTypes.func.isRequired,
+  onChangeDormitoryOutReason: PropTypes.func.isRequired,
   collegeStudentId: PropTypes.string.isRequired,
   collegeStudentPwd: PropTypes.string.isRequired,
   dormitoryOutStartDay: PropTypes.string.isRequired,
@@ -250,7 +245,9 @@ DormitoryOutPresenter.propTypes = {
   endDay: PropTypes.bool.isRequired,
   handleStartDay: PropTypes.func.isRequired,
   handleEndDay: PropTypes.func.isRequired,
-  TextInputDisable: PropTypes.bool.isRequired
+  TextInputDisable: PropTypes.bool.isRequired,
+  alertAccessAuthentication: PropTypes.func.isRequired,
+  univAuthentication: PropTypes.bool.isRequired
 };
 
 export default DormitoryOutPresenter;

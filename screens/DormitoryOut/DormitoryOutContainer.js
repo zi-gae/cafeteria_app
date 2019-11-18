@@ -47,62 +47,6 @@ class DormitoryOutContainer extends Component {
     location: PropTypes.object
   };
 
-  changeCollegeStudentId = text => {
-    this.setState({
-      collegeStudentId: text
-    });
-  };
-
-  changeCollegeStudentPwd = text => {
-    this.setState({
-      collegeStudentPwd: text
-    });
-  };
-
-  changeDormitoryOutStartDay = date => {
-    const { dateString } = date;
-    this.setState({
-      dormitoryOutStartDay: dateString,
-      isChoicedStartDay: false
-    });
-  };
-
-  changeDormitoryOutEndDay = date => {
-    const { dateString } = date;
-    this.setState({
-      dormitoryOutEndDay: dateString,
-      endDay: false
-    });
-  };
-
-  changeDormitoryOutReason = text => {
-    this.setState({
-      dormitoryOutReason: text
-    });
-  };
-
-  chageSelectDay = day => {
-    this.setState({
-      selectedDate: day.dateString
-    });
-  };
-
-  handleStartDay = () => {
-    this.setState({
-      isChoicedStartDay: true
-    });
-  };
-
-  handleEndDay = () => {
-    if (this.state.dormitoryOutStartDay.length > 1) {
-      this.setState({
-        endDay: true
-      });
-    } else {
-      alert("외박 시작일을 선택 해주세요");
-    }
-  };
-
   componentWillReceiveProps(nextProps) {
     this.handleErrorAlert(nextProps.dormitoryOutState);
   }
@@ -136,6 +80,18 @@ class DormitoryOutContainer extends Component {
       dormitoryOutReason: "귀가",
       TextInputDisable: true
     });
+  };
+
+  alertAccessAuthentication = () => {
+    const { navigation } = this.props;
+    Alert.alert("알림💡", "재학생 인증 후에 시도 해주세오", [
+      {
+        text: "OK",
+        onPress: () => {
+          navigation.navigate("Profile");
+        }
+      }
+    ]);
   };
 
   handleErrorAlert = logedMsg => {
@@ -216,16 +172,54 @@ class DormitoryOutContainer extends Component {
     }
   };
 
-  alertAccessAuthentication = () => {
-    const { navigation } = this.props;
-    Alert.alert("알림💡", "재학생 인증 후에 시도 해주세오", [
-      {
-        text: "OK",
-        onPress: () => {
-          navigation.navigate("Profile");
-        }
-      }
-    ]);
+  handleStartDay = () => {
+    this.setState({
+      isChoicedStartDay: true
+    });
+  };
+
+  handleEndDay = () => {
+    if (this.state.dormitoryOutStartDay.length > 1) {
+      this.setState({
+        endDay: true
+      });
+    } else {
+      alert("외박 시작일을 선택 해주세요");
+    }
+  };
+
+  onChangeCollegeStudentId = text => {
+    this.setState({
+      collegeStudentId: text
+    });
+  };
+
+  onChangeCollegeStudentPwd = text => {
+    this.setState({
+      collegeStudentPwd: text
+    });
+  };
+
+  onChangeDormitoryOutStartDay = date => {
+    const { dateString } = date;
+    this.setState({
+      dormitoryOutStartDay: dateString,
+      isChoicedStartDay: false
+    });
+  };
+
+  onChangeDormitoryOutEndDay = date => {
+    const { dateString } = date;
+    this.setState({
+      dormitoryOutEndDay: dateString,
+      endDay: false
+    });
+  };
+
+  onChangeDormitoryOutReason = text => {
+    this.setState({
+      dormitoryOutReason: text
+    });
   };
 
   render() {
@@ -244,11 +238,11 @@ class DormitoryOutContainer extends Component {
     } = this.state;
 
     const {
-      changeCollegeStudentId,
-      changeCollegeStudentPwd,
-      changeDormitoryOutStartDay,
-      changeDormitoryOutEndDay,
-      changeDormitoryOutReason,
+      onChangeCollegeStudentId,
+      onChangeCollegeStudentPwd,
+      onChangeDormitoryOutStartDay,
+      onChangeDormitoryOutEndDay,
+      onChangeDormitoryOutReason,
       handleSubmit,
       handleStartDay,
       handleEndDay,
@@ -257,17 +251,17 @@ class DormitoryOutContainer extends Component {
 
     const {
       user: {
-        profile: { univAuthentication }
+        profile: { univ_authentication }
       }
     } = this.props;
 
     return (
       <DormitoryOutPresenter
-        changeCollegeStudentId={changeCollegeStudentId}
-        changeCollegeStudentPwd={changeCollegeStudentPwd}
-        changeDormitoryOutStartDay={changeDormitoryOutStartDay}
-        changeDormitoryOutEndDay={changeDormitoryOutEndDay}
-        changeDormitoryOutReason={changeDormitoryOutReason}
+        onChangeCollegeStudentId={onChangeCollegeStudentId}
+        onChangeCollegeStudentPwd={onChangeCollegeStudentPwd}
+        onChangeDormitoryOutStartDay={onChangeDormitoryOutStartDay}
+        onChangeDormitoryOutEndDay={onChangeDormitoryOutEndDay}
+        onChangeDormitoryOutReason={onChangeDormitoryOutReason}
         collegeStudentId={collegeStudentId}
         collegeStudentPwd={collegeStudentPwd}
         dormitoryOutStartDay={dormitoryOutStartDay}
@@ -283,8 +277,7 @@ class DormitoryOutContainer extends Component {
         handleEndDay={handleEndDay}
         TextInputDisable={TextInputDisable}
         alertAccessAuthentication={alertAccessAuthentication}
-        alertAccessAuthentication={alertAccessAuthentication}
-        univAuthentication={univAuthentication}
+        univAuthentication={univ_authentication}
       />
     );
   }

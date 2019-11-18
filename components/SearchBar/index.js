@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import styled from "styled-components";
 import PropTypes from "prop-types";
+import styled from "styled-components";
 import { Ionicons } from "@expo/vector-icons";
 import { RFValue } from "react-native-responsive-fontsize";
 import Layout from "../../constants/Layout";
@@ -29,20 +29,17 @@ class SearchBar extends Component {
       term: ""
     };
   }
-  static propTypes = {
-    submit: PropTypes.func.isRequired
+
+  handleSubmit = () => {
+    const { submit } = this.props;
+    const { term } = this.state;
+    submit(term);
   };
 
   changeText = text => {
     this.setState({
       term: text
     });
-  };
-
-  handleSubmit = () => {
-    const { submit } = this.props;
-    const { term } = this.state;
-    submit(term);
   };
 
   render() {

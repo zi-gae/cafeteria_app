@@ -19,6 +19,7 @@ class TransitionCotainer extends Component {
       }
     });
   };
+
   render() {
     const { handleAccountAction } = this;
     const { account } = this.state;

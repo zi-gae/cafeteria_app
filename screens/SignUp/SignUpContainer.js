@@ -136,6 +136,7 @@ class SignUpContainer extends Component {
       email: text
     });
   };
+
   render() {
     const {
       changeUsername,
@@ -147,6 +148,7 @@ class SignUpContainer extends Component {
     } = this;
     const { handleAccountAction } = this.props;
     const { email, username, password1, password2, nickname } = this.state;
+
     return (
       <SignUpPresenter
         email={email}

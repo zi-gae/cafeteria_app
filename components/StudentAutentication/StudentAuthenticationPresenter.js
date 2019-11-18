@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import { BODER_COLOR, LIGTH_GREEN, DARK_GREEN } from "../../constants/Color";
 import Layout from "../../constants/Layout";
@@ -113,5 +114,10 @@ const StudentAuthenticationPresenter = ({ pickImage, image }) => (
     </InputBox>
   </Container>
 );
+
+StudentAuthenticationPresenter.propTypes = {
+  pickImage: PropTypes.func.isRequired,
+  image: PropTypes.string
+};
 
 export default StudentAuthenticationPresenter;

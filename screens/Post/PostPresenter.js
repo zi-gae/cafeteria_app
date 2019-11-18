@@ -106,7 +106,13 @@ const PostPresenter = ({
 PostPresenter.propTypes = {
   isFetching: PropTypes.bool.isRequired,
   refresh: PropTypes.func.isRequired,
-  posts: PropTypes.array
+  posts: PropTypes.array,
+  navigateWritePost: PropTypes.func.isRequired,
+  isPostSubmitting: PropTypes.bool.isRequired,
+  handlePostLength: PropTypes.func.isRequired,
+  postLength: PropTypes.number.isRequired,
+  fetchPost: PropTypes.bool.isRequired,
+  univAuthentication: PropTypes.bool.isRequired
 };
 
 export default PostPresenter;

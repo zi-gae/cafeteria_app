@@ -28,6 +28,11 @@ class PostContainer extends Component {
     };
   }
 
+  static propTyeps = {
+    posts: PropTypes.array.isRequired,
+    getPost: PropTypes.func.isRequired
+  };
+
   static navigationOptions = ({ navigation }) => {
     const {
       state: { params }
@@ -57,6 +62,14 @@ class PostContainer extends Component {
     };
   };
 
+  componentWillReceiveProps = nextProps => {
+    if (nextProps.posts) {
+      this.setState({
+        isFetching: false
+      });
+    }
+  };
+
   handlePostLength = () => {
     const { posts } = this.props;
     const { navigation } = this.props;
@@ -75,19 +88,6 @@ class PostContainer extends Component {
           fetchPost: false
         });
       }, 700);
-    }
-  };
-
-  static propTyeps = {
-    posts: PropTypes.array.isRequired,
-    getPost: PropTypes.func.isRequired
-  };
-
-  componentWillReceiveProps = nextProps => {
-    if (nextProps.posts) {
-      this.setState({
-        isFetching: false
-      });
     }
   };
 
@@ -137,8 +137,6 @@ class PostContainer extends Component {
       this.setState({
         fetchPost: false
       });
-    } else {
-      console.log(result);
     }
   };
 
@@ -160,6 +158,13 @@ class PostContainer extends Component {
 
   render() {
     const {
+      navigateWritePost,
+      refresh,
+      isCloseToBottom,
+      handlePostLength
+    } = this;
+    const { isFetching, isPostSubmitting, postLength, fetchPost } = this.state;
+    const {
       getPost,
       posts,
       navigation,
@@ -167,13 +172,6 @@ class PostContainer extends Component {
         profile: { univ_authentication }
       }
     } = this.props;
-    const {
-      navigateWritePost,
-      refresh,
-      isCloseToBottom,
-      handlePostLength
-    } = this;
-    const { isFetching, isPostSubmitting, postLength, fetchPost } = this.state;
 
     return (
       <PostPresenter

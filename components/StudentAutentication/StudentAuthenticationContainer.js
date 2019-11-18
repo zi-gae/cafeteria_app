@@ -12,8 +12,18 @@ class StudentAuthenticationContainer extends Component {
       photoUrl: ""
     };
   }
+
   componentDidMount = () => {
     this.getPermissionAsync();
+  };
+
+  getPermissionAsync = async () => {
+    if (Platform.OS === "ios") {
+      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+      if (status !== "granted") {
+        alert("사진 권한을 허용 해주세요!");
+      }
+    }
   };
 
   handleNaviate = () => {
@@ -26,22 +36,10 @@ class StudentAuthenticationContainer extends Component {
     });
   };
 
-  handleChoicePhoto = pickedPhoto => {
-    // 학번 인증 리듀서 구현 해야함
-    // console.log(user.profile.univ_authentication); 으로 인증
-
+  handleChoicePhoto = () => {
     this.setState({
       uploadStudentNumberPhoto: true
     });
-  };
-
-  getPermissionAsync = async () => {
-    if (Platform.OS === "ios") {
-      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-      if (status !== "granted") {
-        alert("Sorry, we need camera roll permissions to make this work!");
-      }
-    }
   };
 
   pickImage = async () => {

@@ -1,12 +1,11 @@
 import React, { Component } from "react";
-import ProfilePresenter from "./ProfilePresenter";
+import { Alert, Platform } from "react-native";
 import PropTypes from "prop-types";
-import { Alert } from "react-native";
 import styled from "styled-components";
-import { RFValue } from "react-native-responsive-fontsize";
-import { Platform } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
+import { RFValue } from "react-native-responsive-fontsize";
+import ProfilePresenter from "./ProfilePresenter";
 
 const Image = styled.Image`
   height: ${RFValue(58)};
@@ -18,7 +17,7 @@ class ProfileContainer extends Component {
     super(props);
     this.state = {
       nickname: "",
-      openNicknameInput: false,
+      isOpenNicknameInput: false,
       isProfileImageSubmitting: false,
       image: ""
     };
@@ -114,7 +113,7 @@ class ProfileContainer extends Component {
       this.setState(
         {
           nickname: "",
-          openNicknameInput: false
+          isOpenNicknameInput: false
         },
         () => {
           Alert.alert("알림💡", "변경되었어요!", [
@@ -125,15 +124,15 @@ class ProfileContainer extends Component {
     }
   };
 
-  clickedAppVersion = () => {
-    Alert.alert("💡Beta💡", "0.8.1", [{ text: "OK", onPress: () => {} }]);
-  };
-
   handleNavigatePrivacy = () => {
     const {
       navigation: { navigate }
     } = this.props;
     navigate("PrivacyPolicy");
+  };
+
+  clickedAppVersion = () => {
+    Alert.alert("💡Beta💡", "0.8.1", [{ text: "OK", onPress: () => {} }]);
   };
 
   pickImage = async () => {
@@ -171,7 +170,7 @@ class ProfileContainer extends Component {
     }
   };
 
-  changeNickname = text => {
+  onChangeNickname = text => {
     this.setState({
       nickname: text
     });
@@ -179,20 +178,20 @@ class ProfileContainer extends Component {
 
   handleNicknameInput = () => {
     this.setState({
-      openNicknameInput: true
+      isOpenNicknameInput: true
     });
   };
 
   render() {
     const {
-      openNicknameInput,
+      isOpenNicknameInput,
       nickname,
       isProfileImageSubmitting
     } = this.state;
     const {
       handleNicknameInput,
       changeProfile,
-      changeNickname,
+      onChangeNickname,
       submitLogout,
       handleNavigateOwnPosts,
       handleSheetPress,
@@ -201,12 +200,13 @@ class ProfileContainer extends Component {
       handleNavigateStudentAuth
     } = this;
     const { user } = this.props;
+
     return (
       <ProfilePresenter
         handleNicknameInput={handleNicknameInput}
-        openNicknameInput={openNicknameInput}
+        isOpenNicknameInput={isOpenNicknameInput}
         changeProfile={changeProfile}
-        changeNickname={changeNickname}
+        onChangeNickname={onChangeNickname}
         nickname={nickname}
         user={user}
         submitLogout={submitLogout}

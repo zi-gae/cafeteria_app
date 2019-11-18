@@ -1,13 +1,13 @@
 import React, { Component } from "react";
-import WritePostPresenter from "./WritePostPresenter";
-import styled from "styled-components";
-import { LIGTH_GREEN } from "../../constants/Color";
-import NavButton from "../NavButton";
-import { RFValue } from "react-native-responsive-fontsize";
-import PropTypes from "prop-types";
 import { Platform, Alert } from "react-native";
+import PropTypes from "prop-types";
+import styled from "styled-components";
 import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
+import { RFValue } from "react-native-responsive-fontsize";
+import WritePostPresenter from "./WritePostPresenter";
+import { LIGTH_GREEN } from "../../constants/Color";
+import NavButton from "../NavButton";
 
 const Title = styled.Text`
   font-weight: bold;
@@ -49,10 +49,6 @@ class WritePostContainer extends Component {
       image: params.image
     };
   }
-
-  static propTypes = {
-    dispatchPutPost: PropTypes.func.isRequired
-  };
 
   static navigationOptions = ({ navigation }) => ({
     tabBarVisible: false,
@@ -109,6 +105,30 @@ class WritePostContainer extends Component {
     )
   });
 
+  static propTypes = {
+    dispatchPutPost: PropTypes.func.isRequired,
+    sample: PropTypes.shape({
+      anonymous: PropTypes.bool.isRequired,
+      comment_count: PropTypes.number.isRequired,
+      comments: PropTypes.array.isRequired,
+      content: PropTypes.string.isRequired,
+      creator: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        profile_image: PropTypes.string.isRequired,
+        stdntnum: PropTypes.number.isRequired,
+        username: PropTypes.string.isRequired
+      }),
+      file: PropTypes.string,
+      id: PropTypes.number.isRequired,
+      is_liked: PropTypes.bool.isRequired,
+      kinds: PropTypes.string.isRequired,
+      like_count: PropTypes.number.isRequired,
+      natural_time: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      updated_at: PropTypes.string.isRequired
+    })
+  };
+
   componentDidMount() {
     this.getPermissionAsync();
   }
@@ -157,7 +177,7 @@ class WritePostContainer extends Component {
     }
   };
 
-  changeTitle = text => {
+  onChangeTitle = text => {
     this.props.navigation.setParams({
       title: text
     });
@@ -166,7 +186,7 @@ class WritePostContainer extends Component {
     });
   };
 
-  changeContent = text => {
+  onChangeContent = text => {
     this.props.navigation.setParams({
       content: text
     });
@@ -176,17 +196,17 @@ class WritePostContainer extends Component {
   };
 
   render() {
-    const { handleCheckBox, changeTitle, changeContent, pickImage } = this;
+    const { handleCheckBox, onChangeTitle, onChangeContent, pickImage } = this;
     const { anonymousIsChecked, title, content, image } = this.state;
     return (
       <WritePostPresenter
-        handleCheckBox={handleCheckBox}
-        anonymousIsChecked={anonymousIsChecked}
         title={title}
         content={content}
+        anonymousIsChecked={anonymousIsChecked}
         image={image}
-        changeTitle={changeTitle}
-        changeContent={changeContent}
+        onChangeTitle={onChangeTitle}
+        onChangeContent={onChangeContent}
+        handleCheckBox={handleCheckBox}
         pickImage={pickImage}
       />
     );

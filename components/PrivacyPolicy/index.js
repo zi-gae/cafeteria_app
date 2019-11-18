@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import Layout from "../../constants/Layout";
 import { RFValue } from "react-native-responsive-fontsize";
-import { LIGHT_GREY } from "../../constants/Color";
 
 const Container = styled.ScrollView`
   margin-left: ${Layout.width / 20};

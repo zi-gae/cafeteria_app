@@ -50,7 +50,8 @@ index.propTypes = {
   size: PropTypes.number.isRequired,
   color: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
-  kind: PropTypes.string.isRequired
+  kind: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired
 };
 
 export default index;

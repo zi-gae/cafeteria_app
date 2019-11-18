@@ -1,10 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { LIGHT_GREY } from "../../constants/Color";
 import { RFValue } from "react-native-responsive-fontsize";
-import Layout from "../../constants/Layout";
 import { FontAwesome } from "@expo/vector-icons";
+import { LIGHT_GREY } from "../../constants/Color";
+import Layout from "../../constants/Layout";
 import Notification from "../../components/Notification";
 
 const ScrollContainer = styled.ScrollView`
@@ -44,57 +44,55 @@ const NotificationPresenter = ({
   notificationLength,
   fetchNotification,
   isCloseToBottom
-}) => {
-  return (
-    <ScrollContainer
-      showsVerticalScrollIndicator={false}
-      onScroll={({ nativeEvent }) => {
-        if (isCloseToBottom(nativeEvent)) {
-          handleNotificationLength();
-        }
-      }}
-      scrollEventThrottle={16}
-      refreshControl={
-        <RefreshControl
-          refreshing={isFetching}
-          onRefresh={refresh}
-          tintColor={"black"}
-        />
+}) => (
+  <ScrollContainer
+    showsVerticalScrollIndicator={false}
+    onScroll={({ nativeEvent }) => {
+      if (isCloseToBottom(nativeEvent)) {
+        handleNotificationLength();
       }
-    >
-      <PostContainer>
-        {notification ? (
-          <NotFount>알림이 없습니다.</NotFount>
-        ) : notification.length === 0 ? (
-          <GuideBox>
-            <FontAwesome
-              name={"bell-o"}
-              size={RFValue(50)}
-              color={LIGHT_GREY}
-            />
-            <GuideText>알림이 없네요..</GuideText>
-          </GuideBox>
-        ) : (
-          notification.map((notification, index) => {
-            if (index < notificationLength) {
-              return <Notification {...notification} key={index} />;
-            } else {
-              return null;
-            }
-          })
-        )}
-      </PostContainer>
-      {fetchNotification ? (
-        <ActivityIndicator size="small" color="black" />
-      ) : null}
-    </ScrollContainer>
-  );
-};
+    }}
+    scrollEventThrottle={16}
+    refreshControl={
+      <RefreshControl
+        refreshing={isFetching}
+        onRefresh={refresh}
+        tintColor={"black"}
+      />
+    }
+  >
+    <PostContainer>
+      {notification ? (
+        <NotFount>알림이 없습니다.</NotFount>
+      ) : notification.length === 0 ? (
+        <GuideBox>
+          <FontAwesome name={"bell-o"} size={RFValue(50)} color={LIGHT_GREY} />
+          <GuideText>알림이 없네요..</GuideText>
+        </GuideBox>
+      ) : (
+        notification.map((notification, index) => {
+          if (index < notificationLength) {
+            return <Notification {...notification} key={index} />;
+          } else {
+            return null;
+          }
+        })
+      )}
+    </PostContainer>
+    {fetchNotification ? (
+      <ActivityIndicator size="small" color="black" />
+    ) : null}
+  </ScrollContainer>
+);
 
 NotificationPresenter.propTypes = {
   notification: PropTypes.array,
   isFetching: PropTypes.bool.isRequired,
-  refresh: PropTypes.func.isRequired
+  refresh: PropTypes.func.isRequired,
+  handleNotificationLength: PropTypes.func.isRequired,
+  notificationLength: PropTypes.number.isRequired,
+  fetchNotification: PropTypes.bool.isRequired,
+  isCloseToBottom: PropTypes.func.isRequired
 };
 
 export default NotificationPresenter;

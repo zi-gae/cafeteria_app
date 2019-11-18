@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import NotificationPresenter from "./NotificationPresenter";
 import { withNavigation } from "react-navigation";
+import NotificationPresenter from "./NotificationPresenter";
 
 class NotificationContainer extends Component {
   constructor(props) {
@@ -10,6 +10,7 @@ class NotificationContainer extends Component {
       likeCount: props.image.like_count
     };
   }
+
   handleTakePress = result => {
     const { isLiked, likeCount } = this.state;
     if (result) {
@@ -28,6 +29,8 @@ class NotificationContainer extends Component {
   };
 
   render() {
+    const { handleTakePress } = this;
+    const { isLiked, likeCount } = this.state;
     const {
       comment,
       natural_time,
@@ -46,13 +49,11 @@ class NotificationContainer extends Component {
         title
       }
     } = this.props;
-    const { isLiked, likeCount } = this.state;
 
     return (
       <NotificationPresenter
         comment={comment}
         notification_type={notification_type}
-        handleTakePress={this.handleTakePress}
         id={id}
         anonymous={anonymous}
         comment_count={comment_count}
@@ -67,6 +68,7 @@ class NotificationContainer extends Component {
         title={title}
         isLiked={isLiked}
         navigation={navigation}
+        handleTakePress={handleTakePress}
       />
     );
   }

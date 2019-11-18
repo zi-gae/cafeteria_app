@@ -12,7 +12,9 @@ const TimeStamp = styled.Text`
 const TimeStampPresenter = ({ list, time }) => (
   <TimeStamp list={list}>{time}</TimeStamp>
 );
+
 TimeStampPresenter.propTypes = {
+  list: PropTypes.bool,
   time: PropTypes.string.isRequired
 };
 

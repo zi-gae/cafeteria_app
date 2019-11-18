@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { RFValue } from "react-native-responsive-fontsize";
 import Layout from "../../constants/Layout";
 import {
   BG_COLOR_WHITE,
@@ -8,7 +9,6 @@ import {
   LIGHT_GREY
 } from "../../constants/Color";
 import PropTypes from "prop-types";
-import { RFValue } from "react-native-responsive-fontsize";
 
 const Container = styled.ScrollView`
   flex: 1;
@@ -87,59 +87,57 @@ const LoginPresenter = ({
   changeUsername,
   changePassword,
   handleSubmit
-}) => {
-  return (
-    <Container
-      contentContainerStyle={{ flexGrow: 1 }}
-      keyboardShouldPersistTaps="handled"
-    >
-      <Header>
-        <Logo source={require("../../assets/images/logo.png")} />
-      </Header>
-      <Content>
-        <TextInput
-          placeholder="아이디"
-          autoCompleteType="username"
-          autoCapitalize="none"
-          autoCorrect={false}
-          keyboardType="ascii-capable"
-          value={username}
-          onChangeText={changeUsername}
-          returnKeyType="next"
-          onSubmitEditing={() => this.passwordRef.focus()}
-        />
-        <TextInput
-          ref={passwordRef => (this.passwordRef = passwordRef)}
-          placeholder="비밀번호"
-          secureTextEntry={true}
-          autoCompleteType="password"
-          autoCorrect={false}
-          value={password}
-          onChangeText={changePassword}
-          returnKeyType="done"
-          onSubmitEditing={handleSubmit}
-        />
-        <Button onPress={handleSubmit}>
-          {isSubmitting ? (
-            <ActivityIndicator color="white" />
-          ) : (
-            <BtnContainer>
-              <BtnText>로그인</BtnText>
-            </BtnContainer>
-          )}
-        </Button>
-      </Content>
-      <Footer>
-        <FooterBox>
-          <FooterText>계정이 없으신가요?</FooterText>
-          <BtnSignUp onPress={handleAccountAction}>
-            <SignUpText>가입</SignUpText>
-          </BtnSignUp>
-        </FooterBox>
-      </Footer>
-    </Container>
-  );
-};
+}) => (
+  <Container
+    contentContainerStyle={{ flexGrow: 1 }}
+    keyboardShouldPersistTaps="handled"
+  >
+    <Header>
+      <Logo source={require("../../assets/images/logo.png")} />
+    </Header>
+    <Content>
+      <TextInput
+        placeholder="아이디"
+        autoCompleteType="username"
+        autoCapitalize="none"
+        autoCorrect={false}
+        keyboardType="ascii-capable"
+        value={username}
+        onChangeText={changeUsername}
+        returnKeyType="next"
+        onSubmitEditing={() => this.passwordRef.focus()}
+      />
+      <TextInput
+        ref={passwordRef => (this.passwordRef = passwordRef)}
+        placeholder="비밀번호"
+        secureTextEntry={true}
+        autoCompleteType="password"
+        autoCorrect={false}
+        value={password}
+        onChangeText={changePassword}
+        returnKeyType="done"
+        onSubmitEditing={handleSubmit}
+      />
+      <Button onPress={handleSubmit}>
+        {isSubmitting ? (
+          <ActivityIndicator color="white" />
+        ) : (
+          <BtnContainer>
+            <BtnText>로그인</BtnText>
+          </BtnContainer>
+        )}
+      </Button>
+    </Content>
+    <Footer>
+      <FooterBox>
+        <FooterText>계정이 없으신가요?</FooterText>
+        <BtnSignUp onPress={handleAccountAction}>
+          <SignUpText>가입</SignUpText>
+        </BtnSignUp>
+      </FooterBox>
+    </Footer>
+  </Container>
+);
 
 LoginPresenter.propTypes = {
   handleAccountAction: PropTypes.func.isRequired,

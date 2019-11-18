@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import TakePostPresenter from "./TakePostPresenter";
 import { Alert } from "react-native";
+import TakePostPresenter from "./TakePostPresenter";
 
 class TakePostContainer extends Component {
   constructor(props) {
@@ -89,13 +89,13 @@ class TakePostContainer extends Component {
       navigation,
       univAuthentication
     } = this.props;
-
     const { isLiked, likeCount } = this.state;
     const {
       alertAccessAuthentication,
       handleNavigatePostDetail,
       handleTakePress
     } = this;
+
     return (
       <TakePostPresenter
         id={id}

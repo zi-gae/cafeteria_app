@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import NotificationPresenter from "./NotificationPresenter";
 import PropTypes from "prop-types";
+import styled from "styled-components";
+import NotificationPresenter from "./NotificationPresenter";
 import { RFValue } from "react-native-responsive-fontsize";
 import { LIGTH_GREEN } from "../../constants/Color";
-import styled from "styled-components";
 
 const Image = styled.Image`
   height: ${RFValue(58)};
@@ -19,7 +19,7 @@ class NotificationContainer extends Component {
       fetchNotification: false
     };
   }
-  static navigationOptions = props => ({
+  static navigationOptions = () => ({
     headerTitle: "알림",
     headerTitleStyle: {
       fontSize: RFValue(18),
@@ -32,6 +32,7 @@ class NotificationContainer extends Component {
       />
     )
   });
+
   static propTypes = {
     notifications: PropTypes.array,
     getNotifications: PropTypes.func.isRequired

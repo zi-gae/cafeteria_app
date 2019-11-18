@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import LoginPresenter from "./LoginPresenter";
 import { Alert } from "react-native";
 import PropTypes from "prop-types";
+import LoginPresenter from "./LoginPresenter";
 
 class LoginContainer extends Component {
   constructor() {
@@ -12,20 +12,10 @@ class LoginContainer extends Component {
       isSubmitting: false
     };
   }
+
   static propTypes = {
     dispatchLogin: PropTypes.func.isRequired,
     dispatchGetRice: PropTypes.func.isRequired
-  };
-  changeUsername = text => {
-    this.setState({
-      username: text
-    });
-  };
-
-  changePassword = text => {
-    this.setState({
-      password: text
-    });
   };
 
   handleSubmit = async () => {
@@ -53,6 +43,18 @@ class LoginContainer extends Component {
         }
       }
     }
+  };
+
+  changeUsername = text => {
+    this.setState({
+      username: text
+    });
+  };
+
+  changePassword = text => {
+    this.setState({
+      password: text
+    });
   };
 
   render() {

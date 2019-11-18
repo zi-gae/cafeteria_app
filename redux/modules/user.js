@@ -50,6 +50,7 @@ const reqModifyNickname = profile => {
     profile
   };
 };
+
 // api actions
 
 const login = (username, password) => {
@@ -79,7 +80,7 @@ const login = (username, password) => {
 
 const createAccount = (username, password, nickname, email) => {
   AsyncStorage.removeItem("signUpStatusCode");
-  return dispatch => {
+  return () => {
     return fetch(`${URL}/rest-auth/registration/`, {
       method: "post",
       headers: {

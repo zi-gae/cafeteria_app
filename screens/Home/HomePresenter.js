@@ -20,16 +20,6 @@ const SquareContainer = styled.View`
   margin-bottom: ${RFValue(20)};
   padding-bottom: ${RFValue(7)};
 `;
-
-const Title = styled.Text`
-  padding-top: ${RFValue(15)};
-  padding-bottom: ${RFValue(15)};
-  padding-left: ${RFValue(15)};
-  padding-right: ${RFValue(15)};
-  font-size: ${RFValue(17)};
-  font-weight: bold;
-`;
-
 const IconContainer = styled.View`
   flex-direction: row;
   justify-content: space-around;
@@ -47,7 +37,6 @@ const HomePresenter = ({ navigate }) => (
     <SquareContainer>
       <RicePost type="professor" title="교직원 식당" />
     </SquareContainer>
-
     <IconContainer>
       <HomeIconBox
         navigate={navigate}
@@ -83,7 +72,7 @@ const HomePresenter = ({ navigate }) => (
         color={LIGHT_BLUE}
         type="Fa"
         kind="장학정보"
-        url="m.tu.ac.kr/tu/html/04_life/life_04.jsp"
+        url="http://m.tu.ac.kr/tu/html/04_life/life_04.jsp"
       />
       <HomeIconBox
         navigate={navigate}

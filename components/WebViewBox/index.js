@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import WebView from "react-native-webview";
+import PropTypes from "prop-types";
 import styled from "styled-components";
+import WebView from "react-native-webview";
 import NavButton from "../NavButton";
 import { LIGTH_GREEN } from "../../constants/Color";
 
@@ -24,6 +25,7 @@ class index extends Component {
       />
     )
   });
+
   render() {
     const {
       navigation: {
@@ -44,5 +46,15 @@ class index extends Component {
     );
   }
 }
+
+index.propTypes = {
+  navigation: PropTypes.shape({
+    state: PropTypes.shape({
+      params: PropTypes.shape({
+        url: PropTypes.string.isRequired
+      })
+    })
+  })
+};
 
 export default index;

@@ -1,7 +1,7 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import { RFValue } from "react-native-responsive-fontsize";
-import PropTypes from "prop-types";
 
 const View = styled.View``;
 const MenuBox = styled.View`
@@ -41,35 +41,36 @@ const Today = styled.Text`
   font-weight: 500;
 `;
 
-const RicePresenter = ({ rices, title, today }) => {
-  return (
-    <View>
-      <Header>
-        <Title>{title}</Title>
-        <Today>{today}</Today>
-      </Header>
-      {rices
-        ? rices.map((rice, i) => {
-            return (
-              <MenuBox key={i}>
-                {rice.map((menu, index) => {
-                  if (index === 0 && title !== "교직원 식당") {
-                    return <MenuTitle key={index}>{menu}</MenuTitle>;
-                  } else {
-                    return <Menu key={index}>{menu} </Menu>;
-                  }
-                })}
-              </MenuBox>
-            );
-          })
-        : null}
-    </View>
-  );
-};
+const RicePresenter = ({ rices, title, today }) => (
+  <View>
+    <Header>
+      <Title>{title}</Title>
+      <Today>{today}</Today>
+    </Header>
+    {rices ? (
+      rices.map((rice, i) => {
+        return (
+          <MenuBox key={i}>
+            {rice.map((menu, index) => {
+              if (index === 0 && title !== "교직원 식당") {
+                return <MenuTitle key={index}>{menu}</MenuTitle>;
+              } else {
+                return <Menu key={index}>{menu} </Menu>;
+              }
+            })}
+          </MenuBox>
+        );
+      })
+    ) : (
+      <Today>금일 식단 없거나 업로드 예정</Today>
+    )}
+  </View>
+);
 
 RicePresenter.propTypes = {
   rices: PropTypes.array,
-  title: PropTypes.string.isRequired
+  title: PropTypes.string.isRequired,
+  today: PropTypes.string.isRequired
 };
 
 export default RicePresenter;

@@ -132,7 +132,6 @@ const TakePostPresenter = ({
 );
 
 TakePostPresenter.propTypes = {
-  id: PropTypes.number.isRequired,
   anonymous: PropTypes.bool.isRequired,
   creator: PropTypes.shape({
     profile_image: PropTypes.string,
@@ -141,25 +140,13 @@ TakePostPresenter.propTypes = {
   title: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   file: PropTypes.string,
-  like_count: PropTypes.number.isRequired,
   comment_count: PropTypes.number.isRequired,
-  comments: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      message: PropTypes.string.isRequired,
-      creator: PropTypes.shape({
-        profile_image: PropTypes.string,
-        username: PropTypes.string.isRequired
-      }),
-      anonymous: PropTypes.bool.isRequired
-    })
-  ),
   natural_time: PropTypes.string.isRequired,
-  kinds: PropTypes.string.isRequired,
-  is_liked: PropTypes.bool,
   isLiked: PropTypes.bool.isRequired,
   likeCount: PropTypes.number.isRequired,
-  handleTakePress: PropTypes.func.isRequired
+  univAuthentication: PropTypes.bool.isRequired,
+  alertAccessAuthentication: PropTypes.func.isRequired,
+  handleNavigatePostDetail: PropTypes.func.isRequired
 };
 
 export default withNavigation(TakePostPresenter);

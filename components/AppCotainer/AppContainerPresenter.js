@@ -5,7 +5,7 @@ import RootNavigation from "../../navigation/RootNavigation";
 import LoadingLogo from "../LoadingLogo";
 import { Notifications } from "expo";
 import * as Permissions from "expo-permissions";
-import { StatusBar } from "react-native";
+import { StatusBar, Platform } from "react-native";
 
 class AppContainerPresenter extends Component {
   constructor() {
@@ -60,7 +60,12 @@ class AppContainerPresenter extends Component {
     const { view } = this.state;
     return (
       <>
-        <StatusBar hidden={false} barStyle="dark-content" />
+        <StatusBar
+          hidden={false}
+          barStyle={
+            Platform.OS === "android" ? "light-content" : "dark-content"
+          }
+        />
         {isLoggedIn && profile ? (
           view ? (
             <RootNavigation

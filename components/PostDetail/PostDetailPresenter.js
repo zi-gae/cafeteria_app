@@ -207,211 +207,203 @@ const PostDetailPresenter = ({
   submitComment,
   placeholder,
   handlePlaceholderChange,
-  setCommentId,
+  onChangeCommentId,
   removeComment,
   isSubmitting,
   handleSheetPress,
   profile,
   isPhotoSubmitting
-}) => {
-  return (
-    <Container>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <PostContainer>
-          <CreatorContainer>
-            <ProfileImg
-              source={
-                creator.profile_image && !anonymous
-                  ? { uri: creator.profile_image }
-                  : require("../../assets/images/noProfile.png")
-              }
-            />
-            <CreatorBox>
-              <Creator>{anonymous ? "익명이" : creator.name}</Creator>
-              <TimeStamp time={natural_time} />
-            </CreatorBox>
-            <PostActionBox>
-              {profile.username === creator.username ? (
-                <Touch
-                  onPress={() => {
-                    this.actionSheet.show();
-                  }}
-                >
-                  <Ionicons
-                    name="md-settings"
-                    size={RFValue(15)}
-                    color="black"
-                  />
-                </Touch>
-              ) : null}
-            </PostActionBox>
-          </CreatorContainer>
-          <Title>{title}</Title>
-          <Content>{content}</Content>
-          {image ? (
-            isPhotoSubmitting ? (
-              <ActivityIndicator color="black" size="large" />
-            ) : (
-              <ContentImg resizeMode="cover" source={{ uri: image }} />
-            )
-          ) : null}
-          <PostActions
-            dispatchLike={handlePress}
-            isLiked={isLiked}
-            size={20}
-            likeCount={likeCount}
-            commentCount={comment_count}
+}) => (
+  <Container>
+    <ScrollView showsVerticalScrollIndicator={false}>
+      <PostContainer>
+        <CreatorContainer>
+          <ProfileImg
+            source={
+              creator.profile_image && !anonymous
+                ? { uri: creator.profile_image }
+                : require("../../assets/images/noProfile.png")
+            }
           />
-        </PostContainer>
-        {comments
-          ? comments
-              .filter(comment => comment.referComment === null)
-              .map((comment, i) => (
-                <Comment
-                  key={i}
-                  comment={comment}
-                  comments={comments}
-                  creator={creator.username}
-                  handlePlaceholderChange={handlePlaceholderChange}
-                  setCommentId={setCommentId}
-                  removeComment={removeComment}
-                />
-              ))
-          : null}
-      </ScrollView>
-      <KeyboardAccessoryView
-        alwaysVisible={true}
-        avoidKeyboard
-        hideBorder={true}
-        bumperHeight={15}
-        style={{
-          backgroundColor: "white"
-        }}
-      >
-        <InputBox>
-          <CommentAnonymous>
-            <CheckBox
-              isChecked={anonymousIsChecked}
-              onClick={handleCheckBox}
-              checkBoxColor={LIGTH_GREEN}
-            />
-            <Anonymous>익명</Anonymous>
-          </CommentAnonymous>
-          <TextInput
-            ref={commentInputRef => (this.commentInputRef = commentInputRef)}
-            autoCapitalize="none"
-            autoCompleteType="off"
-            autoCorrect={false}
-            placeholder={placeholder}
-            onSubmitEditing={() => {
-              Keyboard.dismiss;
+          <CreatorBox>
+            <Creator>{anonymous ? "익명이" : creator.name}</Creator>
+            <TimeStamp time={natural_time} />
+          </CreatorBox>
+          <PostActionBox>
+            {profile.username === creator.username ? (
+              <Touch
+                onPress={() => {
+                  this.actionSheet.show();
+                }}
+              >
+                <Ionicons name="md-settings" size={RFValue(15)} color="black" />
+              </Touch>
+            ) : null}
+          </PostActionBox>
+        </CreatorContainer>
+        <Title>{title}</Title>
+        <Content>{content}</Content>
+        {image ? (
+          isPhotoSubmitting ? (
+            <ActivityIndicator color="black" size="large" />
+          ) : (
+            <ContentImg resizeMode="cover" source={{ uri: image }} />
+          )
+        ) : null}
+        <PostActions
+          dispatchLike={handlePress}
+          isLiked={isLiked}
+          size={20}
+          likeCount={likeCount}
+          commentCount={comment_count}
+        />
+      </PostContainer>
+      {comments
+        ? comments
+            .filter(comment => comment.referComment === null)
+            .map((comment, i) => (
+              <Comment
+                key={i}
+                comment={comment}
+                comments={comments}
+                creator={creator.username}
+                handlePlaceholderChange={handlePlaceholderChange}
+                onChangeCommentId={onChangeCommentId}
+                removeComment={removeComment}
+              />
+            ))
+        : null}
+    </ScrollView>
+    <KeyboardAccessoryView
+      alwaysVisible={true}
+      avoidKeyboard
+      hideBorder={true}
+      bumperHeight={15}
+      style={{
+        backgroundColor: "white"
+      }}
+    >
+      <InputBox>
+        <CommentAnonymous>
+          <CheckBox
+            isChecked={anonymousIsChecked}
+            onClick={handleCheckBox}
+            checkBoxColor={LIGTH_GREEN}
+          />
+          <Anonymous>익명</Anonymous>
+        </CommentAnonymous>
+        <TextInput
+          ref={commentInputRef => (this.commentInputRef = commentInputRef)}
+          autoCapitalize="none"
+          autoCompleteType="off"
+          autoCorrect={false}
+          placeholder={placeholder}
+          onSubmitEditing={() => {
+            Keyboard.dismiss;
+            submitComment();
+          }}
+          value={message}
+          onChangeText={onChangeComment}
+          returnKeyType="done"
+        />
+        <CommentAddButton>
+          <Touch
+            onPress={() => {
+              Keyboard.dismiss();
               submitComment();
             }}
-            value={message}
-            onChangeText={onChangeComment}
-            returnKeyType="done"
-          />
-          <CommentAddButton>
-            <Touch
-              onPress={() => {
-                Keyboard.dismiss();
-                submitComment();
-              }}
-            >
-              {isSubmitting ? (
-                <ActivityIndicator color="black" />
-              ) : (
-                <Ionicons name="md-paper-plane" size={25} color={LIGTH_GREEN} />
-              )}
-            </Touch>
-          </CommentAddButton>
-        </InputBox>
-      </KeyboardAccessoryView>
-      <ActionSheet
-        ref={actionSheet => (this.actionSheet = actionSheet)}
-        options={options}
-        cancelButtonIndex={CANCEL_INDEX}
-        destructiveButtonIndex={DESTRUCTIVE_INDEX}
-        onPress={handleSheetPress}
-      />
-      <SafeAreaBottom keyboardView={keyboardView} />
-    </Container>
-  );
-};
+          >
+            {isSubmitting ? (
+              <ActivityIndicator color="black" />
+            ) : (
+              <Ionicons name="md-paper-plane" size={25} color={LIGTH_GREEN} />
+            )}
+          </Touch>
+        </CommentAddButton>
+      </InputBox>
+    </KeyboardAccessoryView>
+    <ActionSheet
+      ref={actionSheet => (this.actionSheet = actionSheet)}
+      options={options}
+      cancelButtonIndex={CANCEL_INDEX}
+      destructiveButtonIndex={DESTRUCTIVE_INDEX}
+      onPress={handleSheetPress}
+    />
+    <SafeAreaBottom keyboardView={keyboardView} />
+  </Container>
+);
 
 const Comment = ({
   comment,
   comments,
   creator,
   handlePlaceholderChange,
-  setCommentId,
+  onChangeCommentId,
   removeComment
-}) => {
-  return (
-    <CommentContianer>
-      <CommentBox onComment={false}>
-        <CommentCreatorBox>
-          <CommentProfileImg
-            source={
-              comment.creator.profile_image && !comment.anonymous
-                ? { uri: comment.creator.profile_image }
-                : require("../../assets/images/noProfile.png")
-            }
-          />
-          <CreatorBox>
-            {creator === comment.creator.username ? (
-              <CommentCreator isCreator={true}>
-                {comment.anonymous
-                  ? "익명이(글쓴이)"
-                  : `${comment.creator.name}(글쓴이)`}
-              </CommentCreator>
-            ) : (
-              <CommentCreator isCreator={false}>
-                {comment.anonymous ? "익명이" : comment.creator.name}
-              </CommentCreator>
-            )}
-            <TimeStamp time={comment.natural_time} />
-          </CreatorBox>
-          <CommentActionsBox>
-            <ActionBox>
-              <OnCommentIcon
-                onPress={() => {
-                  this.commentInputRef.focus();
-                  handlePlaceholderChange();
-                  setCommentId(comment.id);
-                }}
-              >
-                <EvilIcons name="comment" size={18} color={LIGHT_GREY} />
-              </OnCommentIcon>
-              <CommentDeleteIcon
-                onPress={() => {
-                  removeComment(comment.id);
-                }}
-              >
-                <Ionicons
-                  name="ios-close"
-                  size={24}
-                  color={BODER_COLOR}
-                  style={{ marginTop: 2 }}
-                />
-              </CommentDeleteIcon>
-            </ActionBox>
-          </CommentActionsBox>
-        </CommentCreatorBox>
-        <CommentMessage>{comment.message}</CommentMessage>
-        <CommentOnComment
-          comments={comments}
-          parentId={comment.id}
-          creator={creator}
-          removeComment={removeComment}
+}) => (
+  <CommentContianer>
+    <CommentBox onComment={false}>
+      <CommentCreatorBox>
+        <CommentProfileImg
+          source={
+            comment.creator.profile_image && !comment.anonymous
+              ? { uri: comment.creator.profile_image }
+              : require("../../assets/images/noProfile.png")
+          }
         />
-      </CommentBox>
-    </CommentContianer>
-  );
-};
+        <CreatorBox>
+          {creator === comment.creator.username ? (
+            <CommentCreator isCreator={true}>
+              {comment.anonymous
+                ? "익명이(글쓴이)"
+                : `${comment.creator.name}(글쓴이)`}
+            </CommentCreator>
+          ) : (
+            <CommentCreator isCreator={false}>
+              {comment.anonymous ? "익명이" : comment.creator.name}
+            </CommentCreator>
+          )}
+          <TimeStamp time={comment.natural_time} />
+        </CreatorBox>
+        <CommentActionsBox>
+          <ActionBox>
+            <OnCommentIcon
+              onPress={() => {
+                this.commentInputRef.focus();
+                handlePlaceholderChange();
+                onChangeCommentId(comment.id);
+              }}
+            >
+              <EvilIcons name="comment" size={18} color={LIGHT_GREY} />
+            </OnCommentIcon>
+            <CommentDeleteIcon
+              onPress={() => {
+                removeComment(comment.id);
+              }}
+            >
+              <Ionicons
+                name="ios-close"
+                size={24}
+                color={BODER_COLOR}
+                style={{ marginTop: 2 }}
+              />
+            </CommentDeleteIcon>
+          </ActionBox>
+        </CommentActionsBox>
+      </CommentCreatorBox>
+      <CommentMessage>{comment.message}</CommentMessage>
+      <CommentOnComment
+        comments={comments}
+        parentId={comment.id}
+        creator={creator}
+        removeComment={removeComment}
+      />
+    </CommentBox>
+  </CommentContianer>
+);
 
-const CommentOnComment = ({ comments, parentId, creator, removeComment }) => {
-  return comments
+const CommentOnComment = ({ comments, parentId, creator, removeComment }) =>
+  comments
     .filter(comment => comment.referComment !== null)
     .map((comment, i) => {
       if (comment.referComment === parentId) {
@@ -463,7 +455,6 @@ const CommentOnComment = ({ comments, parentId, creator, removeComment }) => {
         return null;
       }
     });
-};
 
 PostDetailPresenter.propTypes = {
   anonymous: PropTypes.bool.isRequired,

@@ -1,7 +1,7 @@
 import { applyMiddleware, createStore } from "redux";
+import thunk from "redux-thunk";
 import { persistStore, persistCombineReducers } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import thunk from "redux-thunk";
 import user from "./modules/user";
 import posts from "./modules/posts";
 import crawlers from "./modules/crawlers";

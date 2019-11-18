@@ -10,7 +10,8 @@ const mapStateToProps = (state, ownProps) => {
     rice
   };
 };
-mapDispatchToProps = (dispatch, ownProps) => {
+
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     getRice: () => {
       dispatch(crawlerActions.getRice());
@@ -18,7 +19,4 @@ mapDispatchToProps = (dispatch, ownProps) => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(RicePostContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(RicePostContainer);

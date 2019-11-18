@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 import Layout from "../../constants/Layout";
 import { RFValue } from "react-native-responsive-fontsize";
 import { BODER_COLOR, LIGHT_GREY, LIGTH_GREEN } from "../../constants/Color";
@@ -91,8 +92,8 @@ const CANCEL_INDEX = 0;
 const ProfilePresenter = ({
   changeProfile,
   handleNicknameInput,
-  openNicknameInput,
-  changeNickname,
+  isOpenNicknameInput,
+  onChangeNickname,
   nickname,
   submitLogout,
   user,
@@ -146,7 +147,7 @@ const ProfilePresenter = ({
         <Text header={false}>프로필 사진 변경</Text>
       </Touch>
       <Touch onPress={handleNicknameInput}>
-        {openNicknameInput ? (
+        {isOpenNicknameInput ? (
           <NicknameBox>
             <NicknameInput
               returnKeyType="done"
@@ -155,7 +156,7 @@ const ProfilePresenter = ({
               autoCorrect={false}
               autoFocus={true}
               value={nickname}
-              onChangeText={changeNickname}
+              onChangeText={onChangeNickname}
               onSubmitEditing={changeProfile}
             />
             <Button onPress={changeProfile}>
@@ -195,5 +196,21 @@ const ProfilePresenter = ({
     />
   </Container>
 );
+
+ProfilePresenter.propTypes = {
+  changeProfile: PropTypes.func.isRequired,
+  handleNicknameInput: PropTypes.func.isRequired,
+  isOpenNicknameInput: PropTypes.bool.isRequired,
+  onChangeNickname: PropTypes.func.isRequired,
+  nickname: PropTypes.string.isRequired,
+  submitLogout: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+  handleSheetPress: PropTypes.func.isRequired,
+  isProfileImageSubmitting: PropTypes.bool.isRequired,
+  clickedAppVersion: PropTypes.func.isRequired,
+  handleNavigatePrivacy: PropTypes.func.isRequired,
+  handleNavigateOwnPosts: PropTypes.func.isRequired,
+  handleNavigateStudentAuth: PropTypes.func.isRequired
+};
 
 export default ProfilePresenter;
