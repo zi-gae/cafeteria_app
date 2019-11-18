@@ -86,10 +86,7 @@ const PushText = styled.Text`
   color: white;
 `;
 
-const StudentAuthenticationPresenter = ({
-  handleNaviate,
-  uploadStudentNumberPhoto
-}) => (
+const StudentAuthenticationPresenter = ({ pickImage, image }) => (
   <Container>
     <Manual>
       <ManualText>인증 소요기간 최대 3일</ManualText>
@@ -100,14 +97,15 @@ const StudentAuthenticationPresenter = ({
       <StudentNumberInput placeholder="학번" />
       <NicknameBox>
         <NicknameInput editable={false}>
-          {uploadStudentNumberPhoto ? "첨부완료" : ""}
+          {image ? "첨부완료" : ""}
         </NicknameInput>
-        <Button onPress={handleNaviate}>
+        <Button onPress={pickImage}>
           <ButtonBox>
             <ButtonText>첨부하기</ButtonText>
           </ButtonBox>
         </Button>
       </NicknameBox>
+
       <PushButton>
         <Touch>
           <PushText>인 증</PushText>

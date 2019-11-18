@@ -4,6 +4,8 @@ import PropTypes from "prop-types";
 import { Alert } from "react-native";
 import styled from "styled-components";
 import { RFValue } from "react-native-responsive-fontsize";
+import * as ImagePicker from "expo-image-picker";
+import * as Permissions from "expo-permissions";
 
 const Image = styled.Image`
   height: ${RFValue(58)};
@@ -16,7 +18,8 @@ class ProfileContainer extends Component {
     this.state = {
       nickname: "",
       openNicknameInput: false,
-      isProfileImageSubmitting: false
+      isProfileImageSubmitting: false,
+      image: ""
     };
   }
 
@@ -35,16 +38,25 @@ class ProfileContainer extends Component {
     logout: PropTypes.func.isRequired
   };
 
-  changeNickname = text => {
-    this.setState({
-      nickname: text
-    });
-  };
+  componentDidMount() {
+    this.getPermissionAsync();
+  }
 
-  handleNicknameInput = () => {
-    this.setState({
-      openNicknameInput: true
-    });
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.user.profile.profile_image) {
+      this.setState({
+        isProfileImageSubmitting: false
+      });
+    }
+  }
+
+  getPermissionAsync = async () => {
+    if (Constants.platform.ios) {
+      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+      if (status !== "granted") {
+        alert("Sorry, we need camera roll permissions to make this work!");
+      }
+    }
   };
 
   submitLogout = () => {
@@ -111,20 +123,6 @@ class ProfileContainer extends Component {
       );
     }
   };
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.user.profile.profile_image) {
-      this.setState({
-        isProfileImageSubmitting: false
-      });
-    }
-  }
-  handleChoicePhoto = async pickedPhoto => {
-    const { modifyMyProfile } = this.props;
-    this.setState({
-      isProfileImageSubmitting: true
-    });
-    await modifyMyProfile(pickedPhoto, null);
-  };
 
   clickedAppVersion = () => {
     Alert.alert("💡Beta💡", "0.8.1", [{ text: "OK", onPress: () => {} }]);
@@ -137,18 +135,30 @@ class ProfileContainer extends Component {
     navigate("PrivacyPolicy");
   };
 
+  pickImage = async () => {
+    const { modifyMyProfile } = this.props;
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 0.5
+    });
+    if (!result.cancelled) {
+      this.setState({
+        isProfileImageSubmitting: true
+      });
+      modifyMyProfile(result.uri, null);
+      this.setState({ image: result.uri });
+    }
+  };
+
   handleSheetPress = async index => {
-    const {
-      navigation: { navigate },
-      modifyMyProfile
-    } = this.props;
-    const { handleChoicePhoto } = this;
+    const { modifyMyProfile } = this.props;
+    const { pickImage } = this;
     const defaultProfileImageUrl = null;
 
     if (index === 1) {
-      navigate("Library", {
-        handleChoicePhoto
-      });
+      pickImage();
     } else if (index === 2) {
       this.setState({
         isProfileImageSubmitting: true
@@ -158,6 +168,18 @@ class ProfileContainer extends Component {
         isProfileImageSubmitting: false
       });
     }
+  };
+
+  changeNickname = text => {
+    this.setState({
+      nickname: text
+    });
+  };
+
+  handleNicknameInput = () => {
+    this.setState({
+      openNicknameInput: true
+    });
   };
 
   render() {

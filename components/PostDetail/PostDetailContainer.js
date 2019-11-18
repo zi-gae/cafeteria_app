@@ -211,7 +211,7 @@ class PostDetailContainer extends Component {
       navigate("WritePost", {
         id,
         content,
-        file,
+        image: file,
         title,
         writeType: "글 수정",
         anonymous,
@@ -234,12 +234,12 @@ class PostDetailContainer extends Component {
     }
   };
 
-  handleSuccessButton = async (title, content, file, anonymous) => {
+  handleSuccessButton = async (title, content, image, anonymous) => {
     const { dispatchPutPost } = this.props;
     this.setState({
       isPhotoSubmitting: true
     });
-    await dispatchPutPost(title, content, file, anonymous);
+    await dispatchPutPost(title, content, image, anonymous);
     this.setState({
       isPhotoSubmitting: false
     });
@@ -291,7 +291,7 @@ class PostDetailContainer extends Component {
         comments={comments}
         content={content}
         creator={creator}
-        file={file}
+        image={file}
         like_count={like_count}
         natural_time={natural_time}
         title={title}

@@ -97,18 +97,18 @@ class PostContainer extends Component {
     navigate("WritePost", {
       title: null,
       content: null,
-      file: null,
+      image: null,
       writeType: "글 쓰기",
       handleSuccessButton: this.handleSuccessButton
     });
   };
 
-  handleSuccessButton = async (title, content, file, anonymous) => {
+  handleSuccessButton = async (title, content, image, anonymous) => {
     if (anonymous === undefined) {
       anonymous = false;
     }
     const { dispatchCreatePost } = this.props;
-    await dispatchCreatePost(title, content, file, anonymous);
+    await dispatchCreatePost(title, content, image, anonymous);
   };
 
   refresh = () => {

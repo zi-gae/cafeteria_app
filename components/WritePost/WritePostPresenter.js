@@ -61,10 +61,10 @@ const WritePostPresenter = ({
   handleCheckBox,
   title,
   content,
-  file,
+  image,
   changeTitle,
   changeContent,
-  handleNavigate
+  pickImage
 }) => {
   return (
     <Container>
@@ -89,7 +89,7 @@ const WritePostPresenter = ({
           onChangeText={changeContent}
         />
       </ScrollView>
-      {file ? <ContentImg resizeMode="cover" source={{ uri: file }} /> : null}
+      {image ? <ContentImg resizeMode="cover" source={{ uri: image }} /> : null}
       <KeyboardAccessoryView
         hideBorder={true}
         alwaysVisible={true}
@@ -98,7 +98,7 @@ const WritePostPresenter = ({
         }}
       >
         <ButtonLabel>
-          <Touch onPress={handleNavigate}>
+          <Touch onPress={pickImage}>
             <Ionicons name="ios-camera" size={30} color={LIGTH_GREEN} />
           </Touch>
           <AnonymousBox>

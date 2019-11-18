@@ -63,7 +63,7 @@ const NotificationPresenter = ({
       }
     >
       <PostContainer>
-        {notification && notification.length > 1 ? (
+        {notification ? (
           <NotFount>알림이 없습니다.</NotFount>
         ) : notification.length === 0 ? (
           <GuideBox>
@@ -92,7 +92,7 @@ const NotificationPresenter = ({
 };
 
 NotificationPresenter.propTypes = {
-  notification: PropTypes.array.isRequired,
+  notification: PropTypes.array,
   isFetching: PropTypes.bool.isRequired,
   refresh: PropTypes.func.isRequired
 };

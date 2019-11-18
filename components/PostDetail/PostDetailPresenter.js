@@ -192,7 +192,7 @@ const PostDetailPresenter = ({
   comments,
   content,
   creator,
-  file,
+  image,
   natural_time,
   title,
   isLiked,
@@ -248,11 +248,11 @@ const PostDetailPresenter = ({
           </CreatorContainer>
           <Title>{title}</Title>
           <Content>{content}</Content>
-          {file ? (
+          {image ? (
             isPhotoSubmitting ? (
               <ActivityIndicator color="black" size="large" />
             ) : (
-              <ContentImg resizeMode="cover" source={{ uri: file }} />
+              <ContentImg resizeMode="cover" source={{ uri: image }} />
             )
           ) : null}
           <PostActions

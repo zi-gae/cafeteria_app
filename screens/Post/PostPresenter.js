@@ -99,7 +99,7 @@ const PostPresenter = ({
 PostPresenter.propTypes = {
   isFetching: PropTypes.bool.isRequired,
   refresh: PropTypes.func.isRequired,
-  posts: PropTypes.array.isRequired
+  posts: PropTypes.array
 };
 
 export default PostPresenter;

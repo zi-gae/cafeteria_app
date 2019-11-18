@@ -5,6 +5,9 @@ import { LIGTH_GREEN } from "../../constants/Color";
 import NavButton from "../NavButton";
 import { RFValue } from "react-native-responsive-fontsize";
 import PropTypes from "prop-types";
+import { Platform } from "react-native";
+import * as ImagePicker from "expo-image-picker";
+import * as Permissions from "expo-permissions";
 
 const Title = styled.Text`
   font-weight: bold;
@@ -43,12 +46,14 @@ class WritePostContainer extends Component {
       anonymousIsChecked: params.anonymous,
       title: params.title,
       content: params.content,
-      file: params.file
+      image: params.image
     };
   }
+
   static propTypes = {
     dispatchPutPost: PropTypes.func.isRequired
   };
+
   static navigationOptions = ({ navigation }) => ({
     tabBarVisible: false,
     headerTitle: <Title>{navigation.state.params.writeType}</Title>,
@@ -65,7 +70,7 @@ class WritePostContainer extends Component {
           navigation.state.params.handleSuccessButton(
             navigation.state.params.title,
             navigation.state.params.content,
-            navigation.state.params.file,
+            navigation.state.params.image,
             navigation.state.params.anonymous
           );
           navigation.goBack(null);
@@ -77,6 +82,34 @@ class WritePostContainer extends Component {
       </Button>
     )
   });
+
+  componentDidMount() {
+    this.getPermissionAsync();
+  }
+
+  getPermissionAsync = async () => {
+    if (Platform.OS === "ios") {
+      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+      if (status !== "granted") {
+        alert("Sorry, we need camera roll permissions to make this work!");
+      }
+    }
+  };
+
+  pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1
+    });
+    if (!result.cancelled) {
+      this.props.navigation.setParams({
+        image: result.uri
+      });
+      this.setState({ image: result.uri });
+    }
+  };
 
   handleCheckBox = () => {
     const { anonymousIsChecked } = this.state;
@@ -98,26 +131,6 @@ class WritePostContainer extends Component {
     }
   };
 
-  handleChoicePhoto = photo => {
-    this.props.navigation.setParams({
-      file: photo
-    });
-    this.setState({
-      file: photo
-    });
-  };
-
-  handleNavigate = () => {
-    const {
-      navigation: { navigate }
-    } = this.props;
-    const { handleChoicePhoto } = this;
-
-    navigate("Library", {
-      handleChoicePhoto
-    });
-  };
-
   changeTitle = text => {
     this.props.navigation.setParams({
       title: text
@@ -126,6 +139,7 @@ class WritePostContainer extends Component {
       title: text
     });
   };
+
   changeContent = text => {
     this.props.navigation.setParams({
       content: text
@@ -136,19 +150,18 @@ class WritePostContainer extends Component {
   };
 
   render() {
-    const { handleCheckBox, changeTitle, changeContent, handleNavigate } = this;
-    const { anonymousIsChecked, title, content, file, photo } = this.state;
+    const { handleCheckBox, changeTitle, changeContent, pickImage } = this;
+    const { anonymousIsChecked, title, content, image } = this.state;
     return (
       <WritePostPresenter
         handleCheckBox={handleCheckBox}
         anonymousIsChecked={anonymousIsChecked}
         title={title}
         content={content}
-        file={file}
-        photo={photo}
+        image={image}
         changeTitle={changeTitle}
         changeContent={changeContent}
-        handleNavigate={handleNavigate}
+        pickImage={pickImage}
       />
     );
   }
