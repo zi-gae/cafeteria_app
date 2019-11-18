@@ -218,6 +218,23 @@ const postToken = notificationToken => {
   };
 };
 
+const alreadyUsername = (username, password, nickname, email) => {
+  return () => {
+    return fetch(`${URL}/users/${username}/already/`, {
+      method: "get",
+      headers: {
+        Authorization: `JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo3OSwidXNlcm5hbWUiOiJwdWJsaWNrZXkiLCJleHAiOjE1NzQxMDU1MTksImVtYWlsIjoicHVibGljQG5hdmVyLmNvbSJ9.La4CVytDEcnPYg1UYx5VfMjK5smLLMvL9Df8pUkZu7A`
+      }
+    }).then(res => {
+      if (res.status === 202) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+  };
+};
+
 // instial state
 
 const initialState = {
@@ -300,7 +317,8 @@ const actionCreators = {
   getOwnProfile,
   putProfile,
   postToken,
-  createAccount
+  createAccount,
+  alreadyUsername
 };
 
 export { actionCreators };

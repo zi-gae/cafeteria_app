@@ -8,6 +8,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       return dispatch(
         userActions.createAccount(username, password, nickname, email)
       );
+    },
+    dispatchIsAlready: username => {
+      return dispatch(userActions.alreadyUsername(username));
     }
   };
 };

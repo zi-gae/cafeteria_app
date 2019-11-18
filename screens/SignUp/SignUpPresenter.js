@@ -1,13 +1,16 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import { FontAwesome } from "@expo/vector-icons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { RFValue } from "react-native-responsive-fontsize";
 import {
   BG_COLOR_WHITE,
   BODER_COLOR,
   LIGTH_GREEN,
-  LIGHT_GREY
+  LIGHT_GREY,
+  DARK_GREEN,
+  LIGHT_RED
 } from "../../constants/Color";
 import Layout from "../../constants/Layout";
 
@@ -30,6 +33,10 @@ const Content = styled.View`
   align-items: center;
   justify-content: center;
 `;
+const TextBox = styled.View`
+  flex-direction: row;
+  align-items: center;
+`;
 const TextInput = styled.TextInput`
   height: 50px;
   border-color: ${BODER_COLOR};
@@ -37,6 +44,7 @@ const TextInput = styled.TextInput`
   width: ${Layout.width / 1.6};
   border-radius: 5px;
   margin-bottom: 5px;
+  margin-left: 5px;
   padding-left: 15px;
   padding-right: 15px;
 `;
@@ -75,6 +83,9 @@ const SignUpText = styled.Text`
   font-weight: bold;
   color: ${LIGTH_GREEN};
 `;
+const EmptyIcon = styled.View`
+  width: ${RFValue(20)};
+`;
 
 const SignUpPresenter = ({
   email,
@@ -88,7 +99,10 @@ const SignUpPresenter = ({
   changePasswordTwo,
   changeNickname,
   changeEmail,
-  handleSubmit
+  handleSubmit,
+  isCheckedUsername,
+  isAlreadyId,
+  showIdCheckStatus
 }) => (
   <Container>
     <KeyboardAware
@@ -100,15 +114,32 @@ const SignUpPresenter = ({
         <Logo source={require("../../assets/images/logo.png")} />
       </Header>
       <Content>
-        <TextInput
-          placeholder="아이디"
-          autoCapitalize="none"
-          autoCorrect={false}
-          returnKeyType="next"
-          value={username}
-          onChangeText={changeUsername}
-          onSubmitEditing={() => this.passwordRefOne.focus()}
-        />
+        <TextBox>
+          {showIdCheckStatus ? (
+            isAlreadyId ? (
+              <FontAwesome name="check" color={DARK_GREEN} size={RFValue(20)} />
+            ) : (
+              <FontAwesome name="close" color={LIGHT_RED} size={RFValue(20)} />
+            )
+          ) : (
+            <EmptyIcon />
+          )}
+          <TextInput
+            placeholder="아이디"
+            autoCapitalize="none"
+            autoCorrect={false}
+            returnKeyType="next"
+            value={username}
+            onChangeText={changeUsername}
+            onSubmitEditing={() => {
+              this.passwordRefOne.focus();
+            }}
+            onBlur={() => {
+              isCheckedUsername(username);
+              console.log("ONBLUR");
+            }}
+          />
+        </TextBox>
         <TextInput
           ref={passwordRefOne => (this.passwordRefOne = passwordRefOne)}
           placeholder="비밀번호"
