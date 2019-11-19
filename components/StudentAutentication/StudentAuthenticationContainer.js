@@ -1,17 +1,25 @@
 import React, { Component } from "react";
-import StudentAuthenticationPresenter from "./StudentAuthenticationPresenter";
+import { Alert } from "react-native";
+import PropTypes from "prop-types";
 import { Platform } from "@unimodules/core";
 import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
+import StudentAuthenticationPresenter from "./StudentAuthenticationPresenter";
 
 class StudentAuthenticationContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      studentNumber: "",
       uploadStudentNumberPhoto: false,
-      photoUrl: ""
+      image: "",
+      editAvailability: false
     };
   }
+
+  static propTypes = {
+    dispatchAuthentication: PropTypes.func.isRequired
+  };
 
   componentDidMount = () => {
     this.getPermissionAsync();
@@ -26,20 +34,43 @@ class StudentAuthenticationContainer extends Component {
     }
   };
 
-  handleNaviate = () => {
-    const { handleChoicePhoto } = this;
-    const {
-      navigation: { navigate }
-    } = this.props;
-    navigate("Library", {
-      handleChoicePhoto
-    });
-  };
+  handleAuthenticationSubmit = async () => {
+    const { dispatchAuthentication, navigation } = this.props;
+    const { studentNumber, image } = this.state;
 
-  handleChoicePhoto = () => {
-    this.setState({
-      uploadStudentNumberPhoto: true
-    });
+    if (checkStudentNumber(studentNumber)) {
+      this.setState({
+        uploadStudentNumberPhoto: true,
+        editAvailability: true
+      });
+      const result = await dispatchAuthentication(studentNumber, image);
+      if (result) {
+        this.setState({
+          uploadStudentNumberPhoto: false,
+          studentNumber: "",
+          image: "",
+          editAvailability: false
+        });
+        Alert.alert(
+          "알림💡",
+          "인증 요청 완료하였습니다. 최대 2~3일까지 걸릴 수 있어요ㅠ",
+          [{ text: "OK", onPress: () => {} }]
+        );
+      } else {
+        this.setState({
+          uploadStudentNumberPhoto: false,
+          editAvailability: false
+        });
+        Alert.alert("알림💡", "서버에 문제가 발생했어요. 다시 시도해주세요", [
+          {
+            text: "OK",
+            onPress: () => {
+              navigation.goBack(null);
+            }
+          }
+        ]);
+      }
+    }
   };
 
   pickImage = async () => {
@@ -54,15 +85,50 @@ class StudentAuthenticationContainer extends Component {
     }
   };
 
+  checkStudentNumber = studentNumber => {
+    if (!/^[0-9]{8}$/.test(studentNumber)) {
+      Alert.alert("알림💡", "학번 8자리와 숫자만 입력 가능합니다", [
+        {
+          text: "OK",
+          onPress: () => {
+            this.setState({
+              studentNumber: ""
+            });
+          }
+        }
+      ]);
+      return false;
+    }
+    return true;
+  };
+
+  onChangeStudentNumber = text => {
+    this.setState({
+      studentNumber: text
+    });
+  };
+
   render() {
-    const { handleNaviate, pickImage } = this;
-    const { uploadStudentNumberPhoto, image } = this.state;
+    const {
+      pickImage,
+      handleAuthenticationSubmit,
+      onChangeStudentNumber
+    } = this;
+    const {
+      image,
+      uploadStudentNumberPhoto,
+      studentNumber,
+      editAvailability
+    } = this.state;
     return (
       <StudentAuthenticationPresenter
-        handleNaviate={handleNaviate}
-        uploadStudentNumberPhoto={uploadStudentNumberPhoto}
+        handleAuthenticationSubmit={handleAuthenticationSubmit}
         pickImage={pickImage}
         image={image}
+        uploadStudentNumberPhoto={uploadStudentNumberPhoto}
+        studentNumber={studentNumber}
+        onChangeStudentNumber={onChangeStudentNumber}
+        editAvailability={editAvailability}
       />
     );
   }

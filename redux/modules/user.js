@@ -79,7 +79,6 @@ const login = (username, password) => {
 };
 
 const createAccount = (username, password, nickname, email) => {
-  AsyncStorage.removeItem("signUpStatusCode");
   return () => {
     return fetch(`${URL}/rest-auth/registration/`, {
       method: "post",
@@ -91,7 +90,7 @@ const createAccount = (username, password, nickname, email) => {
         username,
         password1: password,
         password2: password,
-        nickname,
+        name: nickname,
         email
       })
     }).then(res => {
@@ -273,6 +272,38 @@ const alreadyEmail = email => {
   };
 };
 
+const userAuthentication = (stdntnum, student_card) => {
+  let formData = new FormData();
+  formData.append("stdntnum", stdntnum);
+  formData.append("student_card", {
+    uri: student_card,
+    type: "image/jpeg",
+    name: `${uuidv1()}.jpg`
+  });
+
+  return (dispatch, getState) => {
+    const {
+      user: { token }
+    } = getState();
+    return fetch(`${URL}/users/authentication/`, {
+      method: "put",
+      headers: {
+        Authorization: `JWT ${token}`,
+        "Content-type": "multipart/form-data"
+      },
+      body: formData
+    })
+      .then(res => {
+        if (res.status === 200) {
+          return true;
+        } else {
+          return false;
+        }
+      })
+      .catch(err => console.log(err));
+  };
+};
+
 // instial state
 
 const initialState = {
@@ -358,7 +389,8 @@ const actionCreators = {
   createAccount,
   alreadyUsername,
   alreadyNickname,
-  alreadyEmail
+  alreadyEmail,
+  userAuthentication
 };
 
 export { actionCreators };

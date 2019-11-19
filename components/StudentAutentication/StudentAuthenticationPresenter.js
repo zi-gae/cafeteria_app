@@ -41,7 +41,6 @@ const NicknameBox = styled.View`
   margin-bottom: ${RFValue(10)};
   flex-direction: row;
 `;
-
 const NicknameInput = styled.TextInput`
   border-radius: 5px;
   border-color: ${BODER_COLOR};
@@ -86,8 +85,17 @@ const PushText = styled.Text`
   font-weight: bold;
   color: white;
 `;
+const ActivityIndicator = styled.ActivityIndicator``;
 
-const StudentAuthenticationPresenter = ({ pickImage, image }) => (
+const StudentAuthenticationPresenter = ({
+  pickImage,
+  image,
+  handleAuthenticationSubmit,
+  uploadStudentNumberPhoto,
+  studentNumber,
+  onChangeStudentNumber,
+  editAvailability
+}) => (
   <Container>
     <Manual>
       <ManualText>인증 소요기간 최대 3일</ManualText>
@@ -95,10 +103,15 @@ const StudentAuthenticationPresenter = ({ pickImage, image }) => (
       <ManualText>⭐️사진의 학번과 입력한 학번이 동일⭐️</ManualText>
     </Manual>
     <InputBox>
-      <StudentNumberInput placeholder="학번" />
+      <StudentNumberInput
+        placeholder="학번"
+        value={studentNumber}
+        editable={editAvailability}
+        onChangeText={onChangeStudentNumber}
+      />
       <NicknameBox>
         <NicknameInput editable={false}>
-          {image ? "첨부완료" : ""}
+          {image.length > 2 ? "첨부완료" : ""}
         </NicknameInput>
         <Button onPress={pickImage}>
           <ButtonBox>
@@ -106,11 +119,15 @@ const StudentAuthenticationPresenter = ({ pickImage, image }) => (
           </ButtonBox>
         </Button>
       </NicknameBox>
-      <PushButton>
-        <Touch>
-          <PushText>인 증</PushText>
-        </Touch>
-      </PushButton>
+      <Touch onPress={handleAuthenticationSubmit}>
+        <PushButton>
+          {uploadStudentNumberPhoto ? (
+            <ActivityIndicator color="white" />
+          ) : (
+            <PushText>인 증</PushText>
+          )}
+        </PushButton>
+      </Touch>
     </InputBox>
   </Container>
 );
