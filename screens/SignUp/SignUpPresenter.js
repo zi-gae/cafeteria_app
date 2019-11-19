@@ -36,6 +36,7 @@ const Content = styled.View`
 const TextBox = styled.View`
   flex-direction: row;
   align-items: center;
+  margin-right: ${RFValue(25)};
 `;
 const TextInput = styled.TextInput`
   height: 50px;
@@ -86,6 +87,7 @@ const SignUpText = styled.Text`
 const EmptyIcon = styled.View`
   width: ${RFValue(20)};
 `;
+const ActivityIndicator = styled.ActivityIndicator``;
 
 const SignUpPresenter = ({
   email,
@@ -102,7 +104,11 @@ const SignUpPresenter = ({
   handleSubmit,
   isCheckedUsername,
   isAlreadyId,
-  showIdCheckStatus
+  showIdCheckStatus,
+  isFetchIdCheck,
+  isCheckedPassword,
+  showPwdCheckStatus,
+  isSamePassword
 }) => (
   <Container>
     <KeyboardAware
@@ -115,7 +121,10 @@ const SignUpPresenter = ({
       </Header>
       <Content>
         <TextBox>
-          {showIdCheckStatus ? (
+          {isFetchIdCheck ? (
+            // 아이디 체크 중이면 indicator 띄우고 사용 가능 여부에 따라 o 또는 x 표시
+            <ActivityIndicator color="black" />
+          ) : showIdCheckStatus ? (
             isAlreadyId ? (
               <FontAwesome name="check" color={DARK_GREEN} size={RFValue(20)} />
             ) : (
@@ -132,61 +141,84 @@ const SignUpPresenter = ({
             value={username}
             onChangeText={changeUsername}
             onSubmitEditing={() => {
-              this.passwordRefOne.focus();
+              if (isAlreadyId) {
+                this.passwordRefOne.focus();
+              }
             }}
-            onBlur={() => {
-              isCheckedUsername(username);
-              console.log("ONBLUR");
-            }}
+            onBlur={isCheckedUsername}
           />
         </TextBox>
-        <TextInput
-          ref={passwordRefOne => (this.passwordRefOne = passwordRefOne)}
-          placeholder="비밀번호"
-          secureTextEntry={true}
-          autoCorrect={false}
-          returnKeyType="next"
-          value={password1}
-          onChangeText={changePasswordOne}
-          onSubmitEditing={() => this.passwordRefTwo.focus()}
-        />
-        <TextInput
-          ref={passwordRefTwo => (this.passwordRefTwo = passwordRefTwo)}
-          placeholder="비밀번호 확인"
-          secureTextEntry={true}
-          autoCorrect={false}
-          returnKeyType="next"
-          value={password2}
-          onChangeText={changePasswordTwo}
-          onSubmitEditing={() => this.nicknameRef.focus()}
-        />
-        <TextInput
-          ref={nicknameRef => (this.nicknameRef = nicknameRef)}
-          placeholder="닉네임"
-          keyboardType="default"
-          autoCorrect={false}
-          autoCapitalize="none"
-          returnKeyType="next"
-          value={nickname}
-          onChangeText={changeNickname}
-          onSubmitEditing={() => this.emailRef.focus()}
-        />
-        <TextInput
-          ref={emailRef => (this.emailRef = emailRef)}
-          placeholder="이메일 *비밀번호 분실시 필요*"
-          keyboardType="email-address"
-          autoCapitalize="none"
-          autoCorrect={false}
-          returnKeyType="done"
-          value={email}
-          onChangeText={changeEmail}
-          onSubmitEditing={handleSubmit}
-        />
-        <Button onPress={handleSubmit}>
-          <BtnContainer>
-            <BtnText>회원가입</BtnText>
-          </BtnContainer>
-        </Button>
+        <TextBox>
+          <EmptyIcon />
+          <TextInput
+            ref={passwordRefOne => (this.passwordRefOne = passwordRefOne)}
+            placeholder="비밀번호"
+            secureTextEntry={true}
+            autoCorrect={false}
+            returnKeyType="next"
+            value={password1}
+            onChangeText={changePasswordOne}
+            onSubmitEditing={() => this.passwordRefTwo.focus()}
+          />
+        </TextBox>
+        <TextBox>
+          {showPwdCheckStatus ? (
+            isSamePassword ? (
+              <FontAwesome name="check" color={DARK_GREEN} size={RFValue(20)} />
+            ) : (
+              <FontAwesome name="close" color={LIGHT_RED} size={RFValue(20)} />
+            )
+          ) : (
+            <EmptyIcon />
+          )}
+          <TextInput
+            ref={passwordRefTwo => (this.passwordRefTwo = passwordRefTwo)}
+            placeholder="비밀번호 확인"
+            secureTextEntry={true}
+            autoCorrect={false}
+            returnKeyType="next"
+            value={password2}
+            onChangeText={changePasswordTwo}
+            onSubmitEditing={() => this.nicknameRef.focus()}
+            onBlur={isCheckedPassword}
+          />
+        </TextBox>
+        <TextBox>
+          <EmptyIcon />
+          <TextInput
+            ref={nicknameRef => (this.nicknameRef = nicknameRef)}
+            placeholder="닉네임"
+            keyboardType="default"
+            autoCorrect={false}
+            autoCapitalize="none"
+            returnKeyType="next"
+            value={nickname}
+            onChangeText={changeNickname}
+            onSubmitEditing={() => this.emailRef.focus()}
+          />
+        </TextBox>
+        <TextBox>
+          <EmptyIcon />
+          <TextInput
+            ref={emailRef => (this.emailRef = emailRef)}
+            placeholder="이메일 *비밀번호 분실시 필요*"
+            keyboardType="email-address"
+            autoCapitalize="none"
+            autoCorrect={false}
+            returnKeyType="done"
+            value={email}
+            onChangeText={changeEmail}
+            onSubmitEditing={handleSubmit}
+          />
+        </TextBox>
+        <TextBox>
+          <EmptyIcon />
+          <Button onPress={handleSubmit}>
+            <BtnContainer>
+              <BtnText>회원가입</BtnText>
+            </BtnContainer>
+          </Button>
+        </TextBox>
       </Content>
     </KeyboardAware>
     <Footer>

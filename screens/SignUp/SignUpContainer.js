@@ -14,9 +14,11 @@ class SignUpContainer extends Component {
       nickname: "",
       isSubmitting: false,
       signUpStatusCode: this.props.signUpStatusCode,
-      isAlreadyId: false,
       isFetchIdCheck: false,
-      showIdCheckStatus: false
+      isAlreadyId: false,
+      isSamePassword: false,
+      showIdCheckStatus: false,
+      showPwdCheckStatus: false
     };
   }
 
@@ -83,6 +85,46 @@ class SignUpContainer extends Component {
     }
   };
   //비밀번호 체크 만들어야함
+  isCheckedPassword = () => {
+    const { checkPassword } = this;
+    const { password1, password2 } = this.state;
+
+    if (password1 === "" && password2 === "") {
+      this.setState({
+        showPwdCheckStatus: false
+      });
+    } else {
+      this.setState({
+        showPwdCheckStatus: true
+      });
+      if (password1 === password2) {
+        if (checkPassword(password1)) {
+          this.setState({
+            isSamePassword: true
+          });
+        } else {
+          this.setState({
+            isSamePassword: false
+          });
+        }
+      } else {
+        Alert.alert("알림💡", "비밀번호가 일치하지 않습니다", [
+          {
+            text: "OK",
+            onPress: () => {
+              this.setState({
+                password1: "",
+                password2: ""
+              });
+            }
+          }
+        ]);
+        this.setState({
+          isSamePassword: false
+        });
+      }
+    }
+  };
   //닉네임 체크 만들어야함
   //이메일 체크 만들어야함
   isCheckedUsername = async () => {
@@ -97,22 +139,28 @@ class SignUpContainer extends Component {
       isFetchIdCheck: false,
       showIdCheckStatus: true
     });
-    if (checkId(username) && result) {
-      this.setState({
-        isAlreadyId: true
-      });
-    } else if (!result) {
-      Alert.alert("알림💡", "이미 존재하는 아이디입니다", [
-        {
-          text: "OK",
-          onPress: () => {
-            this.setState({
-              username: "",
-              isAlreadyId: false
-            });
+    if (checkId(username)) {
+      if (result) {
+        this.setState({
+          isAlreadyId: true
+        });
+      } else if (!result) {
+        Alert.alert("알림💡", "이미 존재하는 아이디입니다", [
+          {
+            text: "OK",
+            onPress: () => {
+              this.setState({
+                username: "",
+                isAlreadyId: false
+              });
+            }
           }
-        }
-      ]);
+        ]);
+      } else {
+        this.setState({
+          isAlreadyId: false
+        });
+      }
     } else {
       this.setState({
         isAlreadyId: false
@@ -122,7 +170,16 @@ class SignUpContainer extends Component {
 
   checkId = id => {
     if (!/^[A-Za-z0-9]{5,20}$/.test(id)) {
-      Alert.alert("알림💡", "아이디는 5~16 자리를 사용해야 합니다");
+      Alert.alert("알림💡", "아이디는 5~16 자리를 사용해야 합니다", [
+        {
+          text: "OK",
+          onPress: () => {
+            this.setState({
+              username: ""
+            });
+          }
+        }
+      ]);
       return false;
     }
     return true;
@@ -132,7 +189,18 @@ class SignUpContainer extends Component {
     if (!/^[a-zA-Z0-9]{8,20}$/.test(password)) {
       Alert.alert(
         "알림💡",
-        "비밀번호는 숫자와 영문자 조합으로 8~20 자리를 사용해야 합니다."
+        "비밀번호는 숫자와 영문자 조합으로 8~20 자리를 사용해야 합니다.",
+        [
+          {
+            text: "OK",
+            onPress: () => {
+              this.setState({
+                password1: "",
+                password2: ""
+              });
+            }
+          }
+        ]
       );
       return false;
     }
@@ -188,7 +256,8 @@ class SignUpContainer extends Component {
       changeNickname,
       changeEmail,
       handleSubmit,
-      isCheckedUsername
+      isCheckedUsername,
+      isCheckedPassword
     } = this;
     const { handleAccountAction } = this.props;
     const {
@@ -199,7 +268,9 @@ class SignUpContainer extends Component {
       nickname,
       isAlreadyId,
       isFetchIdCheck,
-      showIdCheckStatus
+      showIdCheckStatus,
+      showPwdCheckStatus,
+      isSamePassword
     } = this.state;
 
     return (
@@ -220,6 +291,10 @@ class SignUpContainer extends Component {
         isAlreadyId={isAlreadyId}
         isFetchIdCheck={isFetchIdCheck}
         showIdCheckStatus={showIdCheckStatus}
+        isFetchIdCheck={isFetchIdCheck}
+        isCheckedPassword={isCheckedPassword}
+        showPwdCheckStatus={showPwdCheckStatus}
+        isSamePassword={isSamePassword}
       />
     );
   }
