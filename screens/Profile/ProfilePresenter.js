@@ -64,6 +64,7 @@ const NicknameBox = styled.View`
 const NicknameInput = styled.TextInput`
   background-color: ${BODER_COLOR};
   border-radius: 5px;
+  padding-left: ${RFValue(5)};
   width: ${Layout.width / 2};
 `;
 const Button = styled.TouchableOpacity`
