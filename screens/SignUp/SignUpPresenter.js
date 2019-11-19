@@ -108,7 +108,11 @@ const SignUpPresenter = ({
   isFetchIdCheck,
   isCheckedPassword,
   showPwdCheckStatus,
-  isSamePassword
+  isSamePassword,
+  isCheckedNickname,
+  isFetchNicknameCheck,
+  isAlreadyNickname,
+  showNicknameCheckStatus
 }) => (
   <Container>
     <KeyboardAware
@@ -184,7 +188,18 @@ const SignUpPresenter = ({
           />
         </TextBox>
         <TextBox>
-          <EmptyIcon />
+          {isFetchNicknameCheck ? (
+            // 아이디 체크 중이면 indicator 띄우고 사용 가능 여부에 따라 o 또는 x 표시
+            <ActivityIndicator color="black" />
+          ) : showNicknameCheckStatus ? (
+            isAlreadyNickname ? (
+              <FontAwesome name="check" color={DARK_GREEN} size={RFValue(20)} />
+            ) : (
+              <FontAwesome name="close" color={LIGHT_RED} size={RFValue(20)} />
+            )
+          ) : (
+            <EmptyIcon />
+          )}
           <TextInput
             ref={nicknameRef => (this.nicknameRef = nicknameRef)}
             placeholder="닉네임"
@@ -195,6 +210,7 @@ const SignUpPresenter = ({
             value={nickname}
             onChangeText={changeNickname}
             onSubmitEditing={() => this.emailRef.focus()}
+            onBlur={isCheckedNickname}
           />
         </TextBox>
         <TextBox>

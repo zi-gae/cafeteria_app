@@ -15,16 +15,20 @@ class SignUpContainer extends Component {
       isSubmitting: false,
       signUpStatusCode: this.props.signUpStatusCode,
       isFetchIdCheck: false,
+      isFetchNicknameCheck: false,
       isAlreadyId: false,
+      isAlreadyNickname: false,
       isSamePassword: false,
       showIdCheckStatus: false,
-      showPwdCheckStatus: false
+      showPwdCheckStatus: false,
+      showNicknameCheckStatus: false
     };
   }
 
   static propTypes = {
     dispatchCreateUser: PropTypes.func.isRequired,
-    dispatchIsAlready: PropTypes.func.isRequired
+    dispatchIsAlreadyId: PropTypes.func.isRequired,
+    dispatchIsAlreadyNickname: PropTypes.func.isRequired
   };
 
   handleSignupStatusCode = code => {
@@ -84,7 +88,55 @@ class SignUpContainer extends Component {
       }
     }
   };
-  //비밀번호 체크 만들어야함
+
+  //닉네임 체크 만들어야함
+  isCheckedNickname = async () => {
+    const { checkNickname } = this;
+    const { nickname } = this.state;
+    const { dispatchIsAlreadyNickname } = this.props;
+    if (nickname === "") {
+      this.setState({
+        isFetchNicknameCheck: false
+      });
+    } else {
+      this.setState({
+        isFetchNicknameCheck: true
+      });
+      const result = await dispatchIsAlreadyNickname(nickname);
+      this.setState({
+        isFetchNicknameCheck: false,
+        showNicknameCheckStatus: true
+      });
+      if (checkNickname(nickname)) {
+        if (result) {
+          this.setState({
+            isAlreadyNickname: true
+          });
+        } else if (!result) {
+          Alert.alert("알림💡", "이미 존재하는 별명입니다", [
+            {
+              text: "OK",
+              onPress: () => {
+                this.setState({
+                  nickname: "",
+                  isAlreadyNickname: false
+                });
+              }
+            }
+          ]);
+        } else {
+          this.setState({
+            isAlreadyNickname: false
+          });
+        }
+      } else {
+        this.setState({
+          isAlreadyNickname: false
+        });
+      }
+    }
+  };
+
   isCheckedPassword = () => {
     const { checkPassword } = this;
     const { password1, password2 } = this.state;
@@ -125,16 +177,16 @@ class SignUpContainer extends Component {
       }
     }
   };
-  //닉네임 체크 만들어야함
+
   //이메일 체크 만들어야함
   isCheckedUsername = async () => {
     const { checkId } = this;
     const { username } = this.state;
-    const { dispatchIsAlready } = this.props;
+    const { dispatchIsAlreadyId } = this.props;
     this.setState({
       isFetchIdCheck: true
     });
-    const result = await dispatchIsAlready(username);
+    const result = await dispatchIsAlreadyId(username);
     this.setState({
       isFetchIdCheck: false,
       showIdCheckStatus: true
@@ -166,6 +218,27 @@ class SignUpContainer extends Component {
         isAlreadyId: false
       });
     }
+  };
+
+  checkNickname = id => {
+    if (!/^[A-Za-z0-9ㄱ-ㅎㅏ-ㅣ가-힣]{2,10}$/.test(id)) {
+      Alert.alert(
+        "알림💡",
+        "별명은 2~10 자리, 그리고 특수문자를 사용 할 수 없습니다.",
+        [
+          {
+            text: "OK",
+            onPress: () => {
+              this.setState({
+                username: ""
+              });
+            }
+          }
+        ]
+      );
+      return false;
+    }
+    return true;
   };
 
   checkId = id => {
@@ -257,7 +330,8 @@ class SignUpContainer extends Component {
       changeEmail,
       handleSubmit,
       isCheckedUsername,
-      isCheckedPassword
+      isCheckedPassword,
+      isCheckedNickname
     } = this;
     const { handleAccountAction } = this.props;
     const {
@@ -270,7 +344,10 @@ class SignUpContainer extends Component {
       isFetchIdCheck,
       showIdCheckStatus,
       showPwdCheckStatus,
-      isSamePassword
+      isSamePassword,
+      isFetchNicknameCheck,
+      isAlreadyNickname,
+      showNicknameCheckStatus
     } = this.state;
 
     return (
@@ -295,6 +372,10 @@ class SignUpContainer extends Component {
         isCheckedPassword={isCheckedPassword}
         showPwdCheckStatus={showPwdCheckStatus}
         isSamePassword={isSamePassword}
+        isCheckedNickname={isCheckedNickname}
+        isFetchNicknameCheck={isFetchNicknameCheck}
+        isAlreadyNickname={isAlreadyNickname}
+        showNicknameCheckStatus={showNicknameCheckStatus}
       />
     );
   }
