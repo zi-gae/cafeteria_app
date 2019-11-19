@@ -252,6 +252,23 @@ const alreadyNickname = username => {
   };
 };
 
+const alreadyEmail = email => {
+  return () => {
+    return fetch(`${URL}/users/${email}/already_email/`, {
+      method: "get",
+      headers: {
+        Authorization: `JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo3OSwidXNlcm5hbWUiOiJwdWJsaWNrZXkiLCJleHAiOjE1NzQxMDU1MTksImVtYWlsIjoicHVibGljQG5hdmVyLmNvbSJ9.La4CVytDEcnPYg1UYx5VfMjK5smLLMvL9Df8pUkZu7A`
+      }
+    }).then(res => {
+      if (res.status === 202) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+  };
+};
+
 // instial state
 
 const initialState = {
@@ -336,7 +353,8 @@ const actionCreators = {
   postToken,
   createAccount,
   alreadyUsername,
-  alreadyNickname
+  alreadyNickname,
+  alreadyEmail
 };
 
 export { actionCreators };

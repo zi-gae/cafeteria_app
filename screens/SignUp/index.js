@@ -14,6 +14,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     dispatchIsAlreadyNickname: nickname => {
       return dispatch(userActions.alreadyNickname(nickname));
+    },
+    dispatchIsAlreadyEmail: email => {
+      return dispatch(userActions.alreadyEmail(email));
     }
   };
 };
