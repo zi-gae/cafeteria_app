@@ -218,9 +218,26 @@ const postToken = notificationToken => {
   };
 };
 
-const alreadyUsername = (username, password, nickname, email) => {
+const alreadyUsername = username => {
   return () => {
-    return fetch(`${URL}/users/${username}/already/`, {
+    return fetch(`${URL}/users/${username}/already_id/`, {
+      method: "get",
+      headers: {
+        Authorization: `JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo3OSwidXNlcm5hbWUiOiJwdWJsaWNrZXkiLCJleHAiOjE1NzQxMDU1MTksImVtYWlsIjoicHVibGljQG5hdmVyLmNvbSJ9.La4CVytDEcnPYg1UYx5VfMjK5smLLMvL9Df8pUkZu7A`
+      }
+    }).then(res => {
+      if (res.status === 202) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+  };
+};
+
+const alreadyNickname = username => {
+  return () => {
+    return fetch(`${URL}/users/${username}/already_nickname/`, {
       method: "get",
       headers: {
         Authorization: `JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo3OSwidXNlcm5hbWUiOiJwdWJsaWNrZXkiLCJleHAiOjE1NzQxMDU1MTksImVtYWlsIjoicHVibGljQG5hdmVyLmNvbSJ9.La4CVytDEcnPYg1UYx5VfMjK5smLLMvL9Df8pUkZu7A`
@@ -318,7 +335,8 @@ const actionCreators = {
   putProfile,
   postToken,
   createAccount,
-  alreadyUsername
+  alreadyUsername,
+  alreadyNickname
 };
 
 export { actionCreators };
