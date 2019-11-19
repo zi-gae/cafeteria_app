@@ -393,6 +393,15 @@ class SignUpContainer extends Component {
     });
   };
 
+  resetState = () => {
+    this.setState({
+      showIdCheckStatus: false,
+      showPwdCheckStatus: false,
+      showNicknameCheckStatus: false,
+      showEmailCheckStatus: false
+    });
+  };
+
   render() {
     const {
       changeUsername,
