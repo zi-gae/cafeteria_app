@@ -16,19 +16,23 @@ class SignUpContainer extends Component {
       signUpStatusCode: this.props.signUpStatusCode,
       isFetchIdCheck: false,
       isFetchNicknameCheck: false,
+      isFetchEmailCheck: false,
       isAlreadyId: false,
       isAlreadyNickname: false,
+      isAlreadyEmail: false,
       isSamePassword: false,
       showIdCheckStatus: false,
       showPwdCheckStatus: false,
-      showNicknameCheckStatus: false
+      showNicknameCheckStatus: false,
+      showEmailCheckStatus: false
     };
   }
 
   static propTypes = {
     dispatchCreateUser: PropTypes.func.isRequired,
     dispatchIsAlreadyId: PropTypes.func.isRequired,
-    dispatchIsAlreadyNickname: PropTypes.func.isRequired
+    dispatchIsAlreadyNickname: PropTypes.func.isRequired,
+    dispatchIsAlreadyEmail: PropTypes.func.isRequired
   };
 
   handleSignupStatusCode = code => {
@@ -89,8 +93,56 @@ class SignUpContainer extends Component {
     }
   };
 
-  //닉네임 체크 만들어야함
-  isCheckedNickname = async () => {
+  handleCheckedEmail = async () => {
+    const { checkEmail } = this;
+    const { email } = this.state;
+    const { dispatchIsAlreadyEmail } = this.props;
+    if (email === "") {
+      this.setState({
+        isFetchEmailCheck: false
+      });
+    } else {
+      this.setState({
+        showEmailCheckStatus: true
+      });
+      if (checkEmail(email)) {
+        this.setState({
+          isFetchEmailCheck: true
+        });
+        const result = await dispatchIsAlreadyEmail(email);
+        this.setState({
+          isFetchEmailCheck: false
+        });
+        if (result) {
+          this.setState({
+            isAlreadyEmail: true
+          });
+        } else if (!result) {
+          Alert.alert("알림💡", "이미 사용된 이메일입니다", [
+            {
+              text: "OK",
+              onPress: () => {
+                this.setState({
+                  email: "",
+                  isAlreadyEmail: false
+                });
+              }
+            }
+          ]);
+        } else {
+          this.setState({
+            isAlreadyEmail: false
+          });
+        }
+      } else {
+        this.setState({
+          isAlreadyEmail: false
+        });
+      }
+    }
+  };
+
+  handleCheckedNickname = async () => {
     const { checkNickname } = this;
     const { nickname } = this.state;
     const { dispatchIsAlreadyNickname } = this.props;
@@ -100,14 +152,16 @@ class SignUpContainer extends Component {
       });
     } else {
       this.setState({
-        isFetchNicknameCheck: true
-      });
-      const result = await dispatchIsAlreadyNickname(nickname);
-      this.setState({
-        isFetchNicknameCheck: false,
         showNicknameCheckStatus: true
       });
       if (checkNickname(nickname)) {
+        this.setState({
+          isFetchNicknameCheck: true
+        });
+        const result = await dispatchIsAlreadyNickname(nickname);
+        this.setState({
+          isFetchNicknameCheck: false
+        });
         if (result) {
           this.setState({
             isAlreadyNickname: true
@@ -137,7 +191,7 @@ class SignUpContainer extends Component {
     }
   };
 
-  isCheckedPassword = () => {
+  handleCheckedPassword = () => {
     const { checkPassword } = this;
     const { password1, password2 } = this.state;
 
@@ -178,8 +232,7 @@ class SignUpContainer extends Component {
     }
   };
 
-  //이메일 체크 만들어야함
-  isCheckedUsername = async () => {
+  handleCheckedUsername = async () => {
     const { checkId } = this;
     const { username } = this.state;
     const { dispatchIsAlreadyId } = this.props;
@@ -218,6 +271,25 @@ class SignUpContainer extends Component {
         isAlreadyId: false
       });
     }
+  };
+
+  checkEmail = email => {
+    const emailRule = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+
+    if (!emailRule.test(email)) {
+      Alert.alert("알림💡", "이메일 규격이 맞지 않습니다.", [
+        {
+          text: "OK",
+          onPress: () => {
+            this.setState({
+              email: ""
+            });
+          }
+        }
+      ]);
+      return false;
+    }
+    return true;
   };
 
   checkNickname = id => {
@@ -329,9 +401,10 @@ class SignUpContainer extends Component {
       changeNickname,
       changeEmail,
       handleSubmit,
-      isCheckedUsername,
-      isCheckedPassword,
-      isCheckedNickname
+      handleCheckedUsername,
+      handleCheckedPassword,
+      handleCheckedNickname,
+      handleCheckedEmail
     } = this;
     const { handleAccountAction } = this.props;
     const {
@@ -347,7 +420,10 @@ class SignUpContainer extends Component {
       isSamePassword,
       isFetchNicknameCheck,
       isAlreadyNickname,
-      showNicknameCheckStatus
+      showNicknameCheckStatus,
+      isFetchEmailCheck,
+      isAlreadyEmail,
+      showEmailCheckStatus
     } = this.state;
 
     return (
@@ -364,18 +440,21 @@ class SignUpContainer extends Component {
         changeNickname={changeNickname}
         changeEmail={changeEmail}
         handleSubmit={handleSubmit}
-        isCheckedUsername={isCheckedUsername}
+        handleCheckedUsername={handleCheckedUsername}
+        handleCheckedPassword={handleCheckedPassword}
+        handleCheckedNickname={handleCheckedNickname}
+        handleCheckedEmail={handleCheckedEmail}
         isAlreadyId={isAlreadyId}
-        isFetchIdCheck={isFetchIdCheck}
-        showIdCheckStatus={showIdCheckStatus}
-        isFetchIdCheck={isFetchIdCheck}
-        isCheckedPassword={isCheckedPassword}
-        showPwdCheckStatus={showPwdCheckStatus}
-        isSamePassword={isSamePassword}
-        isCheckedNickname={isCheckedNickname}
-        isFetchNicknameCheck={isFetchNicknameCheck}
         isAlreadyNickname={isAlreadyNickname}
+        isAlreadyEmail={isAlreadyEmail}
+        isFetchIdCheck={isFetchIdCheck}
+        isFetchNicknameCheck={isFetchNicknameCheck}
+        isFetchEmailCheck={isFetchEmailCheck}
+        showIdCheckStatus={showIdCheckStatus}
+        showPwdCheckStatus={showPwdCheckStatus}
         showNicknameCheckStatus={showNicknameCheckStatus}
+        showEmailCheckStatus={showEmailCheckStatus}
+        isSamePassword={isSamePassword}
       />
     );
   }

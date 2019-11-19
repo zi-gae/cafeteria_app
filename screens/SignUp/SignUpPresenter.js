@@ -102,17 +102,21 @@ const SignUpPresenter = ({
   changeNickname,
   changeEmail,
   handleSubmit,
-  isCheckedUsername,
+  handleCheckedUsername,
   isAlreadyId,
   showIdCheckStatus,
   isFetchIdCheck,
-  isCheckedPassword,
+  handleCheckedPassword,
   showPwdCheckStatus,
   isSamePassword,
-  isCheckedNickname,
+  handleCheckedNickname,
   isFetchNicknameCheck,
   isAlreadyNickname,
-  showNicknameCheckStatus
+  showNicknameCheckStatus,
+  handleCheckedEmail,
+  isAlreadyEmail,
+  isFetchEmailCheck,
+  showEmailCheckStatus
 }) => (
   <Container>
     <KeyboardAware
@@ -149,7 +153,7 @@ const SignUpPresenter = ({
                 this.passwordRefOne.focus();
               }
             }}
-            onBlur={isCheckedUsername}
+            onBlur={handleCheckedUsername}
           />
         </TextBox>
         <TextBox>
@@ -184,7 +188,7 @@ const SignUpPresenter = ({
             value={password2}
             onChangeText={changePasswordTwo}
             onSubmitEditing={() => this.nicknameRef.focus()}
-            onBlur={isCheckedPassword}
+            onBlur={handleCheckedPassword}
           />
         </TextBox>
         <TextBox>
@@ -210,11 +214,22 @@ const SignUpPresenter = ({
             value={nickname}
             onChangeText={changeNickname}
             onSubmitEditing={() => this.emailRef.focus()}
-            onBlur={isCheckedNickname}
+            onBlur={handleCheckedNickname}
           />
         </TextBox>
         <TextBox>
-          <EmptyIcon />
+          {isFetchEmailCheck ? (
+            // 아이디 체크 중이면 indicator 띄우고 사용 가능 여부에 따라 o 또는 x 표시
+            <ActivityIndicator color="black" />
+          ) : showEmailCheckStatus ? (
+            isAlreadyEmail ? (
+              <FontAwesome name="check" color={DARK_GREEN} size={RFValue(20)} />
+            ) : (
+              <FontAwesome name="close" color={LIGHT_RED} size={RFValue(20)} />
+            )
+          ) : (
+            <EmptyIcon />
+          )}
           <TextInput
             ref={emailRef => (this.emailRef = emailRef)}
             placeholder="이메일 *비밀번호 분실시 필요*"
@@ -225,6 +240,7 @@ const SignUpPresenter = ({
             value={email}
             onChangeText={changeEmail}
             onSubmitEditing={handleSubmit}
+            onBlur={handleCheckedEmail}
           />
         </TextBox>
         <TextBox>
