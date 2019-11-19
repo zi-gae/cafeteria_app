@@ -26,12 +26,12 @@ const postDormitoryOut = (
   dormitoryOutEndtDay,
   dormitoryOutReason
 ) => {
-  return async (dispatch, getState) => {
+  return (dispatch, getState) => {
     const {
       user: { token }
     } = getState();
 
-    await fetch(`${URL}/crawler/dormitory/`, {
+    return fetch(`${URL}/crawler/dormitory/`, {
       method: "post",
       headers: {
         Authorization: `JWT ${token}`,
@@ -59,19 +59,19 @@ const postDormitoryOut = (
       .then(json => {
         const { message } = json;
         if (message.includes("비밀번호 입력")) {
-          dispatch(dormitoryOut("pwdwrong"));
+          return "pwdwrong";
         } else if (message.includes("비밀번호 5회")) {
-          dispatch(dormitoryOut("idlock"));
+          return "idlock";
         } else if (message.includes("같은 기간에")) {
-          dispatch(dormitoryOut("overlap"));
+          return "overlap";
         } else if (message.includes("생활관생만")) {
-          dispatch(dormitoryOut("notaccess"));
+          return "notaccess";
         } else if (message.includes("날짜")) {
-          dispatch(dormitoryOut("error"));
+          return "error";
         } else if (message.includes("이내로")) {
-          dispatch(dormitoryOut("applyOver"));
+          return "applyOver";
         } else {
-          dispatch(dormitoryOut("success"));
+          return "success";
         }
       });
   };

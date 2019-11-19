@@ -22,7 +22,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dormitoryOutEndtDay,
       dormitoryOutReason
     ) => {
-      dispatch(
+      return dispatch(
         crawlerActions.postDormitoryOut(
           collegeStudentId,
           collegeStudentPwd,

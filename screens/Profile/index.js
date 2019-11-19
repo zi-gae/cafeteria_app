@@ -13,15 +13,15 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     modifyMyProfile: (profileImage, nickname) => {
-      dispatch(userActions.putProfile(profileImage, nickname));
+      return dispatch(userActions.putProfile(profileImage, nickname));
     },
     logout: () => {
       dispatch(userActions.logOut());
+    },
+    dispatchIsAlreadyNickname: nickname => {
+      return dispatch(userActions.alreadyNickname(nickname));
     }
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ProfileContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileContainer);

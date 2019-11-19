@@ -35,19 +35,12 @@ class ProfileContainer extends Component {
 
   static propTypes = {
     modifyMyProfile: PropTypes.func.isRequired,
-    logout: PropTypes.func.isRequired
+    logout: PropTypes.func.isRequired,
+    dispatchIsAlreadyNickname: PropTypes.func.isRequired
   };
 
   componentDidMount() {
     this.getPermissionAsync();
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.user.profile.profile_image) {
-      this.setState({
-        isProfileImageSubmitting: false
-      });
-    }
   }
 
   getPermissionAsync = async () => {
@@ -97,30 +90,45 @@ class ProfileContainer extends Component {
     navigate("StudentAuthentication");
   };
 
-  changeProfile = () => {
-    const { modifyMyProfile } = this.props;
+  changeProfile = async () => {
+    const { modifyMyProfile, dispatchIsAlreadyNickname } = this.props;
     const { nickname } = this.state;
-    if (nickname.length < 2) {
-      Alert.alert("알림💡", "두 글자 이상 입력해주세요!", [
-        { text: "OK", onPress: () => {} }
-      ]);
-    } else if (nickname.length > 11) {
-      Alert.alert("알림💡", "열 글자 이하로 입력해주세요!", [
+    if (nickname.length < 2 && nickname.length > 11) {
+      Alert.alert("알림💡", "닉네임은 2~10 글자로 사용 해주세요!", [
         { text: "OK", onPress: () => {} }
       ]);
     } else {
-      modifyMyProfile(null, nickname);
-      this.setState(
-        {
-          nickname: "",
-          isOpenNicknameInput: false
-        },
-        () => {
-          Alert.alert("알림💡", "변경되었어요!", [
-            { text: "OK", onPress: () => {} }
-          ]);
-        }
-      );
+      this.setState({
+        isProfileImageSubmitting: true
+      });
+      const result = await dispatchIsAlreadyNickname(nickname);
+      if (result) {
+        await modifyMyProfile(null, nickname);
+        this.setState(
+          {
+            nickname: "",
+            isOpenNicknameInput: false,
+            isProfileImageSubmitting: false
+          },
+          () => {
+            Alert.alert("알림💡", "변경되었어요!", [
+              { text: "OK", onPress: () => {} }
+            ]);
+          }
+        );
+      } else {
+        this.setState(
+          {
+            nickname: "",
+            isOpenNicknameInput: true
+          },
+          () => {
+            Alert.alert("알림💡", "이미 사용중인 별명이에요", [
+              { text: "OK", onPress: () => {} }
+            ]);
+          }
+        );
+      }
     }
   };
 
@@ -147,8 +155,14 @@ class ProfileContainer extends Component {
       this.setState({
         isProfileImageSubmitting: true
       });
-      modifyMyProfile(result.uri, null);
-      this.setState({ image: result.uri });
+      const modifyResult = await modifyMyProfile(result.uri, null);
+      if (modifyResult) {
+        this.setState({ isProfileImageSubmitting: false, image: result.uri });
+      } else {
+        Alert.alert("알림💡", "서버에 문제가 생겼어요. 다시 시도 해주세요", [
+          { text: "OK" }
+        ]);
+      }
     }
   };
 

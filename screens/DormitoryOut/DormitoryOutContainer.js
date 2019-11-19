@@ -53,10 +53,6 @@ class DormitoryOutContainer extends Component {
     location: PropTypes.object
   };
 
-  componentWillReceiveProps(nextProps) {
-    this.handleErrorAlert(nextProps.dormitoryOutState);
-  }
-
   componentDidMount() {
     let today = new Date();
     const dd = String(today.getDate()).padStart(2, "0");
@@ -139,15 +135,16 @@ class DormitoryOutContainer extends Component {
     }
   };
 
-  handleSubmit = () => {
+  handleSubmit = async () => {
+    const { handleErrorAlert } = this;
     const {
       collegeStudentId,
       collegeStudentPwd,
       dormitoryOutStartDay,
       dormitoryOutEndDay,
-      dormitoryOutReason
+      dormitoryOutReason,
+      isSubmitting
     } = this.state;
-    const { isSubmitting } = this.state;
     const { dormitoryOut } = this.props;
 
     if (!isSubmitting) {
@@ -162,13 +159,14 @@ class DormitoryOutContainer extends Component {
           isSubmitting: true,
           TextInputDisable: false
         });
-        dormitoryOut(
+        const result = await dormitoryOut(
           collegeStudentId,
           collegeStudentPwd,
           dormitoryOutStartDay,
           dormitoryOutEndDay,
           dormitoryOutReason
         );
+        handleErrorAlert(result);
       } else {
         Alert.alert("알림💡", "모두 입력해주세요!", [
           { text: "OK", onPress: () => {} }

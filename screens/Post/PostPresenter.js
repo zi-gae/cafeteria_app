@@ -1,17 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import TakePost from "../TakePost";
 import Layout from "../../constants/Layout";
 import { RFValue } from "react-native-responsive-fontsize";
-import { BODER_COLOR, LIGTH_GREEN } from "../../constants/Color";
+import { BODER_COLOR, LIGTH_GREEN, LIGHT_GREY } from "../../constants/Color";
 import { EvilIcons } from "@expo/vector-icons";
 
 const Container = styled.View`
   flex: 1;
   align-items: center;
 `;
-
 const ScrollContainer = styled.ScrollView`
   margin-top: 10px;
   width: ${Layout.width};
@@ -38,10 +38,19 @@ const WriteButton = styled.View`
   border-color: ${BODER_COLOR};
   border-radius: ${RFValue(18)};
 `;
-
 const WriteText = styled.Text`
   font-size: ${RFValue(13)};
   margin-left: ${RFValue(6)};
+`;
+const GuideBox = styled.View`
+  margin-top: ${Layout.height / 3};
+  align-items: center;
+  justify-content: center;
+`;
+const GuideText = styled.Text`
+  color: ${LIGHT_GREY};
+  font-size: ${RFValue(17)};
+  font-weight: 500;
 `;
 
 const PostPresenter = ({
@@ -75,21 +84,29 @@ const PostPresenter = ({
     >
       {fetchPost ? <ActivityIndicator size="small" color="black" /> : null}
       <PostContainer>
-        {posts
-          ? posts.map((post, index) => {
-              if (index < postLength) {
-                return (
-                  <TakePost
-                    {...post}
-                    key={post.id}
-                    univAuthentication={univAuthentication}
-                  />
-                );
-              } else {
-                return null;
-              }
-            })
-          : null}
+        {posts && posts.length > 0 ? (
+          posts.map((post, index) => {
+            if (index < postLength) {
+              return (
+                <TakePost
+                  {...post}
+                  key={post.id}
+                  univAuthentication={univAuthentication}
+                />
+              );
+            }
+          })
+        ) : (
+          <GuideBox>
+            <MaterialCommunityIcons
+              name={"pencil-off"}
+              size={RFValue(50)}
+              color={LIGHT_GREY}
+            />
+            <GuideText>작성된 게시글이 없어요</GuideText>
+            <GuideText>게시글을 첫 게시글을 작성해 주세요</GuideText>
+          </GuideBox>
+        )}
       </PostContainer>
     </ScrollContainer>
     {navigation.state.params ? null : (

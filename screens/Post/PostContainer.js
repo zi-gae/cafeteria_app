@@ -133,10 +133,15 @@ class PostContainer extends Component {
     });
     const result = await dispatchCreatePost(title, content, image, anonymous);
     if (result) {
-      console.log(result);
       this.setState({
         fetchPost: false
       });
+    } else {
+      Alert.alert("알림💡", "서버 에러 발생. 다시 시도 해주세요", [
+        {
+          text: "OK"
+        }
+      ]);
     }
   };
 

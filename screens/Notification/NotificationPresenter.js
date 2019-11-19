@@ -62,9 +62,12 @@ const NotificationPresenter = ({
     }
   >
     <PostContainer>
-      {notification ? (
-        <NotFount>알림이 없습니다.</NotFount>
-      ) : notification.length === 0 ? (
+      {notification === undefined ? (
+        <GuideBox>
+          <FontAwesome name={"bell-o"} size={RFValue(50)} color={LIGHT_GREY} />
+          <GuideText>알림이 없네요..</GuideText>
+        </GuideBox>
+      ) : notification.length < 1 ? (
         <GuideBox>
           <FontAwesome name={"bell-o"} size={RFValue(50)} color={LIGHT_GREY} />
           <GuideText>알림이 없네요..</GuideText>

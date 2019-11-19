@@ -1,6 +1,6 @@
 //import
 
-import { URL } from "../../constants";
+import { URL, TOKEN } from "../../constants";
 import { AsyncStorage } from "react-native";
 import axios from "axios";
 import uuidv1 from "uuid/v1";
@@ -177,7 +177,7 @@ const putProfile = (profileImage, nickname) => {
         formData.append("profile_image", null);
       }
     }
-    axios(`${URL}/users/${username}/`, {
+    return axios(`${URL}/users/${username}/`, {
       method: "put",
       headers: {
         Authorization: `JWT ${token}`
@@ -185,9 +185,13 @@ const putProfile = (profileImage, nickname) => {
       data: formData
     }).then(res => {
       if (res.status === 401) {
-        return dispatch(logOut());
+        dispatch(logOut());
+        return false;
+      } else if (res.status === 200) {
+        dispatch(reqModifyNickname(res.data));
+        return true;
       } else {
-        return dispatch(reqModifyNickname(res.data));
+        return false;
       }
     });
   };
@@ -223,7 +227,7 @@ const alreadyUsername = username => {
     return fetch(`${URL}/users/${username}/already_id/`, {
       method: "get",
       headers: {
-        Authorization: `JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo3OSwidXNlcm5hbWUiOiJwdWJsaWNrZXkiLCJleHAiOjE1NzQxMDU1MTksImVtYWlsIjoicHVibGljQG5hdmVyLmNvbSJ9.La4CVytDEcnPYg1UYx5VfMjK5smLLMvL9Df8pUkZu7A`
+        Authorization: `JWT ${TOKEN}`
       }
     }).then(res => {
       if (res.status === 202) {
@@ -240,7 +244,7 @@ const alreadyNickname = username => {
     return fetch(`${URL}/users/${username}/already_nickname/`, {
       method: "get",
       headers: {
-        Authorization: `JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo3OSwidXNlcm5hbWUiOiJwdWJsaWNrZXkiLCJleHAiOjE1NzQxMDU1MTksImVtYWlsIjoicHVibGljQG5hdmVyLmNvbSJ9.La4CVytDEcnPYg1UYx5VfMjK5smLLMvL9Df8pUkZu7A`
+        Authorization: `JWT ${TOKEN}`
       }
     }).then(res => {
       if (res.status === 202) {
@@ -257,7 +261,7 @@ const alreadyEmail = email => {
     return fetch(`${URL}/users/${email}/already_email/`, {
       method: "get",
       headers: {
-        Authorization: `JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo3OSwidXNlcm5hbWUiOiJwdWJsaWNrZXkiLCJleHAiOjE1NzQxMDU1MTksImVtYWlsIjoicHVibGljQG5hdmVyLmNvbSJ9.La4CVytDEcnPYg1UYx5VfMjK5smLLMvL9Df8pUkZu7A`
+        Authorization: `JWT ${TOKEN}`
       }
     }).then(res => {
       if (res.status === 202) {

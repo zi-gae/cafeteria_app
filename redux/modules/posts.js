@@ -311,7 +311,7 @@ const deletePost = postId => {
     const {
       user: { token }
     } = getState();
-    fetch(`${URL}/posts/${postId}/`, {
+    return fetch(`${URL}/posts/${postId}/`, {
       method: "delete",
       headers: {
         Authorization: `JWT ${token}`
@@ -321,6 +321,9 @@ const deletePost = postId => {
         dispatch(userActions.logOut());
       } else if (res.status === 204) {
         dispatch(reqDeletePost(postId));
+        return true;
+      } else {
+        return false;
       }
     });
   };
@@ -338,12 +341,11 @@ const createPost = (title, content, file, anonymous) => {
       name: `${uuidv1()}.jpg`
     });
   }
-
   return (dispatch, getState) => {
     const {
       user: { token }
     } = getState();
-    fetch(`${URL}/posts/`, {
+    return fetch(`${URL}/posts/`, {
       method: "post",
       headers: {
         Authorization: `JWT ${token}`,
@@ -354,12 +356,17 @@ const createPost = (title, content, file, anonymous) => {
       .then(res => {
         if (res.status === 401) {
           dispatch(userActions.logOut());
-        } else {
+          return false;
+        } else if (res.status === 201) {
           dispatch(getPost());
           dispatch(reqCreatePost());
+          return true;
         }
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.log(err);
+        return false;
+      });
   };
 };
 
