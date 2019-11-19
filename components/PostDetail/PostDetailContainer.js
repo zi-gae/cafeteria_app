@@ -86,14 +86,13 @@ class PostDetailContainer extends Component {
       push_token
     } = this.props;
     const { message, anonymousIsChecked, referComment } = this.state;
-    this.setState({
-      isSubmitting: true
-    });
-    if (message.length < 1) {
-      Alert.alert("알림💡", "댓글을 입력해주세요!", [
-        { text: "확인", onPress: () => {} }
-      ]);
+
+    if (message.trim().length < 2) {
+      Alert.alert("알림💡", "2 글자 이상 입력해주세요!", [{ text: "확인" }]);
     } else {
+      this.setState({
+        isSubmitting: true
+      });
       if (referComment === 0) {
         await dispatchCommentPost(message, anonymousIsChecked, push_token);
       } else {

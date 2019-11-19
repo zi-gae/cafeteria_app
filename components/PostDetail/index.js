@@ -54,7 +54,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       }
     },
     dispatchCommentPost: (message, isChecked, push_token) => {
-      dispatch(postActions.commentPost(id, message, isChecked, push_token));
+      return dispatch(
+        postActions.commentPost(id, message, isChecked, push_token)
+      );
     },
     dispatchOnCommentPost: (
       commentId,
