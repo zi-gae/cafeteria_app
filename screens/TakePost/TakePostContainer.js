@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Alert } from "react-native";
+import PropTypes from "prop-types";
 import TakePostPresenter from "./TakePostPresenter";
 
 class TakePostContainer extends Component {
@@ -10,6 +11,10 @@ class TakePostContainer extends Component {
       likeCount: props.like_count
     };
   }
+
+  static propsTypes = {
+    univ_authentication: PropTypes.bool.isRequired
+  };
 
   handleTakePress = result => {
     const { isLiked, likeCount } = this.state;
@@ -87,7 +92,7 @@ class TakePostContainer extends Component {
       title,
       is_liked,
       navigation,
-      univAuthentication
+      univ_authentication
     } = this.props;
     const { isLiked, likeCount } = this.state;
     const {
@@ -115,7 +120,7 @@ class TakePostContainer extends Component {
         isLiked={isLiked}
         likeCount={likeCount}
         alertAccessAuthentication={alertAccessAuthentication}
-        univAuthentication={univAuthentication}
+        univAuthentication={univ_authentication}
         handleNavigatePostDetail={handleNavigatePostDetail}
       />
     );
