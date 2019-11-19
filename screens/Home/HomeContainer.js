@@ -11,6 +11,10 @@ const Image = styled.Image`
 `;
 
 class HomeContainer extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   static navigationOptions = ({ navigation }) => ({
     headerLeft: (
       <Image
@@ -26,6 +30,12 @@ class HomeContainer extends Component {
       />
     )
   });
+
+  componentDidMount = async () => {
+    const { initApp } = this.props;
+    await initApp();
+  };
+
   render() {
     const {
       navigation: { navigate }
