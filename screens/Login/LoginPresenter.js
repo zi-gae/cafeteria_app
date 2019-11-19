@@ -55,7 +55,6 @@ const BtnText = styled.Text`
   text-align: center;
   font-size: 14px;
 `;
-const StatusBar = styled.StatusBar``;
 const ActivityIndicator = styled.ActivityIndicator``;
 
 const Footer = styled.View`
