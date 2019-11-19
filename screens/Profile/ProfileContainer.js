@@ -213,8 +213,12 @@ class ProfileContainer extends Component {
       handleNavigatePrivacy,
       handleNavigateStudentAuth
     } = this;
-    const { user } = this.props;
-
+    const {
+      user,
+      user: {
+        profile: { univ_authentication }
+      }
+    } = this.props;
     return (
       <ProfilePresenter
         handleNicknameInput={handleNicknameInput}
@@ -230,6 +234,7 @@ class ProfileContainer extends Component {
         clickedAppVersion={clickedAppVersion}
         handleNavigatePrivacy={handleNavigatePrivacy}
         handleNavigateStudentAuth={handleNavigateStudentAuth}
+        univAuthentication={univ_authentication}
       />
     );
   }
