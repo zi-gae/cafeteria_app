@@ -2,7 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import TimeStamp from "../TimeStamp";
 import PostActions from "../PostActions";
-import { BODER_COLOR, LIGTH_GREEN, LIGHT_GREY } from "../../constants/Color";
+import {
+  BODER_COLOR,
+  LIGTH_GREEN,
+  LIGHT_GREY,
+  LIGHT_RED
+} from "../../constants/Color";
 import Layout from "../../constants/Layout";
 import PropTypes from "prop-types";
 import { RFValue } from "react-native-responsive-fontsize";
@@ -37,6 +42,7 @@ const CreatorBox = styled.View`
   justify-content: flex-start;
 `;
 const Creator = styled.Text`
+  color: ${props => (props.isAdmin ? `${LIGHT_RED}` : "black")};
   font-weight: bold;
   font-size: ${RFValue(15)};
   margin-bottom: ${RFValue(2)};
@@ -161,16 +167,17 @@ const ActionBox = styled.View`
   border-radius: 5px;
 `;
 const OnCommentIcon = styled.TouchableOpacity`
-  border-right-width: 1px;
-  border-style: solid;
-  border-color: ${BODER_COLOR};
-  margin-right: ${RFValue(5)};
-  padding-right: ${RFValue(3)};
+  padding-right: ${props => (props.isOwnComment ? `${RFValue(2)}` : "0px")};
+  padding-top: ${props => (props.isComment ? `${RFValue(4)}` : "0px")};
+  padding-bottom: ${props => (props.isComment ? `${RFValue(4)}` : "0px")};
   align-items: center;
   justify-content: center;
 `;
 const CommentDeleteIcon = styled.TouchableOpacity`
-  padding-left: ${RFValue(1)};
+  border-left-width: ${props => (props.isOnComment ? "0px" : "1px")};
+  border-color: ${props => (props.isOnComment ? "white" : `${BODER_COLOR}`)};
+  padding-left: ${props =>
+    props.isOnComment ? `${RFValue(2)}` : `${RFValue(5)}`};
   padding-right: ${RFValue(1)};
   align-items: center;
   justify-content: center;
@@ -226,7 +233,9 @@ const PostDetailPresenter = ({
             }
           />
           <CreatorBox>
-            <Creator>{anonymous ? "익명이" : creator.name}</Creator>
+            <Creator isAdmin={creator.username === "admin" ? true : false}>
+              {anonymous ? "익명이" : creator.name}
+            </Creator>
             <TimeStamp time={natural_time} />
           </CreatorBox>
           <PostActionBox>
@@ -270,6 +279,7 @@ const PostDetailPresenter = ({
                 handlePlaceholderChange={handlePlaceholderChange}
                 onChangeCommentId={onChangeCommentId}
                 removeComment={removeComment}
+                profile={profile}
               />
             ))
         : null}
@@ -339,7 +349,8 @@ const Comment = ({
   creator,
   handlePlaceholderChange,
   onChangeCommentId,
-  removeComment
+  removeComment,
+  profile
 }) => (
   <CommentContianer>
     <CommentBox onComment={false}>
@@ -368,6 +379,8 @@ const Comment = ({
         <CommentActionsBox>
           <ActionBox>
             <OnCommentIcon
+              isOwnComment={profile.username === comment.creator.username}
+              isComment={true}
               onPress={() => {
                 this.commentInputRef.focus();
                 handlePlaceholderChange();
@@ -376,18 +389,20 @@ const Comment = ({
             >
               <EvilIcons name="comment" size={18} color={LIGHT_GREY} />
             </OnCommentIcon>
-            <CommentDeleteIcon
-              onPress={() => {
-                removeComment(comment.id);
-              }}
-            >
-              <Ionicons
-                name="ios-close"
-                size={24}
-                color={BODER_COLOR}
-                style={{ marginTop: 2 }}
-              />
-            </CommentDeleteIcon>
+            {profile.username === comment.creator.username ? (
+              <CommentDeleteIcon
+                onPress={() => {
+                  removeComment(comment.id);
+                }}
+              >
+                <Ionicons
+                  name="ios-close"
+                  size={24}
+                  color={BODER_COLOR}
+                  style={{ marginTop: 2 }}
+                />
+              </CommentDeleteIcon>
+            ) : null}
           </ActionBox>
         </CommentActionsBox>
       </CommentCreatorBox>
@@ -434,6 +449,7 @@ const CommentOnComment = ({ comments, parentId, creator, removeComment }) =>
               <CommentActionsBox>
                 <ActionBox>
                   <CommentDeleteIcon
+                    isOnComment={true}
                     onPress={() => {
                       removeComment(comment.id);
                     }}

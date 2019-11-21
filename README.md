@@ -17,8 +17,20 @@
 navigation.navigate("myScreen", {
   ...props
 })
+
+or
+
+navigation.setparams({
+  data
+})
+
+// navigation.state 에 담겨 전달
 ```
 
 ## optimistic update
 - 다음 동작의 결과를 예상하고 미리 액션을 취해 결과 바로 제공
 - 동작은 빠르나 리스크가 있음.
+
+## KeyboardAwareScrollView 
+>npm i react-native-keyboard-aware-scroll-view --save
+- 매우 훌륭한 텍스트인풋 바텀패딩 라이브러리

@@ -24,7 +24,9 @@ const RefreshControl = styled.RefreshControl``;
 const PostContainer = styled.View`
   flex: 1;
 `;
-const Touch = styled.TouchableOpacity``;
+const Touch = styled.TouchableOpacity`
+  position: absolute;
+`;
 const WriteButton = styled.View`
   flex-direction: row;
   justify-content: center;

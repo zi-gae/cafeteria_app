@@ -11,8 +11,9 @@ class RicePostContainer extends PureComponent {
     };
   }
 
-  componentDidMount() {
+  componentDidMount = async () => {
     const { rice, type } = this.props;
+
     let formattingRice = [];
     if (rice) {
       const keys = Object.keys(rice);
@@ -60,7 +61,7 @@ class RicePostContainer extends PureComponent {
         });
       }
     }
-  }
+  };
 
   render() {
     const { rices, today } = this.state;
