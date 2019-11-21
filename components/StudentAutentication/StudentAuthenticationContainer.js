@@ -13,7 +13,7 @@ class StudentAuthenticationContainer extends Component {
       studentNumber: "",
       uploadStudentNumberPhoto: false,
       image: "",
-      editAvailability: false
+      editAvailability: true
     };
   }
 
@@ -37,6 +37,7 @@ class StudentAuthenticationContainer extends Component {
   handleAuthenticationSubmit = async () => {
     const { dispatchAuthentication, navigation } = this.props;
     const { studentNumber, image } = this.state;
+    const { checkStudentNumber } = this;
 
     if (checkStudentNumber(studentNumber)) {
       this.setState({
