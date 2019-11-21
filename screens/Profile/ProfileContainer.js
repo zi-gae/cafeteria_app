@@ -6,10 +6,16 @@ import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
 import { RFValue } from "react-native-responsive-fontsize";
 import ProfilePresenter from "./ProfilePresenter";
+import { LIGTH_GREEN } from "../../constants/Color";
 
 const Image = styled.Image`
   height: ${RFValue(58)};
   width: ${RFValue(58)};
+`;
+const Title = styled.Text`
+  font-weight: 600;
+  font-size: ${RFValue(18)};
+  color: ${LIGTH_GREEN};
 `;
 
 class ProfileContainer extends Component {
@@ -24,7 +30,7 @@ class ProfileContainer extends Component {
   }
 
   static navigationOptions = ({ screenProps }) => ({
-    headerTitle: screenProps.username,
+    headerTitle: <Title>내 정보</Title>,
     headerLeft: (
       <Image
         source={require("../../assets/images/logo.png")}
@@ -120,7 +126,8 @@ class ProfileContainer extends Component {
         this.setState(
           {
             nickname: "",
-            isOpenNicknameInput: true
+            isOpenNicknameInput: true,
+            isProfileImageSubmitting: false
           },
           () => {
             Alert.alert("알림💡", "이미 사용중인 별명이에요", [
