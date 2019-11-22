@@ -26,6 +26,7 @@ const PostContainer = styled.View`
 `;
 const Touch = styled.TouchableOpacity`
   position: absolute;
+  top: 92%;
 `;
 const WriteButton = styled.View`
   flex-direction: row;
@@ -86,29 +87,31 @@ const PostPresenter = ({
     >
       {fetchPost ? <ActivityIndicator size="small" color="black" /> : null}
       <PostContainer>
-        {posts && posts.length > 0 ? (
-          posts.map((post, index) => {
-            if (index < postLength) {
-              return (
-                <TakePost
-                  {...post}
-                  key={post.id}
-                  univAuthentication={univAuthentication}
-                />
-              );
-            }
-          })
-        ) : (
-          <GuideBox>
-            <MaterialCommunityIcons
-              name={"pencil-off"}
-              size={RFValue(50)}
-              color={LIGHT_GREY}
-            />
-            <GuideText>작성된 게시글이 없어요</GuideText>
-            <GuideText>게시글을 첫 게시글을 작성해 주세요</GuideText>
-          </GuideBox>
-        )}
+        {posts ? (
+          posts.length > 0 ? (
+            posts.map((post, index) => {
+              if (index < postLength) {
+                return (
+                  <TakePost
+                    {...post}
+                    key={post.id}
+                    univAuthentication={univAuthentication}
+                  />
+                );
+              }
+            })
+          ) : (
+            <GuideBox>
+              <MaterialCommunityIcons
+                name={"pencil-off"}
+                size={RFValue(50)}
+                color={LIGHT_GREY}
+              />
+              <GuideText>작성된 게시글이 없어요</GuideText>
+              <GuideText>게시글을 첫 게시글을 작성해 주세요</GuideText>
+            </GuideBox>
+          )
+        ) : null}
       </PostContainer>
     </ScrollContainer>
     {navigation.state.params ? null : (
