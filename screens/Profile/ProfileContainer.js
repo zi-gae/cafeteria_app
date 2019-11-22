@@ -226,6 +226,7 @@ class ProfileContainer extends Component {
         profile: { univ_authentication }
       }
     } = this.props;
+
     return (
       <ProfilePresenter
         handleNicknameInput={handleNicknameInput}
