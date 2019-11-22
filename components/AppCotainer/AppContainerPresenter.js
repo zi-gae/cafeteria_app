@@ -43,7 +43,12 @@ class AppContainerPresenter extends Component {
   componentDidMount = async () => {
     const { isLoggedIn, initApp } = this.props;
     if (isLoggedIn) {
-      await initApp();
+      const result = await initApp();
+      if (result) {
+        this.setState({
+          view: true
+        });
+      }
     }
   };
 
@@ -58,6 +63,7 @@ class AppContainerPresenter extends Component {
   render() {
     const { isLoggedIn, profile } = this.props;
     const { view } = this.state;
+
     return (
       <>
         <StatusBar

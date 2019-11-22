@@ -78,11 +78,11 @@ const postDormitoryOut = (
 };
 
 const getRice = () => {
-  return async (dispatch, getState) => {
+  return (dispatch, getState) => {
     const {
       user: { token }
     } = getState();
-    fetch(`${URL}/crawler/rice/`, {
+    return fetch(`${URL}/crawler/rice/`, {
       method: "get",
       headers: {
         Authorization: `JWT ${token}`
