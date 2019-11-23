@@ -49,7 +49,7 @@ class NotificationContainer extends Component {
   handleNotificationLength = () => {
     const { notification } = this.props;
     const { notificationLength } = this.state;
-    const lenght = notification.length;
+    const lenght = notification ? notification.length : 0;
 
     if (lenght > notificationLength) {
       this.setState({

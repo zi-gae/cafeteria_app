@@ -53,7 +53,7 @@ class ProfileContainer extends Component {
     if (Platform.OS === "ios") {
       const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
       if (status !== "granted") {
-        alert("Sorry, we need camera roll permissions to make this work!");
+        alert("갤러리 접근 권한이 없네요...");
       }
     }
   };
@@ -99,7 +99,7 @@ class ProfileContainer extends Component {
   changeProfile = async () => {
     const { modifyMyProfile, dispatchIsAlreadyNickname } = this.props;
     const { nickname } = this.state;
-    if (nickname.length < 2 && nickname.length > 11) {
+    if (nickname.length < 2 && nickname.length > 1) {
       Alert.alert("알림💡", "닉네임은 2~10 글자로 사용 해주세요!", [
         { text: "OK", onPress: () => {} }
       ]);
@@ -147,7 +147,7 @@ class ProfileContainer extends Component {
   };
 
   clickedAppVersion = () => {
-    Alert.alert("💡Beta💡", "0.8.1", [{ text: "OK", onPress: () => {} }]);
+    Alert.alert("💡Beta💡", "1.0.4", [{ text: "OK", onPress: () => {} }]);
   };
 
   pickImage = async () => {

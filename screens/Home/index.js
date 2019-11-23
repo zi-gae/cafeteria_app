@@ -19,8 +19,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     initApp: () => {
       dispatch(crawlerActions.getRice());
-      dispatch(postActions.emptySearch());
       dispatch(userActions.getNotification());
+    },
+    dispatchGetPost: () => {
+      dispatch(userActions.getNotification());
+      return dispatch(postActions.getPost());
     }
   };
 };

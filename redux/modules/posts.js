@@ -73,7 +73,7 @@ const getPost = () => {
     const {
       user: { token }
     } = getState();
-    fetch(`${URL}/posts/`, {
+    return fetch(`${URL}/posts/`, {
       method: "get",
       headers: {
         Authorization: `JWT ${token}`
@@ -86,7 +86,10 @@ const getPost = () => {
           return res.json();
         }
       })
-      .then(json => dispatch(reqSetPost(json)));
+      .then(json => {
+        dispatch(reqSetPost(json));
+        return true;
+      });
   };
 };
 

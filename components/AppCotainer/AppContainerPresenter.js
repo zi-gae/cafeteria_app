@@ -13,6 +13,7 @@ class AppContainerPresenter extends Component {
     this.state = {
       view: false
     };
+    this.getPermissionAsync();
   }
 
   static propTypes = {
@@ -20,24 +21,6 @@ class AppContainerPresenter extends Component {
     pushToken: PropTypes.string,
     initApp: PropTypes.func.isRequired,
     dispatchPostToken: PropTypes.func.isRequired
-  };
-
-  componentWillUpdate = async () => {
-    const { dispatchPostToken } = this.props;
-    const { status: existingStatus } = await Permissions.getAsync(
-      Permissions.NOTIFICATIONS
-    );
-    let finalStatus = existingStatus;
-    if (existingStatus !== "granted") {
-      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-      finalStatus = status;
-    }
-    if (finalStatus !== "granted") {
-      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-      finalStatus = status;
-    }
-    let token = await Notifications.getExpoPushTokenAsync();
-    dispatchPostToken(token);
   };
 
   componentDidMount = async () => {
@@ -59,6 +42,32 @@ class AppContainerPresenter extends Component {
       });
     }
   }
+
+  getPermissionAsync = async () => {
+    if (Platform.OS === "ios") {
+      const { dispatchPostToken } = this.props;
+      const { status: existingStatus } = await Permissions.getAsync(
+        Permissions.NOTIFICATIONS
+      );
+      let finalStatus = existingStatus;
+      if (existingStatus !== "granted") {
+        const { status } = await Permissions.askAsync(
+          Permissions.NOTIFICATIONS
+        );
+        finalStatus = status;
+      }
+      if (finalStatus !== "granted") {
+        const { status } = await Permissions.askAsync(
+          Permissions.NOTIFICATIONS
+        );
+        finalStatus = status;
+      }
+      let token = await Notifications.getExpoPushTokenAsync();
+      dispatchPostToken(token);
+      if (status !== "granted") {
+      }
+    }
+  };
 
   render() {
     const { isLoggedIn, profile } = this.props;

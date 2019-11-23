@@ -5,13 +5,14 @@ import { actionCreators as userActions } from "../../redux/modules/user";
 import { actionCreators as crawlerActions } from "../../redux/modules/crawlers";
 
 const mapStateToProps = (state, ownProps) => {
-  const { user, crawlers } = state;
+  const { user, crawlers, posts } = state;
 
   return {
     isLoggedIn: user.isLoggedIn,
     profile: user.profile,
     pushToken: user.push_token,
-    crawlers
+    crawlers,
+    posts
   };
 };
 

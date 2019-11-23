@@ -32,8 +32,11 @@ class HomeContainer extends Component {
   });
 
   componentDidMount = async () => {
-    const { initApp, crawlers } = this.props;
+    const { initApp, crawlers, posts, dispatchGetPost } = this.props;
     const rices = crawlers.rice;
+    if (!posts) {
+      await dispatchGetPost();
+    }
     if (Object.entries(rices).length === 0 && rices.constructor === Object) {
       await initApp();
     }
