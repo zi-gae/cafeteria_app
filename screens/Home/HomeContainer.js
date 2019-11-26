@@ -36,8 +36,12 @@ class HomeContainer extends Component {
     const rices = crawlers.rice;
     if (!posts) {
       await dispatchGetPost();
+      await initApp();
     }
-    if (Object.entries(rices).length === 0 && rices.constructor === Object) {
+    if (
+      rices ||
+      (Object.entries(rices).length === 0 && rices.constructor === Object)
+    ) {
       await initApp();
     }
   };

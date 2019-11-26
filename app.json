@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "cafeteria",
+    "name": "동명대학식이",
     "slug": "cafeteria_app",
     "privacy": "public",
     "sdkVersion": "35.0.0",
     "platforms": ["ios", "android", "web"],
-    "version": "1.0.4",
+    "version": "1.0.5",
     "orientation": "portrait",
     "icon": "./assets/images/splash.png",
     "splash": {

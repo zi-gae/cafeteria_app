@@ -55,7 +55,14 @@ class StudentAuthenticationContainer extends Component {
         Alert.alert(
           "알림💡",
           "인증 요청 완료하였습니다. 최대 2~3일까지 걸릴 수 있어요ㅠ",
-          [{ text: "OK", onPress: () => {} }]
+          [
+            {
+              text: "OK",
+              onPress: () => {
+                navigation.goBack(null);
+              }
+            }
+          ]
         );
       } else {
         this.setState({

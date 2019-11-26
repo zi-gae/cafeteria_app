@@ -9,12 +9,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       return dispatch(userActions.login(username, password));
     },
     dispatchGetRice: () => {
-      dispatch(crawlerActions.getRice());
+      return dispatch(crawlerActions.getRice());
     }
   };
 };
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(LoginContainer);
+export default connect(null, mapDispatchToProps)(LoginContainer);

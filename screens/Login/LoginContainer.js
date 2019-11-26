@@ -28,12 +28,13 @@ class LoginContainer extends Component {
           isSubmitting: true
         });
         const loginResult = await dispatchLogin(username, password);
-        await dispatchGetRice();
         if (!loginResult) {
           Alert.alert("아이디 또는 비밀번호가 틀렸습니다. 다시 시도 해주세요!");
           this.setState({
             isSubmitting: false
           });
+        } else {
+          await dispatchGetRice();
         }
       } else {
         if (!username) {
