@@ -47,7 +47,8 @@ class PostDetailContainer extends Component {
     dispatchOnCommentPost: PropTypes.func.isRequired,
     dispatchPutPost: PropTypes.func.isRequired,
     dispatchDeletePost: PropTypes.func.isRequired,
-    push_token: PropTypes.string.isRequired
+    push_token: PropTypes.string.isRequired,
+    dispatchCrimeReport: PropTypes.func.isRequired
   };
 
   componentWillMount() {
@@ -186,6 +187,40 @@ class PostDetailContainer extends Component {
     ]);
   };
 
+  submitCrimeReport = async () => {
+    const { dispatchCrimeReport } = this.props;
+    const result = await dispatchCrimeReport();
+    if (result) {
+      Alert.alert("알림💡", "신고가 완료 되었습니다.", [{ text: "확인" }]);
+    } else {
+      Alert.alert("알림💡", "서버에 문제가 발생했어요. 다시 시도 해주세요ㅠ.", [
+        { text: "확인" }
+      ]);
+    }
+  };
+
+  handleSheetCrimeReport = async index => {
+    const { submitCrimeReport } = this;
+    if (index === 1) {
+      Alert.alert(
+        "신고하시겠어요?",
+        "신고는 반대의견을 나타내는 기능이 아닙니다.",
+        [
+          {
+            text: "취소",
+            onPress: () => {}
+          },
+          {
+            text: "확인",
+            onPress: () => {
+              submitCrimeReport();
+            }
+          }
+        ]
+      );
+    }
+  };
+
   handleSheetPress = index => {
     const {
       navigation: { navigate, goBack },
@@ -264,7 +299,8 @@ class PostDetailContainer extends Component {
       handlePlaceholderChange,
       onChangeCommentId,
       handleSheetPress,
-      removeComment
+      removeComment,
+      handleSheetCrimeReport
     } = this;
     const {
       postInfo: {
@@ -314,6 +350,7 @@ class PostDetailContainer extends Component {
         handleSheetPress={handleSheetPress}
         profile={profile}
         isPhotoSubmitting={isPhotoSubmitting}
+        handleSheetCrimeReport={handleSheetCrimeReport}
       />
     );
   }

@@ -84,6 +84,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     dispatchDeletePost: () => {
       dispatch(postActions.deletePost(id));
+    },
+    dispatchCrimeReport: () => {
+      return dispatch(postActions.postCrimeReport(id));
     }
   };
 };

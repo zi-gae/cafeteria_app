@@ -373,6 +373,28 @@ const createPost = (title, content, file, anonymous) => {
   };
 };
 
+const postCrimeReport = id => {
+  return (dispatch, getState) => {
+    const {
+      user: { token }
+    } = getState();
+    return fetch(`${URL}/posts/${id}/report/`, {
+      method: "post",
+      headers: {
+        Authorization: `JWT ${token}`,
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      }
+    }).then(res => {
+      if (res.status === 201) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+  };
+};
+
 //inital state
 
 const initalState = {};
@@ -512,7 +534,8 @@ const actionCreators = {
   putPost,
   deletePost,
   createPost,
-  onCommentPost
+  onCommentPost,
+  postCrimeReport
 };
 
 export { actionCreators };

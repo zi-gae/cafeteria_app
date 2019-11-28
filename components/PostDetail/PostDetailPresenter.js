@@ -220,7 +220,8 @@ const PostDetailPresenter = ({
   isSubmitting,
   handleSheetPress,
   profile,
-  isPhotoSubmitting
+  isPhotoSubmitting,
+  handleSheetCrimeReport
 }) => (
   <Container>
     <ScrollView showsVerticalScrollIndicator={false}>
@@ -336,7 +337,11 @@ const PostDetailPresenter = ({
       options={profile.username === creator.username ? options : crimeReport}
       cancelButtonIndex={CANCEL_INDEX}
       destructiveButtonIndex={DESTRUCTIVE_INDEX}
-      onPress={handleSheetPress}
+      onPress={
+        profile.username === creator.username
+          ? handleSheetPress
+          : handleSheetCrimeReport
+      }
     />
     <SafeAreaBottom keyboardView={keyboardView} />
   </Container>
@@ -501,7 +506,8 @@ PostDetailPresenter.propTypes = {
   message: PropTypes.string.isRequired,
   onChangeComment: PropTypes.func.isRequired,
   submitComment: PropTypes.func.isRequired,
-  isPhotoSubmitting: PropTypes.bool.isRequired
+  isPhotoSubmitting: PropTypes.bool.isRequired,
+  handleSheetCrimeReport: PropTypes.func.isRequired
 };
 
 export default PostDetailPresenter;
