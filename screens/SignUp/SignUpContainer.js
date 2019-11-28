@@ -48,11 +48,11 @@ class SignUpContainer extends Component {
     });
     if (code === true) {
       Alert.alert("알림💡", "가입 축하드립니다.", [
-        { text: "OK", onPress: () => handleAccountAction() }
+        { text: "확인", onPress: () => handleAccountAction() }
       ]);
     } else {
       Alert.alert("알림💡", "서버에 문제가 생겼어요. 다시 시도 해주세요ㅠ", [
-        { text: "OK", onPress: () => {} }
+        { text: "확인", onPress: () => {} }
       ]);
     }
   };
@@ -120,7 +120,7 @@ class SignUpContainer extends Component {
         } else if (!result) {
           Alert.alert("알림💡", "이미 사용된 이메일입니다", [
             {
-              text: "OK",
+              text: "확인",
               onPress: () => {
                 this.setState({
                   email: "",
@@ -169,7 +169,7 @@ class SignUpContainer extends Component {
         } else if (!result) {
           Alert.alert("알림💡", "이미 존재하는 별명입니다", [
             {
-              text: "OK",
+              text: "확인",
               onPress: () => {
                 this.setState({
                   nickname: "",
@@ -216,7 +216,7 @@ class SignUpContainer extends Component {
       } else {
         Alert.alert("알림💡", "비밀번호가 일치하지 않습니다", [
           {
-            text: "OK",
+            text: "확인",
             onPress: () => {
               this.setState({
                 password1: "",
@@ -252,7 +252,7 @@ class SignUpContainer extends Component {
       } else if (!result) {
         Alert.alert("알림💡", "이미 존재하는 아이디입니다", [
           {
-            text: "OK",
+            text: "확인",
             onPress: () => {
               this.setState({
                 username: "",
@@ -279,7 +279,7 @@ class SignUpContainer extends Component {
     if (!emailRule.test(email)) {
       Alert.alert("알림💡", "이메일 규격이 맞지 않습니다.", [
         {
-          text: "OK",
+          text: "확인",
           onPress: () => {
             this.setState({
               email: ""
@@ -299,7 +299,7 @@ class SignUpContainer extends Component {
         "별명은 2~10 자리, 그리고 특수문자를 사용 할 수 없습니다.",
         [
           {
-            text: "OK",
+            text: "확인",
             onPress: () => {
               this.setState({
                 username: ""
@@ -317,7 +317,7 @@ class SignUpContainer extends Component {
     if (!/^[A-Za-z0-9]{5,20}$/.test(id)) {
       Alert.alert("알림💡", "아이디는 5~16 자리를 사용해야 합니다", [
         {
-          text: "OK",
+          text: "확인",
           onPress: () => {
             this.setState({
               username: ""
@@ -337,7 +337,7 @@ class SignUpContainer extends Component {
         "비밀번호는 숫자와 영문자 조합으로 8~20 자리를 사용해야 합니다.",
         [
           {
-            text: "OK",
+            text: "확인",
             onPress: () => {
               this.setState({
                 password1: "",

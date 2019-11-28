@@ -129,20 +129,19 @@ class WritePostContainer extends Component {
     })
   };
 
-  componentDidMount() {
-    this.getPermissionAsync();
-  }
+  componentDidMount() {}
 
   getPermissionAsync = async () => {
     if (Platform.OS === "ios") {
       const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
       if (status !== "granted") {
-        alert("Sorry, we need camera roll permissions to make this work!");
+        alert("갤러리 접근 권한이 없네요... 권한을 승락해주세요");
       }
     }
   };
 
   pickImage = async () => {
+    await this.getPermissionAsync();
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,

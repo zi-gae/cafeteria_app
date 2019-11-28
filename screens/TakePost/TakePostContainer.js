@@ -69,7 +69,7 @@ class TakePostContainer extends Component {
   alertAccessAuthentication = navigation => {
     Alert.alert("알림💡", "재학생 인증 후에 시도 해주세오", [
       {
-        text: "OK",
+        text: "확인",
         onPress: () => {
           navigation.navigate("Profile");
         }

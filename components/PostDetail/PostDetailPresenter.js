@@ -190,6 +190,7 @@ const PostActionBox = styled.View`
 `;
 
 const options = ["취소", "수정", "삭제"];
+const crimeReport = ["취소", "신고"];
 const CANCEL_INDEX = 0;
 const DESTRUCTIVE_INDEX = 2;
 
@@ -239,15 +240,13 @@ const PostDetailPresenter = ({
             <TimeStamp time={natural_time} />
           </CreatorBox>
           <PostActionBox>
-            {profile.username === creator.username ? (
-              <Touch
-                onPress={() => {
-                  this.actionSheet.show();
-                }}
-              >
-                <Ionicons name="md-settings" size={RFValue(15)} color="black" />
-              </Touch>
-            ) : null}
+            <Touch
+              onPress={() => {
+                this.actionSheet.show();
+              }}
+            >
+              <Ionicons name="md-settings" size={RFValue(15)} color="black" />
+            </Touch>
           </PostActionBox>
         </CreatorContainer>
         <Title>{title}</Title>
@@ -334,7 +333,7 @@ const PostDetailPresenter = ({
     </KeyboardAccessoryView>
     <ActionSheet
       ref={actionSheet => (this.actionSheet = actionSheet)}
-      options={options}
+      options={profile.username === creator.username ? options : crimeReport}
       cancelButtonIndex={CANCEL_INDEX}
       destructiveButtonIndex={DESTRUCTIVE_INDEX}
       onPress={handleSheetPress}

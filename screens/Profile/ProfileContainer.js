@@ -45,15 +45,13 @@ class ProfileContainer extends Component {
     dispatchIsAlreadyNickname: PropTypes.func.isRequired
   };
 
-  componentDidMount() {
-    this.getPermissionAsync();
-  }
+  componentDidMount() {}
 
   getPermissionAsync = async () => {
     if (Platform.OS === "ios") {
       const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
       if (status !== "granted") {
-        alert("갤러리 접근 권한이 없네요...");
+        alert("갤러리 접근 권한이 없네요... 권한을 승락해주세요");
       }
     }
   };
@@ -101,7 +99,7 @@ class ProfileContainer extends Component {
     const { nickname } = this.state;
     if (nickname.length < 2 && nickname.length > 1) {
       Alert.alert("알림💡", "닉네임은 2~10 글자로 사용 해주세요!", [
-        { text: "OK", onPress: () => {} }
+        { text: "확인", onPress: () => {} }
       ]);
     } else {
       this.setState({
@@ -118,7 +116,7 @@ class ProfileContainer extends Component {
           },
           () => {
             Alert.alert("알림💡", "변경되었어요!", [
-              { text: "OK", onPress: () => {} }
+              { text: "확인", onPress: () => {} }
             ]);
           }
         );
@@ -131,7 +129,7 @@ class ProfileContainer extends Component {
           },
           () => {
             Alert.alert("알림💡", "이미 사용중인 별명이에요", [
-              { text: "OK", onPress: () => {} }
+              { text: "확인", onPress: () => {} }
             ]);
           }
         );
@@ -147,10 +145,11 @@ class ProfileContainer extends Component {
   };
 
   clickedAppVersion = () => {
-    Alert.alert("💡Beta💡", "1.0.4", [{ text: "OK", onPress: () => {} }]);
+    Alert.alert("💡Beta💡", "1.0.4", [{ text: "확인", onPress: () => {} }]);
   };
 
   pickImage = async () => {
+    await this.getPermissionAsync();
     const { modifyMyProfile } = this.props;
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -167,7 +166,7 @@ class ProfileContainer extends Component {
         this.setState({ isProfileImageSubmitting: false, image: result.uri });
       } else {
         Alert.alert("알림💡", "서버에 문제가 생겼어요. 다시 시도 해주세요", [
-          { text: "OK" }
+          { text: "확인" }
         ]);
       }
     }

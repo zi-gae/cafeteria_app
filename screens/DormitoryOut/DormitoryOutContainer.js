@@ -88,7 +88,7 @@ class DormitoryOutContainer extends Component {
     const { navigation } = this.props;
     Alert.alert("알림💡", "재학생 인증 후에 시도 해주세오", [
       {
-        text: "OK",
+        text: "확인",
         onPress: () => {
           navigation.navigate("Profile");
         }
@@ -99,37 +99,37 @@ class DormitoryOutContainer extends Component {
   handleErrorAlert = logedMsg => {
     if (logedMsg === "pwdwrong") {
       Alert.alert("알림💡", "아이디 또는 비밀번호가 틀려요!", [
-        { text: "OK", onPress: () => {} }
+        { text: "확인", onPress: () => {} }
       ]);
       this.resetState();
     } else if (logedMsg === "idlock") {
       Alert.alert("알림💡", "비밀번호 5회 오류로 계정이 잠겼어요!", [
-        { text: "OK", onPress: () => {} }
+        { text: "확인", onPress: () => {} }
       ]);
       this.resetState();
     } else if (logedMsg === "overlap") {
       Alert.alert("알림💡", "이미 신청 되어 있어요!", [
-        { text: "OK", onPress: () => {} }
+        { text: "확인", onPress: () => {} }
       ]);
       this.resetState();
     } else if (logedMsg === "notaccess") {
       Alert.alert("알림💡", "기숙사생이 아닌것만 같은데...", [
-        { text: "OK", onPress: () => {} }
+        { text: "확인", onPress: () => {} }
       ]);
       this.resetState();
     } else if (logedMsg === "applyOver") {
       Alert.alert("알림💡", "월 4회 이상 신청 불가능해요ㅠ", [
-        { text: "OK", onPress: () => {} }
+        { text: "확인", onPress: () => {} }
       ]);
       this.resetState();
     } else if (logedMsg === "error") {
       Alert.alert("알림💡", "신청 중 에러가 발생 했어요. 다시 시도해주세요ㅠ", [
-        { text: "OK", onPress: () => {} }
+        { text: "확인", onPress: () => {} }
       ]);
       this.resetState();
     } else if (logedMsg === "success") {
       Alert.alert("알림💡", "외박신청 완료!", [
-        { text: "OK", onPress: () => {} }
+        { text: "확인", onPress: () => {} }
       ]);
       this.resetState();
     }
@@ -169,7 +169,7 @@ class DormitoryOutContainer extends Component {
         handleErrorAlert(result);
       } else {
         Alert.alert("알림💡", "모두 입력해주세요!", [
-          { text: "OK", onPress: () => {} }
+          { text: "확인", onPress: () => {} }
         ]);
       }
     }

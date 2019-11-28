@@ -115,7 +115,7 @@ class PostContainer extends Component {
     const { navigation } = this.props;
     Alert.alert("알림💡", "재학생 인증 후에 시도 해주세오", [
       {
-        text: "OK",
+        text: "확인",
         onPress: () => {
           navigation.navigate("Profile");
         }
@@ -139,7 +139,7 @@ class PostContainer extends Component {
     } else {
       Alert.alert("알림💡", "서버 에러 발생. 다시 시도 해주세요", [
         {
-          text: "OK"
+          text: "확인"
         }
       ]);
     }
