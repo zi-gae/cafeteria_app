@@ -145,7 +145,7 @@ class ProfileContainer extends Component {
   };
 
   clickedAppVersion = () => {
-    Alert.alert("💡Beta💡", "1.0.4", [{ text: "확인", onPress: () => {} }]);
+    Alert.alert("💡Version💡", "1.0.6", [{ text: "확인", onPress: () => {} }]);
   };
 
   pickImage = async () => {

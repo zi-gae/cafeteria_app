@@ -186,9 +186,9 @@ const ProfilePresenter = ({
       <Touch>
         <Text header={false}>문의하기</Text>
       </Touch>
-      <Touch>
+      {/* <Touch>
         <Text header={false}>공지사항</Text>
-      </Touch>
+      </Touch> */}
       <Touch onPress={handleNavigatePrivacy}>
         <Text header={false}>개인정보 처리 방침</Text>
       </Touch>
