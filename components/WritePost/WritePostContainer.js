@@ -135,7 +135,11 @@ class WritePostContainer extends Component {
     if (Platform.OS === "ios") {
       const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
       if (status !== "granted") {
-        alert("갤러리 접근 권한이 없네요... 권한을 승락해주세요");
+        Alert.alert(
+          "알림💡",
+          "갤러리 접근 권한이 없네요... 권한을 승락해주세요",
+          [{ text: "확인", onPress: () => {} }]
+        );
       }
     }
   };

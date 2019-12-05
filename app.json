@@ -5,7 +5,7 @@
     "privacy": "public",
     "sdkVersion": "35.0.0",
     "platforms": ["ios", "android", "web"],
-    "version": "1.0.5",
+    "version": "1.0.6",
     "orientation": "portrait",
     "icon": "./assets/images/splash.png",
     "splash": {
@@ -19,7 +19,12 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.tu.cafeteria"
+      "bundleIdentifier": "com.tu.cafeteria",
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "NSPhotoLibraryUsageDescription",
+        "NSPhotoLibraryAddUsageDescription": "NSPhotoLibraryAddUsageDescription",
+        "NSCameraUsageDescription": "NSCameraUsageDescription"
+      }
     },
     "android": {
       "package": "com.tu.cafeteria"
