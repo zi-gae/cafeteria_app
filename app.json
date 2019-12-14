@@ -5,7 +5,7 @@
     "privacy": "public",
     "sdkVersion": "35.0.0",
     "platforms": ["ios", "android", "web"],
-    "version": "1.0.6",
+    "version": "1.0.7",
     "orientation": "portrait",
     "icon": "./assets/images/splash.png",
     "splash": {
@@ -21,9 +21,7 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.tu.cafeteria",
       "infoPlist": {
-        "NSPhotoLibraryUsageDescription": "NSPhotoLibraryUsageDescription",
-        "NSPhotoLibraryAddUsageDescription": "NSPhotoLibraryAddUsageDescription",
-        "NSCameraUsageDescription": "NSCameraUsageDescription"
+        "NSPhotoLibraryUsageDescription": "사용자의 사진에 접근하려고 합니다."
       }
     },
     "android": {

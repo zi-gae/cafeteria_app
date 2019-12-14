@@ -13,7 +13,6 @@ class AppContainerPresenter extends Component {
     this.state = {
       view: false
     };
-    this.getPermissionAsync();
   }
 
   static propTypes = {
@@ -26,6 +25,7 @@ class AppContainerPresenter extends Component {
   componentDidMount = async () => {
     const { isLoggedIn, initApp } = this.props;
     if (isLoggedIn) {
+      this.getPermissionAsync();
       const result = await initApp();
       if (result) {
         this.setState({
