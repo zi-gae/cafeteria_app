@@ -416,12 +416,19 @@ const Comment = ({
         parentId={comment.id}
         creator={creator}
         removeComment={removeComment}
+        profile={profile}
       />
     </CommentBox>
   </CommentContianer>
 );
 
-const CommentOnComment = ({ comments, parentId, creator, removeComment }) =>
+const CommentOnComment = ({
+  comments,
+  parentId,
+  creator,
+  removeComment,
+  profile
+}) =>
   comments
     .filter(comment => comment.referComment !== null)
     .map((comment, i) => {
@@ -450,23 +457,26 @@ const CommentOnComment = ({ comments, parentId, creator, removeComment }) =>
                 )}
                 <TimeStamp time={comment.natural_time} />
               </CreatorBox>
-              <CommentActionsBox>
-                <ActionBox>
-                  <CommentDeleteIcon
-                    isOnComment={true}
-                    onPress={() => {
-                      removeComment(comment.id);
-                    }}
-                  >
-                    <Ionicons
-                      name="ios-close"
-                      size={24}
-                      color={BODER_COLOR}
-                      style={{ marginTop: 2 }}
-                    />
-                  </CommentDeleteIcon>
-                </ActionBox>
-              </CommentActionsBox>
+
+              {profile.username === comment.creator.username ? (
+                <CommentActionsBox>
+                  <ActionBox>
+                    <CommentDeleteIcon
+                      isOnComment={true}
+                      onPress={() => {
+                        removeComment(comment.id);
+                      }}
+                    >
+                      <Ionicons
+                        name="ios-close"
+                        size={24}
+                        color={BODER_COLOR}
+                        style={{ marginTop: 2 }}
+                      />
+                    </CommentDeleteIcon>
+                  </ActionBox>
+                </CommentActionsBox>
+              ) : null}
             </CommentCreatorBox>
             <CommentMessage>{comment.message}</CommentMessage>
           </CommentBox>
