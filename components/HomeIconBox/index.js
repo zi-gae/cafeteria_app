@@ -3,8 +3,6 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
 import { RFValue } from "react-native-responsive-fontsize";
-import { Linking } from "react-native";
-import WebViewBox from "../WebViewBox";
 
 const IconBox = styled.View`
   align-items: center;

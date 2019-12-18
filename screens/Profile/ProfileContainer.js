@@ -98,6 +98,16 @@ class ProfileContainer extends Component {
     navigate("StudentAuthentication");
   };
 
+  handleNavigateQuestion = () => {
+    const url = "https://open.kakao.com/o/sRjCtwPb";
+    const {
+      navigation: { navigate }
+    } = this.props;
+    navigate("WebView", {
+      url
+    });
+  };
+
   changeProfile = async () => {
     const { modifyMyProfile, dispatchIsAlreadyNickname } = this.props;
     const { nickname } = this.state;
@@ -221,7 +231,8 @@ class ProfileContainer extends Component {
       handleSheetPress,
       clickedAppVersion,
       handleNavigatePrivacy,
-      handleNavigateStudentAuth
+      handleNavigateStudentAuth,
+      handleNavigateQuestion
     } = this;
     const {
       user,
@@ -245,6 +256,7 @@ class ProfileContainer extends Component {
         clickedAppVersion={clickedAppVersion}
         handleNavigatePrivacy={handleNavigatePrivacy}
         handleNavigateStudentAuth={handleNavigateStudentAuth}
+        handleNavigateQuestion={handleNavigateQuestion}
         univAuthentication={univ_authentication}
       />
     );

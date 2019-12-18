@@ -104,6 +104,7 @@ const ProfilePresenter = ({
   handleNavigatePrivacy,
   handleNavigateOwnPosts,
   handleNavigateStudentAuth,
+  handleNavigateQuestion,
   univAuthentication
 }) => (
   <Container showsVerticalScrollIndicator={false}>
@@ -183,7 +184,7 @@ const ProfilePresenter = ({
       <Touch onPress={clickedAppVersion}>
         <Text header={false}>앱 버전</Text>
       </Touch>
-      <Touch>
+      <Touch onPress={handleNavigateQuestion}>
         <Text header={false}>문의하기</Text>
       </Touch>
       {/* <Touch>
@@ -215,7 +216,8 @@ ProfilePresenter.propTypes = {
   clickedAppVersion: PropTypes.func.isRequired,
   handleNavigatePrivacy: PropTypes.func.isRequired,
   handleNavigateOwnPosts: PropTypes.func.isRequired,
-  handleNavigateStudentAuth: PropTypes.func.isRequired
+  handleNavigateStudentAuth: PropTypes.func.isRequired,
+  handleNavigateQuestion: PropTypes.func.isRequired
 };
 
 export default ProfilePresenter;

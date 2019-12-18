@@ -543,3 +543,10 @@ export { actionCreators };
 //default reducer action
 
 export default reducer;
+
+fetch("https://api.themoviedb.org/3/movie/now_playing/", {
+  method: "get",
+  headers: {
+    api_key: "cb2d5c76ad119ebd27b5a9859c5a4995"
+  }
+}).then(res => console.log("hello"));
