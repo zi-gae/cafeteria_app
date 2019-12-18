@@ -54,6 +54,9 @@ class DormitoryOutContainer extends Component {
   };
 
   componentDidMount() {
+    Alert.alert("알림💡", "외박신청은 신청 후 30초~1분 정도 걸립니다.", [
+      { text: "확인", onPress: () => {} }
+    ]);
     let today = new Date();
     const dd = String(today.getDate()).padStart(2, "0");
     const mm = String(today.getMonth() + 1).padStart(2, "0");
